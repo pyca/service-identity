@@ -31,6 +31,7 @@ def find_version(*file_paths):
 if __name__ == "__main__":
     setup(
         classifiers=[
+            "Development Status :: 2 - Pre-Alpha",
             "Intended Audience :: Developers",
             'License :: OSI Approved :: MIT License',
             "Natural Language :: English",
@@ -50,17 +51,19 @@ if __name__ == "__main__":
             "Programming Language :: Python :: Implementation :: PyPy",
             "Topic :: Security :: Cryptography",
         ],
-        description="RFC 6125 service identity verification for pyOpenSSL.",
+        description="Service identity verification for pyOpenSSL.",
         long_description=read('README.rst'),
         install_requires=[
-            "pyopenssl"
+            "pyasn1",
+            "pyasn1-modules",
+            "pyopenssl>=0.12",
         ],
-        keywords="cryptography openssl",
+        keywords="cryptography openssl pyopenssl",
         license="MIT",
         name="service_identity",
-        packages=["service_identity"],
+        py_modules=["service_identity", "test_service_identity"],
         url="https://github.com/hynek/service_identity",
-        version=find_version('service_identity', '__init__.py'),
+        version=find_version('service_identity.py'),
         maintainer='Hynek Schlawack',
         maintainer_email='hs@ox.cx',
     )

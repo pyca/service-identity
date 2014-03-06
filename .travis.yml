@@ -3,8 +3,12 @@ python: 2.7
 env:
     - TOX_ENV=py26
     - TOX_ENV=py27
+    - TOX_ENV=py27-pyopenssl013
+    # Fails with '.../OpenSSL/SSL.so: undefined symbol: SSLv2_method'.
+    # - TOX_ENV=py27-pyopenssl012
     - TOX_ENV=py32
     - TOX_ENV=py33
+    - TOX_ENV=pypy
     - TOX_ENV=flake8
 
 install:

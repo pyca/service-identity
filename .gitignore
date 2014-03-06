@@ -2,3 +2,6 @@
 *.egg-info
 dist
 build
+.coverage
+.venv
+htmlcov
