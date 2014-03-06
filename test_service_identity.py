@@ -11,6 +11,7 @@ import service_identity
 
 from service_identity import (
     CertificateError,
+    DNSMismatchError,
     DNSPattern,
     DNS_ID,
     SRVMismatchError,
@@ -79,6 +80,18 @@ class IntegrationTestCase(TestCase):
             VerificationError,
             verify_service_identity,
             extract_ids(CERT_DNS_ONLY), [DNS_ID(u("wrong.host"))],
+        )
+
+    def test_vsi_contains_dnss_but_does_not_match_one(self):
+        """
+        Raise if both cert_patterns and service_ids contain at least one DNS-ID
+        but none match.  Even if other IDs matched.
+        """
+        self.assertRaises(
+            DNSMismatchError,
+            verify_service_identity,
+            [SRVPattern(b"_mail.example.net"), DNSPattern(b"example.com")],
+            [SRV_ID(u("_mail.example.net")), DNS_ID(u("example.net"))],
         )
 
     def test_vsi_contains_srvs_but_does_not_match_one(self):
