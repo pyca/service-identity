@@ -15,6 +15,9 @@ WARNING
 **This software is currently pre-alpha and under review.
 Use it at your own peril.**
 
+Any part is subject to change, but feedback is very welcome!
+
+
 Pitch
 =====
 
