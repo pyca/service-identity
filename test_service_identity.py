@@ -458,6 +458,16 @@ class DNSPatternTestCase(TestCase):
             DNSPattern, b"192.168.0.0",
         )
 
+    def test_invalid_wildcard(self):
+        """
+        Integration test with _validate_pattern: catches double wildcards thus
+        is used if an wildward is present.
+        """
+        self.assertRaises(
+            CertificateError,
+            DNSPattern, b"*.foo.*"
+        )
+
 
 class URIPatternTestCase(TestCase):
     def test_enforces_bytes(self):

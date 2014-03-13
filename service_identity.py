@@ -265,6 +265,8 @@ class DNSPattern(object):
     """
     A DNS pattern as extracted from certificates.
     """
+    _RE_LEGAL_CHARS = re.compile(br"^[a-z0-9\-_.]+$")
+
     def __init__(self, pattern):
         """
         :type pattern: `bytes`
@@ -280,6 +282,8 @@ class DNSPattern(object):
             )
 
         self.pattern = pattern.translate(_TRANS_TO_LOWER)
+        if b'*' in self.pattern:
+            _validate_pattern(self.pattern)
 
 
 @magic_attrs(["protocol_pattern", "dns_pattern"])
@@ -336,15 +340,13 @@ class SRVPattern(object):
         self.dns_pattern = DNSPattern(hostname)
 
 
-# characters that are legal in a normalized hostname
-_RE_LEGAL_CHARS = re.compile(br"^[a-z0-9\-_.]+$")
-
-
 @magic_attrs(["hostname"])
 class DNS_ID(object):
     """
     A DNS service ID, aka hostname.
     """
+    # characters that are legal in a normalized hostname
+    _RE_LEGAL_CHARS = re.compile(br"^[a-z0-9\-_.]+$")
     pattern_class = DNSPattern
     exc_on_mismatch = DNSMismatchError
 
@@ -370,7 +372,7 @@ class DNS_ID(object):
             ascii_id = hostname
 
         self.hostname = ascii_id.encode("ascii").translate(_TRANS_TO_LOWER)
-        if _RE_LEGAL_CHARS.match(self.hostname) is None:
+        if self._RE_LEGAL_CHARS.match(self.hostname) is None:
             raise ValueError("Invalid DNS-ID.")
 
     def verify(self, pattern):
@@ -487,7 +489,6 @@ def _hostname_matches(cert_pattern, actual_hostname):
     :rtype: `bool`
     """
     if b'*' in cert_pattern:
-        _validate_pattern(actual_hostname)
         cert_head, cert_tail = cert_pattern.split(b".", 1)
         actual_head, actual_tail = actual_hostname.split(b".", 1)
         if cert_tail != actual_tail:
@@ -522,8 +523,6 @@ def _validate_pattern(cert_pattern):
     :type hostname: `bytes`
     """
     cnt = cert_pattern.count(b"*")
-    if cnt == 0:
-        return
     if cnt > 1:
         raise CertificateError(
             "Certificate's DNS-ID {0!r} contains too many wildcards."
