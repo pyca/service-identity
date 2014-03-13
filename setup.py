@@ -11,7 +11,7 @@ def read(*parts):
     resulting file.  Assume UTF-8 encoding.
     """
     here = os.path.abspath(os.path.dirname(__file__))
-    with codecs.open(os.path.join(here, *parts), 'r', 'utf-8') as f:
+    with codecs.open(os.path.join(here, *parts), 'rb', 'utf-8') as f:
         return f.read()
 
 
@@ -52,7 +52,7 @@ if __name__ == "__main__":
             "Topic :: Security :: Cryptography",
         ],
         description="Service identity verification for pyOpenSSL.",
-        long_description=read('README.rst'),
+        long_description=read("README.rst") + "\n\n" + read("AUTHORS.rst"),
         install_requires=[
             "pyasn1",
             "pyasn1-modules",
