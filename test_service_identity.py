@@ -202,6 +202,12 @@ class DNS_IDTestCase(TestCase):
         """
         self.assertRaises(ValueError, DNS_ID, u(" "))
 
+    def test_catches_invalid_chars(self):
+        """
+        Invalid chars as DNS-IDs raise a :class:`ValueError`.
+        """
+        self.assertRaises(ValueError, DNS_ID, u("host,name"))
+
     def test_catches_ipv4_address(self):
         """
         IP addresses are invalid and raise a :class:`ValueError`.

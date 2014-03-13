@@ -10,6 +10,7 @@ __version__ = "0.2"
 __author__ = "Hynek Schlawack"
 __license__ = "MIT"
 
+import re
 import sys
 
 from pyasn1.codec.der.decoder import decode
@@ -335,6 +336,10 @@ class SRVPattern(object):
         self.dns_pattern = DNSPattern(hostname)
 
 
+# characters that are legal in a normalized hostname
+_RE_LEGAL_CHARS = re.compile(br"^[a-z0-9\-_.]+$")
+
+
 @magic_attrs(["hostname"])
 class DNS_ID(object):
     """
@@ -365,6 +370,8 @@ class DNS_ID(object):
             ascii_id = hostname
 
         self.hostname = ascii_id.encode("ascii").translate(_TRANS_TO_LOWER)
+        if _RE_LEGAL_CHARS.match(self.hostname) is None:
+            raise ValueError("Invalid DNS-ID.")
 
     def verify(self, pattern):
         """
@@ -398,7 +405,7 @@ class URI_ID(object):
         prot, hostname = uri.split(u(":"))
 
         self.protocol = prot.encode("ascii").translate(_TRANS_TO_LOWER)
-        self.dns_id = DNS_ID(hostname)
+        self.dns_id = DNS_ID(hostname.strip(u("/")))
 
     def verify(self, pattern):
         """
