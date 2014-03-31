@@ -267,11 +267,16 @@ RE_NUMBER = re.compile(br"^[0-9]+$")
 
 def _is_ip_address(pattern):
     """
-    Check whether pattern could match an IP address.
+    Check whether *pattern* could be/match an IP address.
+
+    Does *not* guarantee that pattern is in fact a valid IP address; especially
+    the checks for IPv6 are rather coarse.  This function is for security
+    checks, not for validating IP addresses.
 
     :param pattern: A pattern for a host name.
     :type pattern: `bytes` or `unicode`
 
+    :return: `True` if *pattern* could be an IP address, else `False`.
     :rtype: `bool`
     """
     if isinstance(pattern, text_type):
