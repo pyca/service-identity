@@ -260,6 +260,33 @@ def magic_attrs(attrs):
     return wrap
 
 
+RE_IPv4 = re.compile(br"^([0-9*]{1,3}\.){3}[0-9*]{1,3}$")
+RE_IPv6 = re.compile(br"^([a-f0-9*]{0,4}:)+[a-f0-9*]{1,4}$")
+RE_NUMBER = re.compile(br"^[0-9]+$")
+
+
+def _is_ip_address(pattern):
+    """
+    Check whether pattern could match an IP address.
+
+    :param pattern: A pattern for a host name.
+    :type pattern: `bytes` or `unicode`
+
+    :rtype: `bool`
+    """
+    if isinstance(pattern, text_type):
+        try:
+            pattern = pattern.encode('ascii')
+        except UnicodeError:
+            return False
+
+    return (
+        RE_IPv4.match(pattern) is not None
+        or RE_IPv6.match(pattern) is not None
+        or RE_NUMBER.match(pattern) is not None
+    )
+
+
 @magic_attrs(["pattern"])
 class DNSPattern(object):
     """
@@ -276,7 +303,7 @@ class DNSPattern(object):
 
         pattern = pattern.strip()
 
-        if pattern == b"" or pattern[-1] in b"1234567890" or b"\0" in pattern:
+        if pattern == b"" or _is_ip_address(pattern) or b"\0" in pattern:
             raise CertificateError(
                 "Invalid DNS pattern {0!r}.".format(pattern)
             )
@@ -303,7 +330,7 @@ class URIPattern(object):
         if (
             b":" not in pattern
             or b"*" in pattern
-            or pattern[-1] in b'1234567890'
+            or _is_ip_address(pattern)
         ):
             raise CertificateError(
                 "Invalid URI pattern {0!r}.".format(pattern)
@@ -330,7 +357,7 @@ class SRVPattern(object):
             pattern[0] != b"_"[0]
             or b"." not in pattern
             or b"*" in pattern
-            or pattern[-1] in b"1234567890"
+            or _is_ip_address(pattern)
         ):
             raise CertificateError(
                 "Invalid SRV pattern {0!r}.".format(pattern)
@@ -358,7 +385,7 @@ class DNS_ID(object):
             raise TypeError("DNS-ID must be a unicode string.")
 
         hostname = hostname.strip()
-        if hostname == u("") or hostname[-1] in u('1234567890'):
+        if hostname == u("") or _is_ip_address(hostname):
             raise ValueError("Invalid DNS-ID.")
 
         if any(ord(c) > 127 for c in hostname):
@@ -401,7 +428,7 @@ class URI_ID(object):
             raise TypeError("URI-ID must be a unicode string.")
 
         uri = uri.strip()
-        if u(":") not in uri or uri[-1] in u('1234567890'):
+        if u(":") not in uri or _is_ip_address(uri):
             raise ValueError("Invalid URI-ID.")
 
         prot, hostname = uri.split(u(":"))
@@ -438,7 +465,7 @@ class SRV_ID(object):
             raise TypeError("SRV-ID must be a unicode string.")
 
         srv = srv.strip()
-        if u(".") not in srv or srv[-1] in u("1234567890") or srv[0] != u("_"):
+        if u(".") not in srv or _is_ip_address(srv) or srv[0] != u("_"):
             raise ValueError("Invalid SRV-ID.")
 
         name, hostname = srv.split(u("."), 1)

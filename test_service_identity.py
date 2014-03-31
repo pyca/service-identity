@@ -24,6 +24,7 @@ from service_identity import (
     _contains_instance_of,
     _find_matches,
     _hostname_matches,
+    _is_ip_address,
     _validate_pattern,
     eq_attrs,
     extract_ids,
@@ -674,6 +675,40 @@ class FindMatchesTestCase(TestCase):
                 (valid_cert_id_3, valid_id_3,),
             ], rv
         )
+
+
+class IsIPAddressTestCase(TestCase):
+    def test_ips(self):
+        """
+        Returns True for patterns and hosts that could match IP addresses.
+        """
+        for s in [
+            b"127.0.0.1",
+            u("127.0.0.1"),
+            b"172.16.254.12",
+            b"*.0.0.1",
+            b"::1",
+            b"*::1",
+            b"2001:0db8:0000:0000:0000:ff00:0042:8329",
+            b"2001:0db8::ff00:0042:8329",
+            b"3534232",
+        ]:
+            self.assertTrue(_is_ip_address(s),
+                            "Not detected {0!r}".format(s))
+
+    def test_no_ips(self):
+        """
+        Return False for patterns and hosts that aren't IP addresses.
+        """
+        for s in [
+            b"*.twistedmatrix.com",
+            b"twistedmatrix.com",
+            b"mail.google.com",
+            b"omega7.de",
+            b"omega7",
+        ]:
+            self.assertFalse(_is_ip_address(s),
+                             "False positive {0!r}".format(s))
 
 
 @eq_attrs(["a", "b"])
