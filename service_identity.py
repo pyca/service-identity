@@ -177,10 +177,10 @@ def extract_ids(cert):
         # A client MUST NOT seek a match for a reference identifier of CN-ID if
         # the presented identifiers include a DNS-ID, SRV-ID, URI-ID, or any
         # application-specific identifier types supported by the client.
-        ids = [DNSPattern(comp[1])
-               for comp
+        ids = [DNSPattern(c[1])
+               for c
                in cert.get_subject().get_components()
-               if comp[0] == b"CN"]
+               if c[0] == b"CN"]
     return ids
 
 

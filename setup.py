@@ -47,12 +47,17 @@ if __name__ == "__main__":
             "Programming Language :: Python :: 3",
             "Programming Language :: Python :: 3.2",
             "Programming Language :: Python :: 3.3",
+            "Programming Language :: Python :: 3.4",
             "Programming Language :: Python :: Implementation :: CPython",
             "Programming Language :: Python :: Implementation :: PyPy",
             "Topic :: Security :: Cryptography",
         ],
         description="Service identity verification for pyOpenSSL.",
-        long_description=read("README.rst") + "\n\n" + read("AUTHORS.rst"),
+        long_description=(
+            read("README.rst") + "\n\n" +
+            read("HISTORY.rst") + "\n\n" +
+            read("AUTHORS.rst")
+        ),
         install_requires=[
             "pyasn1",
             "pyasn1-modules",

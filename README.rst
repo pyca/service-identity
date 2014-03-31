@@ -21,10 +21,10 @@ Any part is subject to change, but feedback is very welcome!
 Pitch
 =====
 
-service_identity aspires to give you all the tools you need for verifying whether the certificates of servers you connect to are valid for the intended purposes.
+service_identity aspires to give you all the tools you need for verifying whether a certificate is valid for the intended purposes.
 
 In the simplest case, this means *host name verification*.
-However, service_identity implements `RFC 6125`_ fully and plans to add relevant other RFCs too.
+However, service_identity implements `RFC 6125`_ fully and plans to add other relevant RFCs too.
 
 
 Features
@@ -90,7 +90,7 @@ The simplest, most common, and most important usage:
 Requirements
 ============
 
-Python 2.6, 2.7, 3.2, and 3.3 as well as PyPy are supported.
+Python 2.6, 2.7, 3.2, 3.3, and 3.4 as well as PyPy are supported.
 
 Additionally, the following PyPI modules are required:
 
