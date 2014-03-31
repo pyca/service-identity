@@ -260,9 +260,9 @@ def magic_attrs(attrs):
     return wrap
 
 
-RE_IPv4 = re.compile(br"^([0-9*]{1,3}\.){3}[0-9*]{1,3}$")
-RE_IPv6 = re.compile(br"^([a-f0-9*]{0,4}:)+[a-f0-9*]{1,4}$")
-RE_NUMBER = re.compile(br"^[0-9]+$")
+_RE_IPv4 = re.compile(br"^([0-9*]{1,3}\.){3}[0-9*]{1,3}$")
+_RE_IPv6 = re.compile(br"^([a-f0-9*]{0,4}:)+[a-f0-9*]{1,4}$")
+_RE_NUMBER = re.compile(br"^[0-9]+$")
 
 
 def _is_ip_address(pattern):
@@ -286,9 +286,9 @@ def _is_ip_address(pattern):
             return False
 
     return (
-        RE_IPv4.match(pattern) is not None
-        or RE_IPv6.match(pattern) is not None
-        or RE_NUMBER.match(pattern) is not None
+        _RE_IPv4.match(pattern) is not None
+        or _RE_IPv6.match(pattern) is not None
+        or _RE_NUMBER.match(pattern) is not None
     )
 
 
