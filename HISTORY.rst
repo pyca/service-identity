@@ -7,7 +7,7 @@ History
 0.2.0 (UNRELEASED)
 ------------------
 
-- ``verify_hostname`` now takes a ``OpenSSL.SSL.Connection`` for the first argument.
+- ``verify_hostname`` now takes an ``OpenSSL.SSL.Connection`` for the first argument.
   This is a backward-incompatible change but future-proofs the API.
 - Less false positives in IP address detection.
 - Officially support Python 3.4 too.
