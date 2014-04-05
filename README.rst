@@ -44,7 +44,7 @@ Future
 
 - ``xmppAddr`` (`RFC 3920`_).
 - ``iPAddress`` (`RFC 2818`_).
-- name constrains extensions (`RFC 3280`_).
+- ``nameConstraints`` extensions (`RFC 3280`_).
 
 
 Usage
