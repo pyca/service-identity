@@ -73,14 +73,15 @@ def verify_hostname(connection, hostname):
     """
     Verify whether *connection* has a valid certificate chain for *hotname*.
 
-    :param connection: The certificate chain which is to be verified.  Most
-        likely the result of pyOpenSSL's ``Connection.get_peer_cert_chain()``.
-    :type connection: `OpenSSL.SSL.Connection`
+    :param connection: The connection whose certificate chain which is to be
+        verified.
+    :type connection: ``OpenSSL.SSL.Connection``
 
     :param hostname: Hostname to check for.
     :type hostname: `unicode`
 
-    :raises VerificationError: if *cert* is invalid for *hostname*
+    :raises VerificationError: if *connection*'s certificate chain is invalid
+        for *hostname*.
 
     :return: `None`
     """
