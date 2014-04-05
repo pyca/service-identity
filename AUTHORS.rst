@@ -13,6 +13,7 @@ Contributors
 The following wonderful people contributed directly or indirectly to this project:
 
 - `Alex Stapleton <https://github.com/public>`_
+- `Glyph <https://twitter.com/glyph>`_
 - `Paul Kehrer <https://github.com/reaperhulk>`_
 
 Please add yourself here alphabetically when you submit your first pull request.
