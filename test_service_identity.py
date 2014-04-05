@@ -57,7 +57,12 @@ class IntegrationTestCase(TestCase):
         It's just a convenience one-liner.  Let's check it doesn't explode b/c
         of some typo.
         """
-        service_identity.verify_hostname(CERT_DNS_ONLY, u("twistedmatrix.com"))
+        class FakeConnection(object):
+            def get_peer_certificate(self):
+                return CERT_DNS_ONLY
+
+        service_identity.verify_hostname(FakeConnection(),
+                                         u("twistedmatrix.com"))
 
     def test_vsi_dns_id_success(self):
         """

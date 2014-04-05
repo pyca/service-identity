@@ -69,12 +69,13 @@ class URIMismatchError(VerificationError):
     """
 
 
-def verify_hostname(cert, hostname):
+def verify_hostname(connection, hostname):
     """
-    Verify whether *cert* is valid for *hostname*.
+    Verify whether *connection* has a valid certificate chain for *hotname*.
 
-    :param cert: The certificate which is to be verified.
-    :type cert: :class:`OpenSSL.SSL.X509`
+    :param connection: The certificate chain which is to be verified.  Most
+        likely the result of pyOpenSSL's ``Connection.get_peer_cert_chain()``.
+    :type connection: `OpenSSL.SSL.Connection`
 
     :param hostname: Hostname to check for.
     :type hostname: `unicode`
@@ -83,7 +84,10 @@ def verify_hostname(cert, hostname):
 
     :return: `None`
     """
-    verify_service_identity(extract_ids(cert), [DNS_ID(hostname)])
+    verify_service_identity(
+        extract_ids(connection.get_peer_certificate()),
+        [DNS_ID(hostname)]
+    )
 
 
 def verify_service_identity(cert_patterns, service_ids):
