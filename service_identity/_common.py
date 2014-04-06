@@ -1,42 +1,20 @@
-# -*- test-case-name: test_service_identity -*-
+# -*- test-case-name: tests.test_common -*-
 
 """
-Verify service identities.
+Common verification code.
 """
 
 from __future__ import absolute_import, division, print_function
 
-__version__ = "0.2"
-__author__ = "Hynek Schlawack"
-__license__ = "MIT"
-
 import re
-import sys
 
-from pyasn1.codec.der.decoder import decode
-from pyasn1.type.char import IA5String
-from pyasn1.type.univ import ObjectIdentifier
-from pyasn1_modules.rfc2459 import GeneralNames
+from ._attrs import magic_attrs
+from ._compat import u, PY3, text_type
 
 try:
     import idna
 except ImportError:  # pragma: nocover
     idna = None
-
-
-# Avoid depending on any particular Python 3 compatibility approach.  This
-# module ought to be drop-in.
-PY3 = sys.version_info[0] == 3
-if PY3:  # pragma: nocover
-    text_type = str
-
-    def u(s):
-        return s
-else:
-    text_type = unicode
-
-    def u(s):
-        return unicode(s.replace(r'\\', r'\\\\'), "unicode_escape")
 
 
 class VerificationError(Exception):
@@ -67,28 +45,6 @@ class URIMismatchError(VerificationError):
     """
     URI-IDs were present but none matched.
     """
-
-
-def verify_hostname(connection, hostname):
-    """
-    Verify whether *connection* has a valid certificate chain for *hotname*.
-
-    :param connection: The connection whose certificate chain which is to be
-        verified.
-    :type connection: ``OpenSSL.SSL.Connection``
-
-    :param hostname: Hostname to check for.
-    :type hostname: `unicode`
-
-    :raises VerificationError: if *connection*'s certificate chain is invalid
-        for *hostname*.
-
-    :return: `None`
-    """
-    verify_service_identity(
-        extract_ids(connection.get_peer_certificate()),
-        [DNS_ID(hostname)]
-    )
 
 
 def verify_service_identity(cert_patterns, service_ids):
@@ -139,130 +95,6 @@ def _contains_instance_of(l, cl):
         if isinstance(e, cl):
             return True
     return False
-
-
-def extract_ids(cert):
-    """
-    Extract all valid IDs from a certificate for service verification.
-
-    If *cert* doesn't contain any identifiers, the ``CN``s are used as DNS-IDs
-    as fallback.
-
-    :param cert: The certificate to be dissected.
-    :type cert: :class:`OpenSSL.SSL.X509`
-
-    :return: List of IDs.
-    """
-    ids = []
-    for i in range(cert.get_extension_count()):
-        ext = cert.get_extension(i)
-        if ext.get_short_name() == b"subjectAltName":
-            names, _ = decode(ext.get_data(), asn1Spec=GeneralNames())
-            for n in names:
-                name_string = n.getName()
-                if name_string == "dNSName":
-                    ids.append(DNSPattern(n.getComponent().asOctets()))
-                elif name_string == "uniformResourceIdentifier":
-                    ids.append(URIPattern(n.getComponent().asOctets()))
-                elif name_string == "otherName":
-                    comp = n.getComponent()
-                    oid = comp.getComponentByPosition(0)
-                    # 1.3.6.1.5.5.7.8.7 = id-on-dnsSRV
-                    if oid == ObjectIdentifier('1.3.6.1.5.5.7.8.7'):
-                        srv, _ = decode(comp.getComponentByPosition(1))
-                        if isinstance(srv, IA5String):
-                            ids.append(SRVPattern(srv.asOctets()))
-                        else:  # pragma: nocover
-                            raise CertificateError(
-                                "Unexpected certificate content."
-                            )
-
-    if not ids:
-        # http://tools.ietf.org/search/rfc6125#section-6.4.4
-        # A client MUST NOT seek a match for a reference identifier of CN-ID if
-        # the presented identifiers include a DNS-ID, SRV-ID, URI-ID, or any
-        # application-specific identifier types supported by the client.
-        ids = [DNSPattern(c[1])
-               for c
-               in cert.get_subject().get_components()
-               if c[0] == b"CN"]
-    return ids
-
-
-def eq_attrs(attrs):
-    """
-    Adds __eq__, and __ne__ methods based on *attrs* and same type.
-
-    __lt__, __le__, __gt__, and __ge__ compare the objects as if it were tuples
-    of attrs.
-
-    :param attrs: Attributes that have to be equal to make two instances equal.
-    :type attrs: `list` of native strings
-    """
-    def wrap(cl):
-        def eq(self, other):
-            if isinstance(other, self.__class__):
-                return all(
-                    getattr(self, a) == getattr(other, a)
-                    for a in attrs
-                )
-            else:
-                return False
-
-        def ne(self, other):
-            return not eq(self, other)
-
-        def attrs_to_tuple(obj):
-            return tuple(getattr(obj, a) for a in attrs)
-
-        def lt(self, other):
-            return attrs_to_tuple(self) < attrs_to_tuple(other)
-
-        def le(self, other):
-            return attrs_to_tuple(self) <= attrs_to_tuple(other)
-
-        def gt(self, other):
-            return attrs_to_tuple(self) > attrs_to_tuple(other)
-
-        def ge(self, other):
-            return attrs_to_tuple(self) >= attrs_to_tuple(other)
-
-        cl.__eq__ = eq
-        cl.__ne__ = ne
-        cl.__lt__ = lt
-        cl.__le__ = le
-        cl.__gt__ = gt
-        cl.__ge__ = ge
-
-        return cl
-    return wrap
-
-
-def repr_attrs(attrs):
-    """
-    Adds a __repr__ method that returns a sensible representation based on
-    *attrs*.
-    """
-    def wrap(cl):
-        def repr_(self):
-            return "<{0}({1})>".format(
-                self.__class__.__name__,
-                ", ".join(a + "=" + repr(getattr(self, a)) for a in attrs)
-            )
-
-        cl.__repr__ = repr_
-        return cl
-
-    return wrap
-
-
-def magic_attrs(attrs):
-    """
-    Combine :func:`eq_attrs` and :func:`repr_attrs` to avoid code duplication.
-    """
-    def wrap(cl):
-        return eq_attrs(attrs)(repr_attrs(attrs)(cl))
-    return wrap
 
 
 _RE_IPv4 = re.compile(br"^([0-9*]{1,3}\.){3}[0-9*]{1,3}$")

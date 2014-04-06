@@ -1,6 +1,6 @@
-include LICENSE 
-include *.in
+include LICENSE .coveragerc
 include *.rst
 include *.txt
 include .travis.yml
 include tox.ini
+recursive-include tests *.py

@@ -2,7 +2,7 @@ import codecs
 import os
 import re
 
-from setuptools import setup
+from setuptools import setup, find_packages
 
 
 def read(*parts):
@@ -30,6 +30,25 @@ def find_version(*file_paths):
 
 if __name__ == "__main__":
     setup(
+        description="Service identity verification for pyOpenSSL.",
+        long_description=(
+            read("README.rst") + "\n\n" +
+            read("HISTORY.rst") + "\n\n" +
+            read("AUTHORS.rst")
+        ),
+        install_requires=[
+            "pyasn1",
+            "pyasn1-modules",
+            "pyopenssl>=0.12",
+        ],
+        keywords="cryptography openssl pyopenssl",
+        license="MIT",
+        name="service_identity",
+        packages=find_packages(exclude=['tests*']),
+        url="https://github.com/hynek/service_identity",
+        version=find_version('service_identity/__init__.py'),
+        maintainer='Hynek Schlawack',
+        maintainer_email='hs@ox.cx',
         classifiers=[
             "Development Status :: 2 - Pre-Alpha",
             "Intended Audience :: Developers",
@@ -52,23 +71,4 @@ if __name__ == "__main__":
             "Programming Language :: Python :: Implementation :: PyPy",
             "Topic :: Security :: Cryptography",
         ],
-        description="Service identity verification for pyOpenSSL.",
-        long_description=(
-            read("README.rst") + "\n\n" +
-            read("HISTORY.rst") + "\n\n" +
-            read("AUTHORS.rst")
-        ),
-        install_requires=[
-            "pyasn1",
-            "pyasn1-modules",
-            "pyopenssl>=0.12",
-        ],
-        keywords="cryptography openssl pyopenssl",
-        license="MIT",
-        name="service_identity",
-        py_modules=["service_identity", "test_service_identity"],
-        url="https://github.com/hynek/service_identity",
-        version=find_version('service_identity.py'),
-        maintainer='Hynek Schlawack',
-        maintainer_email='hs@ox.cx',
     )

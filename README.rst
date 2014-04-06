@@ -63,7 +63,8 @@ The simplest, most common, and most important usage:
    import socket
 
    from OpenSSL import SSL
-   from service_identity import verify_hostname, VerificationError
+   from service_identity import VerificationError
+   from service_identity.pyopenssl import verify_hostname
 
 
    ctx = SSL.Context(SSL.SSLv23_METHOD)
