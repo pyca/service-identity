@@ -49,7 +49,7 @@ class URIMismatchError(VerificationError):
 
 def verify_service_identity(cert_patterns, service_ids):
     """
-    Verify whether *cert* is valid for *some* ID within *service_ids*.
+    Verify whether *cert_patterns* are valid for *service_ids*.
 
     :type cert_patters: List of service ID patterns usually extracted
         from a certificate.
@@ -66,7 +66,7 @@ def verify_service_identity(cert_patterns, service_ids):
 
     :raises VerificationError: If no matches are found at all.
 
-    :return: A list of tuples of matching ``(certificate_pattern,
+    :return: A `list` of tuples of matching ``(certificate_pattern,
         service_id)``.
     """
     matched_ids = _find_matches(cert_patterns, service_ids)
