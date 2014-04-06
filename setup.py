@@ -50,7 +50,7 @@ if __name__ == "__main__":
         maintainer='Hynek Schlawack',
         maintainer_email='hs@ox.cx',
         classifiers=[
-            "Development Status :: 2 - Pre-Alpha",
+            "Development Status :: 3 - Alpha",
             "Intended Audience :: Developers",
             'License :: OSI Approved :: MIT License',
             "Natural Language :: English",

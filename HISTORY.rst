@@ -4,7 +4,7 @@ History
 =======
 
 
-0.2.0 (UNRELEASED)
+0.2.0 (2014-04-06)
 ------------------
 
 This release contains multiple backward-incompatible changes.
