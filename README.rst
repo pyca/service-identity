@@ -99,7 +99,7 @@ Additionally, the following PyPI modules are required:
 - pyasn1_
 - pyasn1-modules_
 
-Optionally, idna_ can be used for `internationalized domain names`_ (IDN), aka non-ASCII domains.
+Optionally, idna_ ``>= 0.6`` can be used for `internationalized domain names`_ (IDN), aka non-ASCII domains.
 Please note, that idna is not available for Python 3.2 and is required because Python's stdlib support is outdated_.
 
 
