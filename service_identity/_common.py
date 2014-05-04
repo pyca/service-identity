@@ -238,9 +238,9 @@ class DNS_ID(object):
                     "idna library is required for non-ASCII IDs."
                 )
         else:
-            ascii_id = hostname
+            ascii_id = hostname.encode("ascii")
 
-        self.hostname = ascii_id.encode("ascii").translate(_TRANS_TO_LOWER)
+        self.hostname = ascii_id.translate(_TRANS_TO_LOWER)
         if self._RE_LEGAL_CHARS.match(self.hostname) is None:
             raise ValueError("Invalid DNS-ID.")
 
