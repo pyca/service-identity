@@ -4,6 +4,13 @@ History
 =======
 
 
+0.3.0 (UNRELEASED)
+------------------
+
+- idna 0.6 did some backward-incompatible fixes that broke Python 3 support.
+  This has been fixed now therefore service_identity only works with idna 0.6 and later.
+
+
 0.2.0 (2014-04-06)
 ------------------
 
