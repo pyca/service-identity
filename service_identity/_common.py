@@ -8,7 +8,8 @@ from __future__ import absolute_import, division, print_function
 
 import re
 
-from ._attrs import magic_attrs
+from characteristic import attributes
+
 from ._compat import u, PY3, text_type
 
 try:
@@ -129,7 +130,7 @@ def _is_ip_address(pattern):
     )
 
 
-@magic_attrs(["pattern"])
+@attributes(["pattern"], create_init=False)
 class DNSPattern(object):
     """
     A DNS pattern as extracted from certificates.
@@ -155,7 +156,7 @@ class DNSPattern(object):
             _validate_pattern(self.pattern)
 
 
-@magic_attrs(["protocol_pattern", "dns_pattern"])
+@attributes(["protocol_pattern", "dns_pattern"], create_init=False)
 class URIPattern(object):
     """
     An URI pattern as extracted from certificates.
@@ -181,7 +182,7 @@ class URIPattern(object):
         self.dns_pattern = DNSPattern(hostname)
 
 
-@magic_attrs(["name_pattern", "dns_pattern"])
+@attributes(["name_pattern", "dns_pattern"], create_init=False)
 class SRVPattern(object):
     """
     An SRV pattern as extracted from certificates.
@@ -209,7 +210,7 @@ class SRVPattern(object):
         self.dns_pattern = DNSPattern(hostname)
 
 
-@magic_attrs(["hostname"])
+@attributes(["hostname"], create_init=False)
 class DNS_ID(object):
     """
     A DNS service ID, aka hostname.
@@ -254,7 +255,7 @@ class DNS_ID(object):
             return False
 
 
-@magic_attrs(["protocol", "dns_id"])
+@attributes(["protocol", "dns_id"], create_init=False)
 class URI_ID(object):
     """
     An URI service ID.
@@ -291,7 +292,7 @@ class URI_ID(object):
             return False
 
 
-@magic_attrs(["name", "dns_id"])
+@attributes(["name", "dns_id"], create_init=False)
 class SRV_ID(object):
     """
     An SRV service ID.

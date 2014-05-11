@@ -40,6 +40,7 @@ if __name__ == "__main__":
             "pyasn1",
             "pyasn1-modules",
             "pyopenssl>=0.12",
+            "characteristic",
         ],
         keywords="cryptography openssl pyopenssl",
         license="MIT",
