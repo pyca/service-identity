@@ -9,22 +9,13 @@ Service Identity Verification for pyOpenSSL
   :target: https://coveralls.io/r/hynek/service_identity
 
 
-WARNING
-=======
-
-**This software is currently alpha and under review.
-Use it at your own peril.**
-
-Any part is subject to change, but feedback is very welcome!
-
-
 Pitch
 =====
 
-service_identity aspires to give you all the tools you need for verifying whether a certificate is valid for the intended purposes.
+`service_identity` aspires to give you all the tools you need for verifying whether a certificate is valid for the intended purposes.
 
 In the simplest case, this means *host name verification*.
-However, service_identity implements `RFC 6125`_ fully and plans to add other relevant RFCs too.
+However, `service_identity` implements `RFC 6125`_ fully and plans to add other relevant RFCs too.
 
 
 Features

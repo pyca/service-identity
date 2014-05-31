@@ -4,9 +4,11 @@ History
 =======
 
 
-0.3.0 (UNRELEASED)
+1.0.0 (UNRELEASED)
 ------------------
 
+- Promoting to stable since Twisted 14.0 is depending on `service_identity` now.
+- Use `characteristic <http://characteristic.readthedocs.org/>`_ instead of a home-grown solution.
 - idna 0.6 did some backward-incompatible fixes that broke Python 3 support.
   This has been fixed now therefore service_identity only works with idna 0.6 and later.
 

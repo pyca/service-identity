@@ -4,7 +4,7 @@ Verify service identities.
 
 from __future__ import absolute_import, division, print_function
 
-__version__ = "0.3.0"
+__version__ = "1.0.0dev"
 __author__ = "Hynek Schlawack"
 __license__ = "MIT"
 
