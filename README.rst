@@ -12,6 +12,8 @@ Service Identity Verification for pyOpenSSL
 Pitch
 =====
 
+**TL;DR**: Use this package if you use pyOpenSSL_ and don’t want to be MITM_\ ed.
+
 `service_identity` aspires to give you all the tools you need for verifying whether a certificate is valid for the intended purposes.
 
 In the simplest case, this means *host name verification*.
@@ -106,4 +108,5 @@ Please note, that idna is not available for Python 3.2 and is required because P
 .. _pyasn1-modules: https://pypi.python.org/pypi/pyasn1-modules/
 .. _pyasn1: https://pypi.python.org/pypi/pyasn1/
 .. _pydoctor: https://pypi.python.org/pypi/pydoctor/
-.. _trial: http://twistedmatrix.com/documents/current/core/howto/testing.html
+.. _trial: https://twistedmatrix.com/documents/current/core/howto/testing.html
+.. _MITM: http://en.wikipedia.org/wiki/Man-in-the-middle_attack
