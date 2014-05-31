@@ -12,6 +12,7 @@ History
 - Use `characteristic <http://characteristic.readthedocs.org/>`_ instead of a home-grown solution.
 - `idna` 0.6 did some backward-incompatible fixes that broke Python 3 support.
   This has been fixed now therefore service_identity only works with idna 0.6 and later.
+  Unfortunately since `idna` doesn’t offer version introspection, `service_identity` can’t warn about it.
 
 
 0.2.0 (2014-04-06)

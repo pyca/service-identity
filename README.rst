@@ -14,10 +14,10 @@ Pitch
 
 **TL;DR**: Use this package if you use pyOpenSSL_ and don’t want to be MITM_\ ed.
 
-`service_identity` aspires to give you all the tools you need for verifying whether a certificate is valid for the intended purposes.
+``service_identity`` aspires to give you all the tools you need for verifying whether a certificate is valid for the intended purposes.
 
 In the simplest case, this means *host name verification*.
-However, `service_identity` implements `RFC 6125`_ fully and plans to add other relevant RFCs too.
+However, ``service_identity`` implements `RFC 6125`_ fully and plans to add other relevant RFCs too.
 
 
 Features
