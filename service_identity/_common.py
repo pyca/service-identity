@@ -11,41 +11,18 @@ import re
 from characteristic import attributes
 
 from ._compat import u, PY3, text_type
+from .exc import (
+    VerificationError,
+    CertificateError,
+    DNSMismatchError,
+    SRVMismatchError,
+    URIMismatchError,
+)
 
 try:
     import idna
 except ImportError:  # pragma: nocover
     idna = None
-
-
-class VerificationError(Exception):
-    """
-    Verification failed.
-    """
-
-
-class CertificateError(VerificationError):
-    """
-    Certificate contains invalid or unexpected data.
-    """
-
-
-class DNSMismatchError(VerificationError):
-    """
-    DNS-IDs were present but none matched.
-    """
-
-
-class SRVMismatchError(VerificationError):
-    """
-    SRV-IDs were present but none matched.
-    """
-
-
-class URIMismatchError(VerificationError):
-    """
-    URI-IDs were present but none matched.
-    """
 
 
 def verify_service_identity(cert_patterns, service_ids):
