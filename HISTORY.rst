@@ -7,7 +7,7 @@ History
 1.0.0 (UNRELEASED)
 ------------------
 
-- Move exceptions into `service_identity.exc` so tracebacks don’t contain private module names.
+- Move exceptions into `service_identity.exceptions` so tracebacks don’t contain private module names.
 - Promoting to stable since Twisted 14.0 is depending on `service_identity` now.
 - Use `characteristic <http://characteristic.readthedocs.org/>`_ instead of a home-grown solution.
 - `idna` 0.6 did some backward-incompatible fixes that broke Python 3 support.

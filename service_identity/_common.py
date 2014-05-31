@@ -11,7 +11,7 @@ import re
 from characteristic import attributes
 
 from ._compat import u, PY3, text_type
-from .exc import (
+from .exceptions import (
     VerificationError,
     CertificateError,
     DNSMismatchError,

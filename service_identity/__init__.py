@@ -9,7 +9,7 @@ __author__ = "Hynek Schlawack"
 __license__ = "MIT"
 
 from . import pyopenssl
-from .exc import (
+from .exceptions import (
     CertificateError,
     DNSMismatchError,
     SRVMismatchError,
