@@ -10,7 +10,7 @@ import re
 
 from characteristic import attributes
 
-from ._compat import u, PY3, text_type
+from ._compat import PY3, text_type
 from .exceptions import (
     VerificationError,
     CertificateError,
@@ -205,7 +205,7 @@ class DNS_ID(object):
             raise TypeError("DNS-ID must be a unicode string.")
 
         hostname = hostname.strip()
-        if hostname == u("") or _is_ip_address(hostname):
+        if hostname == u"" or _is_ip_address(hostname):
             raise ValueError("Invalid DNS-ID.")
 
         if any(ord(c) > 127 for c in hostname):
@@ -248,13 +248,13 @@ class URI_ID(object):
             raise TypeError("URI-ID must be a unicode string.")
 
         uri = uri.strip()
-        if u(":") not in uri or _is_ip_address(uri):
+        if u":" not in uri or _is_ip_address(uri):
             raise ValueError("Invalid URI-ID.")
 
-        prot, hostname = uri.split(u(":"))
+        prot, hostname = uri.split(u":")
 
         self.protocol = prot.encode("ascii").translate(_TRANS_TO_LOWER)
-        self.dns_id = DNS_ID(hostname.strip(u("/")))
+        self.dns_id = DNS_ID(hostname.strip(u"/"))
 
     def verify(self, pattern):
         """
@@ -285,10 +285,10 @@ class SRV_ID(object):
             raise TypeError("SRV-ID must be a unicode string.")
 
         srv = srv.strip()
-        if u(".") not in srv or _is_ip_address(srv) or srv[0] != u("_"):
+        if u"." not in srv or _is_ip_address(srv) or srv[0] != u"_":
             raise ValueError("Invalid SRV-ID.")
 
-        name, hostname = srv.split(u("."), 1)
+        name, hostname = srv.split(u".", 1)
 
         self.name = name[1:].encode("ascii").translate(_TRANS_TO_LOWER)
         self.dns_id = DNS_ID(hostname)

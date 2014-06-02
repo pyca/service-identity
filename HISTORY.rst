@@ -7,6 +7,8 @@ History
 1.0.0 (UNRELEASED)
 ------------------
 
+- Drop support for Python 3.2.
+  There is no justification to add complexity and unnecessary function calls for a Python version that nobody uses.
 - Move exceptions into ``service_identity.exceptions`` so tracebacks don’t contain private module names.
 - Promoting to stable since Twisted 14.0 is depending on ``service_identity`` now.
 - Use `characteristic <http://characteristic.readthedocs.org/>`_ instead of a home-grown solution.

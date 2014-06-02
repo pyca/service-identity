@@ -6,7 +6,6 @@ env:
     - TOX_ENV=py27-pyopenssl013
     # Fails with '.../OpenSSL/SSL.so: undefined symbol: SSLv2_method'.
     # - TOX_ENV=py27-pyopenssl012
-    - TOX_ENV=py32
     - TOX_ENV=py33
     - TOX_ENV=py34
     - TOX_ENV=pypy

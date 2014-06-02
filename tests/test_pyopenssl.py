@@ -3,7 +3,6 @@ from __future__ import absolute_import, division, print_function
 from OpenSSL.test.util import TestCase
 
 from service_identity._common import DNSPattern, URIPattern
-from service_identity._compat import u
 from service_identity.pyopenssl import extract_ids, verify_hostname
 from .util import CERT_CN_ONLY, CERT_DNS_ONLY, CERT_OTHER_NAME
 
@@ -18,7 +17,7 @@ class VerifyHostnameTestCase(TestCase):
             def get_peer_certificate(self):
                 return CERT_DNS_ONLY
 
-        verify_hostname(FakeConnection(), u("twistedmatrix.com"))
+        verify_hostname(FakeConnection(), u"twistedmatrix.com")
 
 
 class ExtractIDsTestCase(TestCase):

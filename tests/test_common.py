@@ -27,7 +27,6 @@ from service_identity._common import (
     _validate_pattern,
     verify_service_identity,
 )
-from service_identity._compat import u
 from service_identity.pyopenssl import extract_ids
 from .util import CERT_DNS_ONLY
 
@@ -54,11 +53,11 @@ class IntegrationTestCase(TestCase):
         Return pairs of certificate ids and service ids on matches.
         """
         rv = verify_service_identity(extract_ids(CERT_DNS_ONLY),
-                                     [DNS_ID(u("twistedmatrix.com"))])
+                                     [DNS_ID(u"twistedmatrix.com")])
         self.assertEqual(
             [
                 (DNSPattern(b"twistedmatrix.com"),
-                 DNS_ID(u("twistedmatrix.com")),),
+                 DNS_ID(u"twistedmatrix.com"),),
             ], rv
         )
 
@@ -70,7 +69,7 @@ class IntegrationTestCase(TestCase):
         self.assertRaises(
             VerificationError,
             verify_service_identity,
-            extract_ids(CERT_DNS_ONLY), [DNS_ID(u("wrong.host"))],
+            extract_ids(CERT_DNS_ONLY), [DNS_ID(u"wrong.host")],
         )
 
     def test_vsi_contains_dnss_but_does_not_match_one(self):
@@ -82,7 +81,7 @@ class IntegrationTestCase(TestCase):
             DNSMismatchError,
             verify_service_identity,
             [SRVPattern(b"_mail.example.net"), DNSPattern(b"example.com")],
-            [SRV_ID(u("_mail.example.net")), DNS_ID(u("example.net"))],
+            [SRV_ID(u"_mail.example.net"), DNS_ID(u"example.net")],
         )
 
     def test_vsi_contains_srvs_but_does_not_match_one(self):
@@ -94,7 +93,7 @@ class IntegrationTestCase(TestCase):
             SRVMismatchError,
             verify_service_identity,
             [DNSPattern(b"example.net"), SRVPattern(b"_mail.example.com")],
-            [DNS_ID(u("example.net")), SRV_ID(u("_mail.example.net"))],
+            [DNS_ID(u"example.net"), SRV_ID(u"_mail.example.net")],
         )
 
     def test_vsi_contains_srvs_and_matches(self):
@@ -103,10 +102,10 @@ class IntegrationTestCase(TestCase):
         list and don't raise an error.
         """
         p = SRVPattern(b"_mail.example.net")
-        i = SRV_ID(u("_mail.example.net"))
+        i = SRV_ID(u"_mail.example.net")
         rv = verify_service_identity(
             [DNSPattern(b"example.net"), p],
-            [DNS_ID(u("example.net")), i],
+            [DNS_ID(u"example.net"), i],
         )
         self.assertEqual((p, i), rv[1])
 
@@ -119,7 +118,7 @@ class IntegrationTestCase(TestCase):
             URIMismatchError,
             verify_service_identity,
             [DNSPattern(b"example.net"), URIPattern(b"http://example.com")],
-            [DNS_ID(u("example.net")), URI_ID(u("http://example.net"))],
+            [DNS_ID(u"example.net"), URI_ID(u"http://example.net")],
         )
 
     def test_vsi_contains_uris_and_matches(self):
@@ -128,10 +127,10 @@ class IntegrationTestCase(TestCase):
         list and don't raise an error.
         """
         p = URIPattern(b"sip:example.net")
-        uri_id = URI_ID(u("sip:example.net"))
+        uri_id = URI_ID(u"sip:example.net")
         rv = verify_service_identity(
             [DNSPattern(b"example.net"), p],
-            [DNS_ID(u("example.net")), uri_id],
+            [DNS_ID(u"example.net"), uri_id],
         )
         self.assertEqual((p, uri_id), rv[1])
 
@@ -166,14 +165,14 @@ class DNS_IDTestCase(TestCase):
         Raise ImportError if idna is missing and a non-ASCII DNS-ID is passed.
         """
         with hidden(service_identity._common, "idna"):
-            self.assertRaises(ImportError, DNS_ID, u("f\xf8\xf8.com"))
+            self.assertRaises(ImportError, DNS_ID, u"f\xf8\xf8.com")
 
     def test_ascii_works_without_idna(self):
         """
         7bit-ASCII DNS-IDs work no matter whether idna is present or not.
         """
         with hidden(service_identity._common, "idna"):
-            dns = DNS_ID(u("foo.com"))
+            dns = DNS_ID(u"foo.com")
         self.assertEqual(b"foo.com", dns.hostname)
 
     def test_idna_used_if_available_on_non_ascii(self):
@@ -184,38 +183,38 @@ class DNS_IDTestCase(TestCase):
         # Skip if idna is not present.  E.g. on Python 3.2.
         if not service_identity._common.idna:
             raise unittest.SkipTest("Missing idna package.")
-        dns = DNS_ID(u("f\xf8\xf8.com"))
+        dns = DNS_ID(u"f\xf8\xf8.com")
         self.assertEqual(b'xn--f-5gaa.com', dns.hostname)
 
     def test_catches_empty(self):
         """
         Empty DNS-IDs raise a :class:`ValueError`.
         """
-        self.assertRaises(ValueError, DNS_ID, u(" "))
+        self.assertRaises(ValueError, DNS_ID, u" ")
 
     def test_catches_invalid_chars(self):
         """
         Invalid chars as DNS-IDs raise a :class:`ValueError`.
         """
-        self.assertRaises(ValueError, DNS_ID, u("host,name"))
+        self.assertRaises(ValueError, DNS_ID, u"host,name")
 
     def test_catches_ipv4_address(self):
         """
         IP addresses are invalid and raise a :class:`ValueError`.
         """
-        self.assertRaises(ValueError, DNS_ID, u("192.168.0.0"))
+        self.assertRaises(ValueError, DNS_ID, u"192.168.0.0")
 
     def test_catches_ipv6_address(self):
         """
         IP addresses are invalid and raise a :class:`ValueError`.
         """
-        self.assertRaises(ValueError, DNS_ID, u("::1"))
+        self.assertRaises(ValueError, DNS_ID, u"::1")
 
     def test_lowercases(self):
         """
         The hostname is lowercased so it can be compared case-insensitively.
         """
-        dns_id = DNS_ID(u("hOsTnAmE"))
+        dns_id = DNS_ID(u"hOsTnAmE")
         self.assertEqual(b"hostname", dns_id.hostname)
 
     def test_verifies_only_dns(self):
@@ -223,7 +222,7 @@ class DNS_IDTestCase(TestCase):
         If anything else than DNSPattern is passed to verify, return False.
         """
         self.assertFalse(
-            DNS_ID(u("foo.com")).verify(object())
+            DNS_ID(u"foo.com").verify(object())
         )
 
     def test_simple_match(self):
@@ -231,7 +230,7 @@ class DNS_IDTestCase(TestCase):
         Simple integration test with _hostname_matches with a match.
         """
         self.assertTrue(
-            DNS_ID(u("foo.com")).verify(DNSPattern(b"foo.com"))
+            DNS_ID(u"foo.com").verify(DNSPattern(b"foo.com"))
         )
 
     def test_simple_mismatch(self):
@@ -239,7 +238,7 @@ class DNS_IDTestCase(TestCase):
         Simple integration test with _hostname_matches with a mismatch.
         """
         self.assertFalse(
-            DNS_ID(u("foo.com")).verify(DNSPattern(b"bar.com"))
+            DNS_ID(u"foo.com").verify(DNSPattern(b"bar.com"))
         )
 
     def test_matches(self):
@@ -286,36 +285,36 @@ class URI_IDTestCase(TestCase):
         """
         The hostname is converted into a DNS_ID object.
         """
-        uri_id = URI_ID(u("sip:foo.com"))
-        self.assertEqual(DNS_ID(u("foo.com")), uri_id.dns_id)
+        uri_id = URI_ID(u"sip:foo.com")
+        self.assertEqual(DNS_ID(u"foo.com"), uri_id.dns_id)
         self.assertEqual(b"sip", uri_id.protocol)
 
     def test_lowercases(self):
         """
         The protocol is lowercased so it can be compared case-insensitively.
         """
-        uri_id = URI_ID(u("sIp:foo.com"))
+        uri_id = URI_ID(u"sIp:foo.com")
         self.assertEqual(b"sip", uri_id.protocol)
 
     def test_catches_missing_colon(self):
         """
         Raise ValueError if there's no colon within a URI-ID.
         """
-        self.assertRaises(ValueError, URI_ID, u("sip;foo.com"))
+        self.assertRaises(ValueError, URI_ID, u"sip;foo.com")
 
     def test_is_only_valid_for_uri(self):
         """
         If anything else than an URIPattern is passed to verify, return
         False.
         """
-        self.assertFalse(URI_ID(u("sip:foo.com")).verify(object()))
+        self.assertFalse(URI_ID(u"sip:foo.com").verify(object()))
 
     def test_protocol_mismatch(self):
         """
         If protocol doesn't match, verify returns False.
         """
         self.assertFalse(
-            URI_ID(u("sip:foo.com")).verify(URIPattern(b"xmpp:foo.com"))
+            URI_ID(u"sip:foo.com").verify(URIPattern(b"xmpp:foo.com"))
         )
 
     def test_dns_mismatch(self):
@@ -323,7 +322,7 @@ class URI_IDTestCase(TestCase):
         If the hostname doesn't match, verify returns False.
         """
         self.assertFalse(
-            URI_ID(u("sip:bar.com")).verify(URIPattern(b"sip:foo.com"))
+            URI_ID(u"sip:bar.com").verify(URIPattern(b"sip:foo.com"))
         )
 
     def test_match(self):
@@ -331,7 +330,7 @@ class URI_IDTestCase(TestCase):
         Accept legal matches.
         """
         for cert, actual in [
-            (b"sip:foo.com", u("sip:foo.com")),
+            (b"sip:foo.com", u"sip:foo.com"),
         ]:
             self.assertTrue(URI_ID(actual).verify(URIPattern(cert)))
 
@@ -347,41 +346,41 @@ class SRV_IDTestCase(TestCase):
         """
         The hostname is converted into a DNS_ID object.
         """
-        srv_id = SRV_ID(u("_mail.example.com"))
-        self.assertEqual(DNS_ID(u("example.com")), srv_id.dns_id)
+        srv_id = SRV_ID(u"_mail.example.com")
+        self.assertEqual(DNS_ID(u"example.com"), srv_id.dns_id)
 
     def test_lowercases(self):
         """
         The service name is lowercased so it can be compared
         case-insensitively.
         """
-        srv_id = SRV_ID(u("_MaIl.foo.com"))
+        srv_id = SRV_ID(u"_MaIl.foo.com")
         self.assertEqual(b"mail", srv_id.name)
 
     def test_catches_missing_dot(self):
         """
         Raise ValueError if there's no dot within a SRV-ID.
         """
-        self.assertRaises(ValueError, SRV_ID, u("_imapsfoocom"))
+        self.assertRaises(ValueError, SRV_ID, u"_imapsfoocom")
 
     def test_catches_missing_underscore(self):
         """
         Raise ValueError if the service is doesn't start with an underscore.
         """
-        self.assertRaises(ValueError, SRV_ID, u("imaps.foo.com"))
+        self.assertRaises(ValueError, SRV_ID, u"imaps.foo.com")
 
     def test_is_only_valid_for_SRV(self):
         """
         If anything else than an SRVPattern is passed to verify, return False.
         """
-        self.assertFalse(SRV_ID(u("_mail.foo.com")).verify(object()))
+        self.assertFalse(SRV_ID(u"_mail.foo.com").verify(object()))
 
     def test_match(self):
         """
         Accept legal matches.
         """
         for cert, actual in [
-            (b"_mail.foo.com", u("_mail.foo.com")),
+            (b"_mail.foo.com", u"_mail.foo.com"),
         ]:
             self.assertTrue(SRV_ID(actual).verify(SRVPattern(cert)))
 
@@ -393,7 +392,7 @@ class SRV_IDTestCase(TestCase):
         if not service_identity._common.idna:
             raise unittest.SkipTest("Missing idna package.")
         self.assertTrue(
-            SRV_ID(u("_mail.f\xf8\xf8.com")).verify(
+            SRV_ID(u"_mail.f\xf8\xf8.com").verify(
                 SRVPattern(b'_mail.xn--f-5gaa.com')
             )
         )
@@ -403,7 +402,7 @@ class SRV_IDTestCase(TestCase):
         If the service name doesn't match, verify returns False.
         """
         self.assertFalse(
-            SRV_ID(u("_mail.foo.com")).verify(SRVPattern(b"_xmpp.foo.com"))
+            SRV_ID(u"_mail.foo.com").verify(SRVPattern(b"_xmpp.foo.com"))
         )
 
     def test_mismatch_dns(self):
@@ -411,7 +410,7 @@ class SRV_IDTestCase(TestCase):
         If the dns_id doesn't match, verify returns False.
         """
         self.assertFalse(
-            SRV_ID(u("_mail.foo.com")).verify(SRVPattern(b"_mail.bar.com"))
+            SRV_ID(u"_mail.foo.com").verify(SRVPattern(b"_mail.bar.com"))
         )
 
 
@@ -420,7 +419,7 @@ class DNSPatternTestCase(TestCase):
         """
         Raise TypeError if unicode is passed.
         """
-        self.assertRaises(TypeError, DNSPattern, u("foo.com"))
+        self.assertRaises(TypeError, DNSPattern, u"foo.com")
 
     def test_catches_empty(self):
         """
@@ -465,7 +464,7 @@ class URIPatternTestCase(TestCase):
         """
         Raise TypeError if unicode is passed.
         """
-        self.assertRaises(TypeError, URIPattern, u("sip:foo.com"))
+        self.assertRaises(TypeError, URIPattern, u"sip:foo.com")
 
     def test_catches_missing_colon(self):
         """
@@ -485,7 +484,7 @@ class SRVPatternTestCase(TestCase):
         """
         Raise TypeError if unicode is passed.
         """
-        self.assertRaises(TypeError, SRVPattern, u("_mail.example.com"))
+        self.assertRaises(TypeError, SRVPattern, u"_mail.example.com")
 
     def test_catches_missing_underscore(self):
         """
@@ -642,7 +641,7 @@ class IsIPAddressTestCase(TestCase):
         """
         for s in [
             b"127.0.0.1",
-            u("127.0.0.1"),
+            u"127.0.0.1",
             b"172.16.254.12",
             b"*.0.0.1",
             b"::1",
