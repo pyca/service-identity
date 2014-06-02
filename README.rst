@@ -17,7 +17,7 @@ Service Identity Verification for pyOpenSSL
 In the simplest case, this means *host name verification*.
 However, ``service_identity`` implements `RFC 6125`_ fully and plans to add other relevant RFCs too.
 
-``service_identity``\ ’s documentation lives at `Read the Docs <https://service_identity.readthedocs.org/>`_, the code on `GitHub <https://github.com/hynek/service_identity>`_.
+``service_identity``\ ’s documentation lives at `Read the Docs <http://service-identity.readthedocs.org/>`_, the code on `GitHub <https://github.com/hynek/service_identity>`_.
 
 
 .. _Twisted: https://twistedmatrix.com/
