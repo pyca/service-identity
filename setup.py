@@ -33,7 +33,6 @@ if __name__ == "__main__":
         description="Service identity verification for pyOpenSSL.",
         long_description=(
             read("README.rst") + "\n\n" +
-            read("HISTORY.rst") + "\n\n" +
             read("AUTHORS.rst")
         ),
         install_requires=[

@@ -1,14 +1,13 @@
 Authors
-=======
+-------
 
-service_identity is currently maintained by Hynek Schlawack.
+``service_identity`` is currently maintained by `Hynek Schlawack`_.
+
+The development is kindly supported by `Variomedia AG`_.
 
 If you think you've found a security-relevant bug, please contact me privately and ideally encrypt your message using PGP_.
 I will then work with you on a responsible resolution.
 You can find my contact information and PGP data on my homepage_.
-
-Contributors
-------------
 
 The following wonderful people contributed directly or indirectly to this project:
 
@@ -19,5 +18,7 @@ The following wonderful people contributed directly or indirectly to this projec
 Please add yourself here alphabetically when you submit your first pull request.
 
 
-.. _PGP: http://www.gnupg.org/
+.. _`Hynek Schlawack`: https://twitter.com/hynek
+.. _PGP: https://www.gnupg.org/
 .. _homepage: https://hynek.me/about/
+.. _`Variomedia AG`: https://www.variomedia.de/
