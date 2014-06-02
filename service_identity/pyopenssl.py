@@ -24,18 +24,6 @@ from ._common import (
 def verify_hostname(connection, hostname):
     """
     Verify whether *connection* has a valid certificate chain for *hotname*.
-
-    :param connection: The connection whose certificate chain which is to be
-        verified.
-    :type connection: ``OpenSSL.SSL.Connection``
-
-    :param hostname: Hostname to check for.
-    :type hostname: `unicode`
-
-    :raises VerificationError: if *connection*'s certificate chain is invalid
-        for *hostname*.
-
-    :return: `None`
     """
     verify_service_identity(
         extract_ids(connection.get_peer_certificate()),
