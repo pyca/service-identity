@@ -21,7 +21,7 @@ Additionally, the following PyPI modules are required:
 - pyasn1-modules_
 
 Optionally, idna_ ``>= 0.6`` can be used for `internationalized domain names`_ (IDN), i.e. non-ASCII domains.
-Unfortunately it’s required because Python’s idna support in the standard library is outdated_ even in the latest releases.
+Unfortunately it’s required because Python’s IDN support in the standard library is outdated_ even in the latest releases.
 
 If you need Python 3.2 support, you will have to use the latest 0.2.x release.
 It will receive bug fix releases if necessary but other than that no further development is planned.

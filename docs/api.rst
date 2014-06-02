@@ -7,7 +7,7 @@ API
 
 .. function:: verify_hostname(connection, hostname)
 
-   This is the function you're most likely here: verify whether the certificate of *connection* is valid for *hostname*.
+   Verify whether the certificate of *connection* is valid for *hostname*.
 
    :param connection: A pyOpenSSL connection object.
    :type connection: :class:`OpenSSL.SSL.Connection`
