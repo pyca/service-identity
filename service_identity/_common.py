@@ -29,7 +29,7 @@ def verify_service_identity(cert_patterns, service_ids):
     """
     Verify whether *cert_patterns* are valid for *service_ids*.
 
-    :type cert_patters: List of service ID patterns usually extracted
+    :type cert_patterns: List of service ID patterns usually extracted
         from a certificate.
     :type service_ids: `list` of service ID classes like :class:`DNS_ID`.
 
