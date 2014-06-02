@@ -15,7 +15,7 @@ API
    :param hostname: The hostname that *connection* should be connected to.
    :type hostname: :class:`unicode`
 
-   :raises VerificationError: If *connection* does not provide a certificate that is valid for *hostname*.
+   :raises service_identity.VerificationError: If *connection* does not provide a certificate that is valid for *hostname*.
 
    :returns: `None`
 
@@ -49,3 +49,12 @@ API
       finally:
          conn.shutdown()
          conn.close()
+
+
+.. currentmodule:: service_identity
+
+
+.. exception:: VerificationError
+
+   Verification failed.
+   This is the top-level verification exception that catches all kinds of verification errors.
