@@ -23,7 +23,7 @@ from ._common import (
 
 def verify_hostname(connection, hostname):
     """
-    Verify whether *connection* has a valid certificate chain for *hotname*.
+    Verify whether *connection* has a valid certificate chain for *hostname*.
     """
     verify_service_identity(
         extract_ids(connection.get_peer_certificate()),
