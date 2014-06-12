@@ -26,8 +26,9 @@ def verify_hostname(connection, hostname):
     Verify whether *connection* has a valid certificate chain for *hostname*.
     """
     verify_service_identity(
-        extract_ids(connection.get_peer_certificate()),
-        [DNS_ID(hostname)]
+        cert_patterns=extract_ids(connection.get_peer_certificate()),
+        obligatory_ids=[DNS_ID(hostname)],
+        optional_ids=[],
     )
 
 

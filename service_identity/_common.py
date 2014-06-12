@@ -10,13 +10,13 @@ import re
 
 from characteristic import attributes
 
-from ._compat import PY3, text_type
+from ._compat import maketrans, text_type
 from .exceptions import (
-    VerificationError,
     CertificateError,
-    DNSMismatchError,
-    SRVMismatchError,
-    URIMismatchError,
+    DNSMismatch,
+    SRVMismatch,
+    URIMismatch,
+    VerificationError,
 )
 
 try:
@@ -25,43 +25,41 @@ except ImportError:  # pragma: nocover
     idna = None
 
 
-def verify_service_identity(cert_patterns, service_ids):
+@attributes(["service_id", "cert_pattern"])
+class ServiceMatch(object):
     """
-    Verify whether *cert_patterns* are valid for *service_ids*.
-
-    :type cert_patterns: List of service ID patterns usually extracted
-        from a certificate.
-    :type service_ids: `list` of service ID classes like :class:`DNS_ID`.
-
-    :raises URIMismatchError: If at least one :class:`URIPattern` and at least
-        one :class:`URI_ID` are specified but none of them match.
-
-    :raises SRVMismatchError: If at least one :class:`SRVPattern` and at least
-        one :class:`SRV_ID` are specified but none of them match.
-
-    :raises URIMismatchError: If at least one :class:`URIPattern` and at least
-        one :class:`URI_ID` are specified but none of them match.
-
-    :raises VerificationError: If no matches are found at all.
-
-    :return: A `list` of tuples of matching ``(certificate_pattern,
-        service_id)``.
+    A match of a service id and a certificate pattern.
     """
-    matched_ids = _find_matches(cert_patterns, service_ids)
-    if not matched_ids:
-        raise VerificationError(
-            "No service reference ID could be validated against certificate."
-        )
 
-    for sid in service_ids:
+
+def verify_service_identity(cert_patterns, obligatory_ids, optional_ids):
+    """
+    Verify whether *cert_patterns* are valid for *obligatory_ids* and
+    *optional_ids*.
+
+    *obligatory_ids* must be both present and match.  *optional_ids* must match
+    if a pattern of the respective type is present.
+    """
+    errors = []
+    matches = (_find_matches(cert_patterns, obligatory_ids) +
+               _find_matches(cert_patterns, optional_ids))
+
+    matched_ids = [match.service_id for match in matches]
+    for i in obligatory_ids:
+        if i not in matched_ids:
+            errors.append(i.error_on_mismatch(mismatched_id=i))
+
+    for i in optional_ids:
         if (
-            _contains_instance_of(cert_patterns, sid.pattern_class)
-            and not _contains_instance_of((i for (p, i) in matched_ids),
-                                          sid.__class__)
+            i not in matched_ids and
+            _contains_instance_of(cert_patterns, i.pattern_class)
         ):
-            raise sid.exc_on_mismatch
+            errors.append(i.error_on_mismatch(mismatched_id=i))
 
-    return matched_ids
+    if errors:
+        raise VerificationError(errors=errors)
+
+    return matches
 
 
 def _contains_instance_of(l, cl):
@@ -195,7 +193,7 @@ class DNS_ID(object):
     # characters that are legal in a normalized hostname
     _RE_LEGAL_CHARS = re.compile(br"^[a-z0-9\-_.]+$")
     pattern_class = DNSPattern
-    exc_on_mismatch = DNSMismatchError
+    error_on_mismatch = DNSMismatch
 
     def __init__(self, hostname):
         """
@@ -238,7 +236,7 @@ class URI_ID(object):
     An URI service ID.
     """
     pattern_class = URIPattern
-    exc_on_mismatch = URIMismatchError
+    error_on_mismatch = URIMismatch
 
     def __init__(self, uri):
         """
@@ -275,7 +273,7 @@ class SRV_ID(object):
     An SRV service ID.
     """
     pattern_class = SRVPattern
-    exc_on_mismatch = SRVMismatchError
+    error_on_mismatch = SRVMismatch
 
     def __init__(self, srv):
         """
@@ -323,7 +321,9 @@ def _find_matches(cert_patterns, service_ids):
     for sid in service_ids:
         for cid in cert_patterns:
             if sid.verify(cid):
-                matches.append((cid, sid))
+                matches.append(
+                    ServiceMatch(cert_pattern=cid, service_id=sid)
+                )
     return matches
 
 
@@ -396,11 +396,5 @@ def _validate_pattern(cert_pattern):
 
 
 # Ensure no locale magic interferes.
-_TRANS_TO_LOWER_ARG_TUPLE = (b"ABCDEFGHIJKLMNOPQRSTUVWXYZ",
-                             b"abcdefghijklmnopqrstuvwxyz")
-
-if PY3:  # pragma: nocover
-    _TRANS_TO_LOWER = bytes.maketrans(*_TRANS_TO_LOWER_ARG_TUPLE)
-else:
-    import string
-    _TRANS_TO_LOWER = string.maketrans(*_TRANS_TO_LOWER_ARG_TUPLE)
+_TRANS_TO_LOWER = maketrans(b"ABCDEFGHIJKLMNOPQRSTUVWXYZ",
+                            b"abcdefghijklmnopqrstuvwxyz")

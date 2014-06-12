@@ -4,28 +4,32 @@ import unittest
 
 from contextlib import contextmanager
 
+import pytest
+
 from OpenSSL.test.util import TestCase
 
 import service_identity._common
 
 from service_identity._common import (
-    CertificateError,
-    DNSMismatchError,
     DNSPattern,
     DNS_ID,
-    SRVMismatchError,
+    ServiceMatch,
     SRVPattern,
     SRV_ID,
-    URIMismatchError,
     URIPattern,
     URI_ID,
-    VerificationError,
     _contains_instance_of,
     _find_matches,
     _hostname_matches,
     _is_ip_address,
     _validate_pattern,
     verify_service_identity,
+)
+from service_identity.exceptions import (
+    CertificateError,
+    DNSMismatch,
+    SRVMismatch,
+    VerificationError,
 )
 from service_identity.pyopenssl import extract_ids
 from .util import CERT_DNS_ONLY
@@ -44,95 +48,89 @@ def hidden(obj, name):
         setattr(obj, name, orig)
 
 
-class IntegrationTestCase(TestCase):
+class TestIntegration(object):
     """
-    Simple integration tests for :func:`verify_service_identity`.
+    Simple integration tests for verify_service_identity.
     """
     def test_vsi_dns_id_success(self):
         """
         Return pairs of certificate ids and service ids on matches.
         """
         rv = verify_service_identity(extract_ids(CERT_DNS_ONLY),
-                                     [DNS_ID(u"twistedmatrix.com")])
-        self.assertEqual(
-            [
-                (DNSPattern(b"twistedmatrix.com"),
-                 DNS_ID(u"twistedmatrix.com"),),
-            ], rv
-        )
+                                     [DNS_ID(u"twistedmatrix.com")],
+                                     [])
+        assert [
+            ServiceMatch(cert_pattern=DNSPattern(b"twistedmatrix.com"),
+                         service_id=DNS_ID(u"twistedmatrix.com"),),
+        ] == rv
 
     def test_vsi_integration_dns_id_fail(self):
         """
         Raise VerificationError if no certificate id matches the supplied
         service ids.
         """
-        self.assertRaises(
-            VerificationError,
-            verify_service_identity,
-            extract_ids(CERT_DNS_ONLY), [DNS_ID(u"wrong.host")],
-        )
+        i = DNS_ID(u"wrong.host")
+        with pytest.raises(VerificationError) as e:
+            verify_service_identity(
+                extract_ids(CERT_DNS_ONLY),
+                [i],
+                [],
+            )
+        assert [DNSMismatch(mismatched_id=i)] == e.value.errors
 
-    def test_vsi_contains_dnss_but_does_not_match_one(self):
+    def test_vsi_obligatory_missing(self):
         """
-        Raise if both cert_patterns and service_ids contain at least one DNS-ID
-        but none match.  Even if other IDs matched.
+        Raise if everything matches but one of the obligatory IDs is missing.
         """
-        self.assertRaises(
-            DNSMismatchError,
-            verify_service_identity,
-            [SRVPattern(b"_mail.example.net"), DNSPattern(b"example.com")],
-            [SRV_ID(u"_mail.example.net"), DNS_ID(u"example.net")],
-        )
+        i = DNS_ID(u"example.net")
+        with pytest.raises(VerificationError) as e:
+            verify_service_identity(
+                [SRVPattern(b"_mail.example.net")],
+                [SRV_ID(u"_mail.example.net"), i],
+                [],
+            )
+        assert [DNSMismatch(mismatched_id=i)] == e.value.errors
 
-    def test_vsi_contains_srvs_but_does_not_match_one(self):
+    def test_vsi_obligatory_mismatch(self):
         """
-        Raise if both cert_patterns and service_ids contain at least one SRV-ID
-        but none match.  Even if other IDs matched.
+        Raise if one of the obligatory IDs doesn't match.
         """
-        self.assertRaises(
-            SRVMismatchError,
-            verify_service_identity,
-            [DNSPattern(b"example.net"), SRVPattern(b"_mail.example.com")],
-            [DNS_ID(u"example.net"), SRV_ID(u"_mail.example.net")],
-        )
+        i = DNS_ID(u"example.net")
+        with pytest.raises(VerificationError) as e:
+            verify_service_identity(
+                [SRVPattern(b"_mail.example.net"), DNSPattern(b"example.com")],
+                [SRV_ID(u"_mail.example.net"), i],
+                [],
+            )
+        assert [DNSMismatch(mismatched_id=i)] == e.value.errors
 
-    def test_vsi_contains_srvs_and_matches(self):
+    def test_vsi_optional_mismatch(self):
         """
-        If a matching SRV-ID is found, return the tuple within the returned
+        Raise VerificationError if an ID from optional_ids does not match
+        a pattern of respective type even if obligatory IDs match.
+        """
+        i = SRV_ID(u"_xmpp.example.com")
+        with pytest.raises(VerificationError) as e:
+            verify_service_identity(
+                [DNSPattern(b"example.net"), SRVPattern(b"_mail.example.com")],
+                obligatory_ids=[DNS_ID(u"example.net")],
+                optional_ids=[i],
+            )
+        assert [SRVMismatch(mismatched_id=i)] == e.value.errors
+
+    def test_vsi_contains_optional_and_matches(self):
+        """
+        If an optional ID is found, return the match within the returned
         list and don't raise an error.
         """
         p = SRVPattern(b"_mail.example.net")
         i = SRV_ID(u"_mail.example.net")
         rv = verify_service_identity(
             [DNSPattern(b"example.net"), p],
-            [DNS_ID(u"example.net"), i],
+            obligatory_ids=[DNS_ID(u"example.net")],
+            optional_ids=[i],
         )
-        self.assertEqual((p, i), rv[1])
-
-    def test_vsi_contains_uris_but_does_not_match_one(self):
-        """
-        Raise if both cert_patterns and service_ids contain at least one URI-ID
-        but none match.  Even if other IDs matched.
-        """
-        self.assertRaises(
-            URIMismatchError,
-            verify_service_identity,
-            [DNSPattern(b"example.net"), URIPattern(b"http://example.com")],
-            [DNS_ID(u"example.net"), URI_ID(u"http://example.net")],
-        )
-
-    def test_vsi_contains_uris_and_matches(self):
-        """
-        If a matching URI-ID is found, return the tuple within the returned
-        list and don't raise an error.
-        """
-        p = URIPattern(b"sip:example.net")
-        uri_id = URI_ID(u"sip:example.net")
-        rv = verify_service_identity(
-            [DNSPattern(b"example.net"), p],
-            [DNS_ID(u"example.net"), uri_id],
-        )
-        self.assertEqual((p, uri_id), rv[1])
+        assert ServiceMatch(cert_pattern=p, service_id=i) == rv[1]
 
 
 class ContainsInstanceTestCase(TestCase):
@@ -434,10 +432,8 @@ class DNSPatternTestCase(TestCase):
         """
         Raise :class:`CertificateError` if a NULL byte is in the hostname.
         """
-        self.assertRaises(
-            CertificateError,
-            DNSPattern, b"www.google.com\0nasty.h4x0r.com",
-        )
+        with pytest.raises(CertificateError):
+            DNSPattern(b"www.google.com\0nasty.h4x0r.com")
 
     def test_catches_ip_address(self):
         """
@@ -591,7 +587,8 @@ class FindMatchesTestCase(TestCase):
         ], [valid_id])
 
         self.assertEqual(
-            [(valid_cert_id, valid_id,)], rv
+            [ServiceMatch(cert_pattern=valid_cert_id, service_id=valid_id,)],
+            rv
         )
 
     def test_no_match(self):
@@ -627,9 +624,12 @@ class FindMatchesTestCase(TestCase):
 
         self.assertEqual(
             [
-                (valid_cert_id_1, valid_id_1,),
-                (valid_cert_id_2, valid_id_2,),
-                (valid_cert_id_3, valid_id_3,),
+                ServiceMatch(cert_pattern=valid_cert_id_1,
+                             service_id=valid_id_1,),
+                ServiceMatch(cert_pattern=valid_cert_id_2,
+                             service_id=valid_id_2,),
+                ServiceMatch(cert_pattern=valid_cert_id_3,
+                             service_id=valid_id_3,),
             ], rv
         )
 

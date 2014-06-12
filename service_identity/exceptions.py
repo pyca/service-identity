@@ -7,32 +7,38 @@ them from __init__.py.
 
 from __future__ import absolute_import, division, print_function
 
+from characteristic import attributes
 
+
+@attributes(["errors"])
 class VerificationError(Exception):
     """
     Service identity verification failed.
     """
 
 
-class CertificateError(VerificationError):
+@attributes(["mismatched_id"])
+class DNSMismatch(object):
+    """
+    Not matching DNSPattern could be found.
+    """
+
+
+@attributes(["mismatched_id"])
+class SRVMismatch(object):
+    """
+    Not matching SRVPattern could be found.
+    """
+
+
+@attributes(["mismatched_id"])
+class URIMismatch(object):
+    """
+    Not matching URIPattern could be found.
+    """
+
+
+class CertificateError(Exception):
     """
     Certificate contains invalid or unexpected data.
-    """
-
-
-class DNSMismatchError(VerificationError):
-    """
-    DNS-IDs were present but none matched.
-    """
-
-
-class SRVMismatchError(VerificationError):
-    """
-    SRV-IDs were present but none matched.
-    """
-
-
-class URIMismatchError(VerificationError):
-    """
-    URI-IDs were present but none matched.
     """

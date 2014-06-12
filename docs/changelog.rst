@@ -7,6 +7,8 @@ History
 1.0.0 (UNRELEASED)
 ------------------
 
+- Completely rewrote the underlying :func:`service_identity.verify_service_identity`.
+  Although it’s technically a public function, it should be considered private until it is documented.
 - Drop support for Python 3.2.
   There is no justification to add complexity and unnecessary function calls for a Python version that nobody uses.
 - Move exceptions into ``service_identity.exceptions`` so tracebacks don’t contain private module names.

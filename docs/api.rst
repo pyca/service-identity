@@ -5,7 +5,7 @@ API
 .. warning::
 
    There are public-looking APIs present in ``service_identity`` that aren't documented here.
-   Those are *not* considered public *yet*.
+   Those are *not* public *yet*.
    *Only* APIs documented here are final and production-ready.
 
 
@@ -23,6 +23,7 @@ API
    :type hostname: :class:`unicode`
 
    :raises service_identity.VerificationError: If *connection* does not provide a certificate that is valid for *hostname*.
+   :raises service_identity.CertificateError: If the certificate chain of *connection* contains a certificate that contains invalid/unexpected data.
 
    :returns: `None`
 
@@ -64,4 +65,8 @@ API
 .. exception:: VerificationError
 
    Verification failed.
-   This is the top-level verification exception that catches all kinds of verification errors.
+
+
+.. exception:: CertificateError
+
+   A certificate contains invalid or unexpected data.

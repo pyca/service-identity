@@ -11,9 +11,9 @@ __license__ = "MIT"
 from . import pyopenssl
 from .exceptions import (
     CertificateError,
-    DNSMismatchError,
-    SRVMismatchError,
-    URIMismatchError,
+    DNSMismatch,
+    SRVMismatch,
+    URIMismatch,
     VerificationError,
 )
 from ._common import (
@@ -21,6 +21,7 @@ from ._common import (
     DNS_ID,
     SRVPattern,
     SRV_ID,
+    ServiceMatch,
     URIPattern,
     URI_ID,
     verify_service_identity,
@@ -29,13 +30,14 @@ from ._common import (
 
 __all__ = [
     "CertificateError",
-    "DNSMismatchError",
+    "DNSMismatch",
     "DNSPattern",
     "DNS_ID",
-    "SRVMismatchError",
+    "SRVMismatch",
     "SRVPattern",
     "SRV_ID",
-    "URIMismatchError",
+    "ServiceMatch",
+    "URIMismatch",
     "URIPattern",
     "URI_ID",
     "VerificationError",
