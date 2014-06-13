@@ -2,13 +2,6 @@
 API
 ===
 
-.. warning::
-
-   There are public-looking APIs present in ``service_identity`` that aren't documented here.
-   Those are *not* public *yet*.
-   *Only* APIs documented here are final and production-ready.
-
-
 .. currentmodule:: service_identity.pyopenssl
 
 
