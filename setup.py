@@ -45,7 +45,7 @@ if __name__ == "__main__":
         license="MIT",
         name="service_identity",
         packages=find_packages(exclude=['tests*']),
-        url="https://github.com/hynek/service_identity",
+        url="https://github.com/pyca/service_identity",
         version=find_version('service_identity/__init__.py'),
         maintainer='Hynek Schlawack',
         maintainer_email='hs@ox.cx',

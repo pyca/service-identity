@@ -36,7 +36,7 @@ I can usually be found on the ``#cryptography-dev`` channel on freenode_.
 .. _`PEP 257`: http://www.python.org/dev/peps/pep-0257/
 .. _`good commit messages`: http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html
 .. _`Code of Conduct`: https://www.python.org/psf/codeofconduct/
-.. _changelog: https://github.com/hynek/service_identity/blob/master/docs/changelog.rst
-.. _AUTHORS.rst: https://github.com/hynek/service_identity/blob/master/AUTHORS.rst
+.. _changelog: https://github.com/pyca/service_identity/blob/master/docs/changelog.rst
+.. _AUTHORS.rst: https://github.com/pyca/service_identity/blob/master/AUTHORS.rst
 .. _procedures: http://twistedmatrix.com/trac/wiki/CompatibilityPolicy
 .. _`freenode`: http://freenode.net

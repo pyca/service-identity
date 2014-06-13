@@ -7,6 +7,7 @@ History
 1.0.0 (UNRELEASED)
 ------------------
 
+- Move into the `Python Cryptography Authority’s GitHub account <https://github.com/pyca/>`_.
 - Drop support for Python 3.2.
   There is no justification to add complexity and unnecessary function calls for a Python version that nobody uses.
 - Move exceptions into ``service_identity.exceptions`` so tracebacks don’t contain private module names.
