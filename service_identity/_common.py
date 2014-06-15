@@ -374,6 +374,8 @@ def _validate_pattern(cert_pattern):
     our expectations.
 
     :type hostname: `bytes`
+
+    :return: None
     """
     cnt = cert_pattern.count(b"*")
     if cnt > 1:

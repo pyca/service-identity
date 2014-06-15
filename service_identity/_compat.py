@@ -12,4 +12,4 @@ if PY3:  # pragma: nocover
 else:  # pragma: nocover
     import string
     maketrans = string.maketrans
-    text_type = unicode
+    text_type = unicode  # noqa
