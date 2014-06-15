@@ -66,6 +66,28 @@ def verify_service_identity(cert_patterns, obligatory_ids, optional_ids):
     return matches
 
 
+def _find_matches(cert_patterns, service_ids):
+    """
+    Search for matching certificate patterns and service_ids.
+
+    :param cert_ids: List certificate IDs like DNSPattern.
+    :type cert_ids: `list`
+
+    :param service_ids: List of service IDs like DNS_ID.
+    :type service_ids: `list`
+
+    :rtype: `list` of `ServiceMatch`
+    """
+    matches = []
+    for sid in service_ids:
+        for cid in cert_patterns:
+            if sid.verify(cid):
+                matches.append(
+                    ServiceMatch(cert_pattern=cid, service_id=sid)
+                )
+    return matches
+
+
 def _contains_instance_of(seq, cl):
     """
     :type seq: iterable
@@ -308,29 +330,6 @@ class SRV_ID(object):
             )
         else:
             return False
-
-
-def _find_matches(cert_patterns, service_ids):
-    """
-    Search for matching certificate patterns and service_ids.
-
-    :param cert_ids: List certificate IDs like DNSPattern.
-    :type cert_ids: `list`
-
-    :param service_ids: List of service IDs like DNS_ID.
-    :type service_ids: `list`
-
-    :return: List of ``(certificate_pattern, service_id)`` `tuple`s.
-    :rtype: `list` of `tuple`s
-    """
-    matches = []
-    for sid in service_ids:
-        for cid in cert_patterns:
-            if sid.verify(cid):
-                matches.append(
-                    ServiceMatch(cert_pattern=cid, service_id=sid)
-                )
-    return matches
 
 
 def _hostname_matches(cert_pattern, actual_hostname):
