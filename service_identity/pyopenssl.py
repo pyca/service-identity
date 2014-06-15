@@ -32,6 +32,9 @@ def verify_hostname(connection, hostname):
     )
 
 
+ID_ON_DNS_SRV = ObjectIdentifier('1.3.6.1.5.5.7.8.7')  # id_on_dnsSRV
+
+
 def extract_ids(cert):
     """
     Extract all valid IDs from a certificate for service verification.
@@ -58,8 +61,7 @@ def extract_ids(cert):
                 elif name_string == "otherName":
                     comp = n.getComponent()
                     oid = comp.getComponentByPosition(0)
-                    # 1.3.6.1.5.5.7.8.7 = id-on-dnsSRV
-                    if oid == ObjectIdentifier('1.3.6.1.5.5.7.8.7'):
+                    if oid == ID_ON_DNS_SRV:
                         srv, _ = decode(comp.getComponentByPosition(1))
                         if isinstance(srv, IA5String):
                             ids.append(SRVPattern(srv.asOctets()))
@@ -78,3 +80,8 @@ def extract_ids(cert):
                in cert.get_subject().get_components()
                if c[0] == b"CN"]
     return ids
+
+
+__all__ = [
+    "verify_hostname",
+]
