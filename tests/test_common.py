@@ -158,7 +158,7 @@ class ContainsInstanceTestCase(TestCase):
 
     def test_negative(self):
         """
-        If the list contains an object of the type, return False.
+        If the list does not contain an object of the type, return False.
         """
         self.assertFalse(
             _contains_instance_of([object(), list(), {}], tuple)
