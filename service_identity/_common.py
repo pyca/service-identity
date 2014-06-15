@@ -62,12 +62,12 @@ def verify_service_identity(cert_patterns, obligatory_ids, optional_ids):
     return matches
 
 
-def _contains_instance_of(l, cl):
+def _contains_instance_of(seq, cl):
     """
-    :param l: iterable
+    :param seq: iterable
     :param cl: type
     """
-    for e in l:
+    for e in seq:
         if isinstance(e, cl):
             return True
     return False

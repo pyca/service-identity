@@ -2,6 +2,14 @@
 API
 ===
 
+.. note::
+
+   The APIs for RFC 6125 verification beyond DNS-IDs (i.e. hostnames) aren't public yet.
+   They are in place and used by the documented high-level APIs though.
+   Eventually they will become public.
+   If you'd like to play with them and provide feedback have a look at the ``verify_service_identity`` function in the `_common module <https://github.com/pyca/service_identity/blob/master/service_identity/_common.py>`_.
+
+
 .. currentmodule:: service_identity.pyopenssl
 
 
