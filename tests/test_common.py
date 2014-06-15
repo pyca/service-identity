@@ -73,8 +73,8 @@ class TestIntegration(object):
         with pytest.raises(VerificationError) as e:
             verify_service_identity(
                 extract_ids(CERT_DNS_ONLY),
-                [i],
-                [],
+                obligatory_ids=[i],
+                optional_ids=[],
             )
         assert [DNSMismatch(mismatched_id=i)] == e.value.errors
 
@@ -86,8 +86,8 @@ class TestIntegration(object):
         with pytest.raises(VerificationError) as e:
             verify_service_identity(
                 [SRVPattern(b"_mail.example.net")],
-                [SRV_ID(u"_mail.example.net"), i],
-                [],
+                obligatory_ids=[SRV_ID(u"_mail.example.net"), i],
+                optional_ids=[],
             )
         assert [DNSMismatch(mismatched_id=i)] == e.value.errors
 
@@ -99,10 +99,24 @@ class TestIntegration(object):
         with pytest.raises(VerificationError) as e:
             verify_service_identity(
                 [SRVPattern(b"_mail.example.net"), DNSPattern(b"example.com")],
-                [SRV_ID(u"_mail.example.net"), i],
-                [],
+                obligatory_ids=[SRV_ID(u"_mail.example.net"), i],
+                optional_ids=[],
             )
         assert [DNSMismatch(mismatched_id=i)] == e.value.errors
+
+    def test_vsi_optional_missing(self):
+        """
+        Optional IDs may miss as long as they don't conflict with an existing
+        pattern.
+        """
+        p = DNSPattern(b"mail.foo.com")
+        i = DNS_ID(u"mail.foo.com")
+        rv = verify_service_identity(
+            [p],
+            obligatory_ids=[i],
+            optional_ids=[SRV_ID(u"_mail.foo.com")],
+        )
+        assert [ServiceMatch(cert_pattern=p, service_id=i)] == rv
 
     def test_vsi_optional_mismatch(self):
         """

@@ -50,6 +50,10 @@ def verify_service_identity(cert_patterns, obligatory_ids, optional_ids):
             errors.append(i.error_on_mismatch(mismatched_id=i))
 
     for i in optional_ids:
+        # If an optional ID is not matched by a certificate pattern *but* there
+        # is a pattern of the same type , it is an error and the verification
+        # fails.  Example: the user passes a SRV-ID for "_mail.domain.com" but
+        # the certificate contains an SRV-Pattern for "_xmpp.domain.com".
         if (
             i not in matched_ids and
             _contains_instance_of(cert_patterns, i.pattern_class)
@@ -64,8 +68,10 @@ def verify_service_identity(cert_patterns, obligatory_ids, optional_ids):
 
 def _contains_instance_of(seq, cl):
     """
-    :param seq: iterable
-    :param cl: type
+    :type seq: iterable
+    :type cl: type
+
+    :rtype: bool
     """
     for e in seq:
         if isinstance(e, cl):
