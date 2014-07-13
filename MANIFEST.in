@@ -4,3 +4,4 @@ include *.txt
 include .travis.yml
 include tox.ini
 recursive-include tests *.py
+include docs
