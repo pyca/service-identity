@@ -41,6 +41,9 @@ if __name__ == "__main__":
             "pyasn1-modules",
             "pyopenssl>=0.12",
         ],
+        extra_requires={
+            'idna': ["idna"],
+        },
         keywords="cryptography openssl pyopenssl",
         license="MIT",
         name="service_identity",
