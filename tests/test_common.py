@@ -28,6 +28,11 @@ from service_identity.exceptions import (
 from service_identity.pyopenssl import extract_ids
 from .util import CERT_DNS_ONLY
 
+try:
+    import idna
+except ImportError:
+    idna = None
+
 
 class TestVerifyServiceIdentity(object):
     """
@@ -166,6 +171,7 @@ class TestDNS_ID(object):
         dns = DNS_ID(u"foo.com")
         assert b"foo.com" == dns.hostname
 
+    @pytest.mark.skipif(idna is None, reason="idna not installed")
     def test_idna_used_if_available_on_non_ascii(self):
         """
         If idna is installed and a non-ASCII DNS-ID is passed, encode it to
@@ -345,6 +351,7 @@ class TestSRV_ID(object):
         """
         assert SRV_ID(u"_mail.foo.com").verify(SRVPattern(b"_mail.foo.com"))
 
+    @pytest.mark.skipif(idna is None, reason="idna not installed")
     def test_match_idna(self):
         """
         IDNAs are handled properly.
