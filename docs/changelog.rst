@@ -4,6 +4,12 @@ History
 =======
 
 
+1.0.1 (2014-08-22)
+------------------
+
+- Port to ``characteristic`` 14.0 (get rid of deprecation warnings).
+
+
 1.0.0 (2014-06-15)
 ------------------
 

@@ -133,7 +133,7 @@ def _is_ip_address(pattern):
     )
 
 
-@attributes(["pattern"], create_init=False)
+@attributes(["pattern"], apply_with_init=False)
 class DNSPattern(object):
     """
     A DNS pattern as extracted from certificates.
@@ -159,7 +159,7 @@ class DNSPattern(object):
             _validate_pattern(self.pattern)
 
 
-@attributes(["protocol_pattern", "dns_pattern"], create_init=False)
+@attributes(["protocol_pattern", "dns_pattern"], apply_with_init=False)
 class URIPattern(object):
     """
     An URI pattern as extracted from certificates.
@@ -185,7 +185,7 @@ class URIPattern(object):
         self.dns_pattern = DNSPattern(hostname)
 
 
-@attributes(["name_pattern", "dns_pattern"], create_init=False)
+@attributes(["name_pattern", "dns_pattern"], apply_with_init=False)
 class SRVPattern(object):
     """
     An SRV pattern as extracted from certificates.
@@ -213,7 +213,7 @@ class SRVPattern(object):
         self.dns_pattern = DNSPattern(hostname)
 
 
-@attributes(["hostname"], create_init=False)
+@attributes(["hostname"], apply_with_init=False)
 class DNS_ID(object):
     """
     A DNS service ID, aka hostname.
@@ -258,7 +258,7 @@ class DNS_ID(object):
             return False
 
 
-@attributes(["protocol", "dns_id"], create_init=False)
+@attributes(["protocol", "dns_id"], apply_with_init=False)
 class URI_ID(object):
     """
     An URI service ID.
@@ -295,7 +295,7 @@ class URI_ID(object):
             return False
 
 
-@attributes(["name", "dns_id"], create_init=False)
+@attributes(["name", "dns_id"], apply_with_init=False)
 class SRV_ID(object):
     """
     An SRV service ID.
