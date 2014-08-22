@@ -4,9 +4,10 @@ Verify service identities.
 
 from __future__ import absolute_import, division, print_function
 
-__version__ = "1.1.0dev"
+__version__ = "14.0.0-dev"
 __author__ = "Hynek Schlawack"
 __license__ = "MIT"
+__copyright__ = "Copyright 2014 Hynek Schlawack"
 
 from . import pyopenssl
 from .exceptions import (

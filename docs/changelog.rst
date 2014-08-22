@@ -4,14 +4,45 @@ History
 =======
 
 
-1.0.1 (2014-08-22)
-------------------
+14.0.0 (2014-08-22)
+-------------------
 
+Backward-incompatible changes:
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+*none*
+
+
+Deprecations:
+^^^^^^^^^^^^^
+
+*none*
+
+Changes:
+^^^^^^^^
+
+- Switch to year-based version numbers.
 - Port to ``characteristic`` 14.0 (get rid of deprecation warnings).
 
 
 1.0.0 (2014-06-15)
 ------------------
+
+
+Backward-incompatible changes:
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+*none*
+
+
+Deprecations:
+^^^^^^^^^^^^^
+
+*none*
+
+
+Changes:
+^^^^^^^^
 
 - Move into the `Python Cryptography Authority’s GitHub account <https://github.com/pyca/>`_.
 - Drop support for Python 3.2.
@@ -27,11 +58,24 @@ History
 0.2.0 (2014-04-06)
 ------------------
 
-This release contains multiple backward-incompatible changes.
+
+Backward-incompatible changes:
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Refactor into a multi-module package.
   Most notably, ``verify_hostname`` and ``extract_ids`` live in the ``service_identity.pyopenssl`` module now.
 - ``verify_hostname`` now takes an ``OpenSSL.SSL.Connection`` for the first argument.
+
+
+Deprecations:
+^^^^^^^^^^^^^
+
+*none*
+
+
+Changes:
+^^^^^^^^
+
 - Less false positives in IP address detection.
 - Officially support Python 3.4 too.
 - More strict checks for URI_IDs.
