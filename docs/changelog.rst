@@ -3,6 +3,9 @@
 History
 =======
 
+Versions are year-based with a strict backwards-compatibility policy.
+The third digit is only for regressions.
+
 
 14.0.0 (2014-08-22)
 -------------------
@@ -24,6 +27,9 @@ Changes:
 - Switch to year-based version numbers.
 - Port to ``characteristic`` 14.0 (get rid of deprecation warnings).
 - Package docs with sdist.
+
+
+----
 
 
 1.0.0 (2014-06-15)
@@ -55,6 +61,9 @@ Changes:
   Unfortunately since ``idna`` doesn’t offer version introspection, ``service_identity`` can’t warn about it.
 
 
+----
+
+
 0.2.0 (2014-04-06)
 ------------------
 
@@ -79,6 +88,9 @@ Changes:
 - Less false positives in IP address detection.
 - Officially support Python 3.4 too.
 - More strict checks for URI_IDs.
+
+
+----
 
 
 0.1.0 (2014-03-03)
