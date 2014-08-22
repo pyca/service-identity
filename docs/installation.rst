@@ -27,7 +27,7 @@ Unfortunately it’s required because Python’s IDN support in the standard lib
 If you need Python 3.2 support, you will have to use the latest 0.2.x release.
 It will receive bug fix releases if necessary but other than that no further development is planned.
 
-.. _characteristic: http://characteristic.readthedocs.org/
+.. _characteristic: https://characteristic.readthedocs.org/
 .. _pyOpenSSL: https://pypi.python.org/pypi/pyOpenSSL/
 .. _pyasn1-modules: https://pypi.python.org/pypi/pyasn1-modules/
 .. _pyasn1: https://pypi.python.org/pypi/pyasn1/
