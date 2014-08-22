@@ -1,7 +1,5 @@
-include LICENSE .coveragerc
+include LICENSE .coveragerc .travis.yml tox.ini
+include docs/Makefile docs/conf.py
 include *.rst
-include *.txt
-include .travis.yml
-include tox.ini
 recursive-include tests *.py
-include docs
+recursive-include docs *.rst

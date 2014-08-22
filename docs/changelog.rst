@@ -23,6 +23,7 @@ Changes:
 
 - Switch to year-based version numbers.
 - Port to ``characteristic`` 14.0 (get rid of deprecation warnings).
+- Package docs with sdist.
 
 
 1.0.0 (2014-06-15)
@@ -32,7 +33,8 @@ Changes:
 Backward-incompatible changes:
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-*none*
+- Drop support for Python 3.2.
+  There is no justification to add complexity and unnecessary function calls for a Python version that `nobody uses <http://alexgaynor.net/2014/jan/03/pypi-download-statistics/>`_.
 
 
 Deprecations:
@@ -45,8 +47,6 @@ Changes:
 ^^^^^^^^
 
 - Move into the `Python Cryptography Authority’s GitHub account <https://github.com/pyca/>`_.
-- Drop support for Python 3.2.
-  There is no justification to add complexity and unnecessary function calls for a Python version that nobody uses.
 - Move exceptions into ``service_identity.exceptions`` so tracebacks don’t contain private module names.
 - Promoting to stable since Twisted 14.0 is optionally depending on ``service_identity`` now.
 - Use `characteristic <https://characteristic.readthedocs.org/>`_ instead of a home-grown solution.
