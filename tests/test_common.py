@@ -26,7 +26,7 @@ from service_identity.exceptions import (
     VerificationError,
 )
 from service_identity.pyopenssl import extract_ids
-from .util import CERT_DNS_ONLY
+from .test_pyopenssl import CERT_DNS_ONLY
 
 try:
     import idna
