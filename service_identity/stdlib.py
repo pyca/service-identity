@@ -22,11 +22,6 @@ def verify_hostname(connection, hostname):
 
 def extract_ids(cert):
     ids = []
-    for i in cert["subject"]:
-        for j in i:
-            if j[0] == "commonName":
-                ids.append(DNSPattern(j[1].encode()))
-
     for i in cert["subjectAltName"]:
         if i[0] == "DNS":
             ids.append(DNSPattern(i[1].encode()))
@@ -34,5 +29,11 @@ def extract_ids(cert):
             ids.append(URIPattern(i[1].encode()))
         if i[0] == "othername":
             ids.append(SRVPattern(i[1].encode()))
+
+    if not ids:
+        for i in cert["subject"]:
+            for j in i:
+                if j[0] == "commonName":
+                    ids.append(DNSPattern(j[1].encode()))
 
     return ids
