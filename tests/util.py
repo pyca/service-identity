@@ -1,8 +1,5 @@
 from __future__ import absolute_import, division, print_function
 
-from OpenSSL.crypto import load_certificate, FILETYPE_PEM
-
-
 # Test certificates
 
 PEM_DNS_ONLY = """\
@@ -110,7 +107,3 @@ mG7XBpQebT01I3OijFJ+apKR2ubjwZE8l1+BAlTzHyUmmcTTWTQk8FTFcP3nZuIr
 VyudDBMASs4yVGHzQxmMalYYzd7ZDzM1NrgfG1KyKWqZEA0MzUxiYdUbZN79xL52
 EyKUOXPHw78G6zsVmAE1Aw==
 -----END CERTIFICATE-----"""
-
-CERT_DNS_ONLY = load_certificate(FILETYPE_PEM, PEM_DNS_ONLY)
-CERT_CN_ONLY = load_certificate(FILETYPE_PEM, PEM_CN_ONLY)
-CERT_OTHER_NAME = load_certificate(FILETYPE_PEM, PEM_OTHER_NAME)
