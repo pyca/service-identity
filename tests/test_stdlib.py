@@ -42,8 +42,8 @@ class TestExtractIDs(object):
         rv = extract_ids(_ssl._test_decode_cert(str(cn_cert)))
         assert rv == [DNSPattern(b'www.microsoft.com')]
 
-    @pytest.mark.skipif(version_info.major == 2 and
-                        version_info.minor == 6, reason="Python 2.6")
+    @pytest.mark.skipif(version_info[0] == 2 and version_info[1] == 6,
+                        reason="Python 2.6")
     def test_uri(self, tmpdir):
         """
         Returns the correct URIPattern from a certificate.
