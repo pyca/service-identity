@@ -6,3 +6,4 @@ build
 .venv
 htmlcov
 _build/
+*.pyc
