@@ -614,3 +614,14 @@ class TestIsIPAddress(object):
             b"omega7",
         ]:
             assert not _is_ip_address(s), "False positive {0!r}".format(s)
+
+
+class TestVerificationError(object):
+    """
+    The __str__ returns something sane.
+    """
+    try:
+        raise VerificationError(errors=["foo"])
+    except VerificationError as e:
+        assert repr(e) == str(e)
+        assert str(e) != ""

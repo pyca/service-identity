@@ -15,6 +15,8 @@ class VerificationError(Exception):
     """
     Service identity verification failed.
     """
+    def __str__(self):
+        return self.__repr__()
 
 
 @attributes(["mismatched_id"])
