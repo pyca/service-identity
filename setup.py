@@ -1,8 +1,20 @@
+from __future__ import absolute_import, division, print_function
+
 import codecs
 import os
 import re
+import sys
 
 from setuptools import setup, find_packages
+from setuptools.command.test import test as TestCommand
+
+
+NAME = "service_identity"
+META_PATH = os.path.join(NAME, "__init__.py")
+
+###############################################################################
+
+HERE = os.path.abspath(os.path.dirname(__file__))
 
 
 def read(*parts):
@@ -10,52 +22,80 @@ def read(*parts):
     Build an absolute path from *parts* and and return the contents of the
     resulting file.  Assume UTF-8 encoding.
     """
-    here = os.path.abspath(os.path.dirname(__file__))
-    with codecs.open(os.path.join(here, *parts), 'rb', 'utf-8') as f:
+    with codecs.open(os.path.join(HERE, *parts), "rb", "utf-8") as f:
         return f.read()
 
 
-def find_version(*file_paths):
+META_FILE = read(META_PATH)
+
+
+def find_meta(meta):
     """
-    Build a path from *file_paths* and search for a ``__version__``
-    string inside.
+    Extract __*meta*__ from META_FILE.
     """
-    version_file = read(*file_paths)
-    version_match = re.search(r"^__version__ = ['\"]([^'\"]*)['\"]",
-                              version_file, re.M)
-    if version_match:
-        return version_match.group(1)
-    raise RuntimeError("Unable to find version string.")
+    meta_match = re.search(
+        r"^__{meta}__ = ['\"]([^'\"]*)['\"]".format(meta=meta),
+        META_FILE, re.M
+    )
+    if meta_match:
+        return meta_match.group(1)
+    raise RuntimeError("Unable to find __{meta}__ string.".format(meta=meta))
+
+
+class PyTest(TestCommand):
+    user_options = [('pytest-args=', 'a', "Arguments to pass to py.test")]
+
+    def initialize_options(self):
+        TestCommand.initialize_options(self)
+        self.pytest_args = None
+
+    def finalize_options(self):
+        TestCommand.finalize_options(self)
+        self.test_args = []
+        self.test_suite = True
+
+    def run_tests(self):
+        # import here, cause outside the eggs aren't loaded
+        import pytest
+        errno = pytest.main(self.pytest_args or [] +
+                            ["tests"])
+        sys.exit(errno)
 
 
 if __name__ == "__main__":
     setup(
-        description="Service identity verification for pyOpenSSL.",
+        name=NAME,
+        description=find_meta("description"),
+        license=find_meta("license"),
+        url=find_meta("uri"),
+        version=find_meta("version"),
+        maintainer=find_meta("author"),
+        maintainer_email=find_meta("email"),
+        keywords=find_meta("keywords"),
         long_description=(
             read("README.rst") + "\n\n" +
             read("AUTHORS.rst")
         ),
+        packages=find_packages(exclude=['tests*']),
+        cmdclass={
+            "test": PyTest,
+        },
         install_requires=[
             "attrs",
             "pyasn1",
             "pyasn1-modules",
             "pyopenssl>=0.12",
         ],
+        tests_require=[
+            "pytest-cov",
+        ],
         extra_requires={
             'idna': ["idna"],
         },
-        keywords="cryptography openssl pyopenssl",
-        license="MIT",
-        name="service_identity",
-        packages=find_packages(exclude=['tests*']),
-        url="https://github.com/pyca/service_identity",
-        version=find_version('service_identity/__init__.py'),
-        maintainer='Hynek Schlawack',
-        maintainer_email='hs@ox.cx',
         classifiers=[
             "Development Status :: 5 - Production/Stable",
             "Intended Audience :: Developers",
-            'License :: OSI Approved :: MIT License',
+            "License :: OSI Approved :: MIT License",
             "Natural Language :: English",
             "Operating System :: MacOS :: MacOS X",
             "Operating System :: POSIX",
