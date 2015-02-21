@@ -43,7 +43,7 @@ def find_meta(meta):
 
 
 class PyTest(TestCommand):
-    user_options = [('pytest-args=', 'a', "Arguments to pass to py.test")]
+    user_options = [("pytest-args=", "a", "Arguments to pass to py.test")]
 
     def initialize_options(self):
         TestCommand.initialize_options(self)
@@ -69,6 +69,8 @@ if __name__ == "__main__":
         license=find_meta("license"),
         url=find_meta("uri"),
         version=find_meta("version"),
+        author=find_meta("author"),
+        author_email=find_meta("email"),
         maintainer=find_meta("author"),
         maintainer_email=find_meta("email"),
         keywords=find_meta("keywords"),
@@ -76,10 +78,8 @@ if __name__ == "__main__":
             read("README.rst") + "\n\n" +
             read("AUTHORS.rst")
         ),
-        packages=find_packages(exclude=['tests*']),
-        cmdclass={
-            "test": PyTest,
-        },
+        packages=find_packages(exclude=["tests*"]),
+        zip_safe=False,
         install_requires=[
             "attrs",
             "pyasn1",
@@ -90,7 +90,7 @@ if __name__ == "__main__":
             "pytest-cov",
         ],
         extra_requires={
-            'idna': ["idna"],
+            "idna": ["idna"],
         },
         classifiers=[
             "Development Status :: 5 - Production/Stable",
@@ -113,4 +113,7 @@ if __name__ == "__main__":
             "Programming Language :: Python :: Implementation :: PyPy",
             "Topic :: Security :: Cryptography",
         ],
+        cmdclass={
+            "test": PyTest,
+        },
     )
