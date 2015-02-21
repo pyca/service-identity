@@ -26,7 +26,7 @@ Changes:
 ^^^^^^^^
 
 - Added a ``__str__`` method to ``VerificationError``.
-- Ported from ``characteristic`` to its spiritual successor `attrs <http://attrs.readthedocs.org/`_
+- Ported from ``characteristic`` to its spiritual successor `attrs <http://attrs.readthedocs.org/>`_
 
 
 ----
@@ -66,7 +66,7 @@ Backward-incompatible changes:
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Drop support for Python 3.2.
-  There is no justification to add complexity and unnecessary function calls for a Python version that `nobody uses <http://alexgaynor.net/2014/jan/03/pypi-download-statistics/>`_.
+  There is no justification to add complexity and unnecessary function calls for a Python version that `nobody uses <https://alexgaynor.net/2014/jan/03/pypi-download-statistics/>`_.
 
 
 Deprecations:
