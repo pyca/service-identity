@@ -7,37 +7,42 @@ them from __init__.py.
 
 from __future__ import absolute_import, division, print_function
 
-from characteristic import attributes
+import attr
 
 
-@attributes(["errors"])
+@attr.s
 class VerificationError(Exception):
     """
     Service identity verification failed.
     """
+    errors = attr.ib()
+
     def __str__(self):
         return self.__repr__()
 
 
-@attributes(["mismatched_id"])
+@attr.s
 class DNSMismatch(object):
     """
     Not matching DNSPattern could be found.
     """
+    mismatched_id = attr.ib()
 
 
-@attributes(["mismatched_id"])
+@attr.s
 class SRVMismatch(object):
     """
     Not matching SRVPattern could be found.
     """
+    mismatched_id = attr.ib()
 
 
-@attributes(["mismatched_id"])
+@attr.s
 class URIMismatch(object):
     """
     Not matching URIPattern could be found.
     """
+    mismatched_id = attr.ib()
 
 
 class CertificateError(Exception):

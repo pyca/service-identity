@@ -7,7 +7,7 @@ Versions are year-based with a strict backwards-compatibility policy.
 The third digit is only for regressions.
 
 
-14.1.0 (UNRELEASED)
+15.0.0 (UNRELEASED)
 -------------------
 
 
@@ -25,7 +25,8 @@ Deprecations:
 Changes:
 ^^^^^^^^
 
-*none*
+- Added a ``__str__`` method to ``VerificationError``.
+- Ported from ``characteristic`` to its spiritual successor `attrs <http://attrs.readthedocs.org/`_
 
 
 ----

@@ -36,7 +36,7 @@ if __name__ == "__main__":
             read("AUTHORS.rst")
         ),
         install_requires=[
-            "characteristic>=14.0.0",
+            "attrs",
             "pyasn1",
             "pyasn1-modules",
             "pyopenssl>=0.12",

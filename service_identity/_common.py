@@ -8,7 +8,7 @@ from __future__ import absolute_import, division, print_function
 
 import re
 
-from characteristic import attributes
+import attr
 
 from ._compat import maketrans, text_type
 from .exceptions import (
@@ -25,11 +25,13 @@ except ImportError:  # pragma: nocover
     idna = None
 
 
-@attributes(["service_id", "cert_pattern"])
+@attr.s
 class ServiceMatch(object):
     """
     A match of a service id and a certificate pattern.
     """
+    service_id = attr.ib()
+    cert_pattern = attr.ib()
 
 
 def verify_service_identity(cert_patterns, obligatory_ids, optional_ids):
@@ -127,17 +129,19 @@ def _is_ip_address(pattern):
             return False
 
     return (
-        _RE_IPv4.match(pattern) is not None
-        or _RE_IPv6.match(pattern) is not None
-        or _RE_NUMBER.match(pattern) is not None
+        _RE_IPv4.match(pattern) is not None or
+        _RE_IPv6.match(pattern) is not None or
+        _RE_NUMBER.match(pattern) is not None
     )
 
 
-@attributes(["pattern"], apply_with_init=False)
+@attr.s(init=False)
 class DNSPattern(object):
     """
     A DNS pattern as extracted from certificates.
     """
+    pattern = attr.ib()
+
     _RE_LEGAL_CHARS = re.compile(br"^[a-z0-9\-_.]+$")
 
     def __init__(self, pattern):
@@ -159,11 +163,14 @@ class DNSPattern(object):
             _validate_pattern(self.pattern)
 
 
-@attributes(["protocol_pattern", "dns_pattern"], apply_with_init=False)
+@attr.s(init=False)
 class URIPattern(object):
     """
     An URI pattern as extracted from certificates.
     """
+    protocol_pattern = attr.ib()
+    dns_pattern = attr.ib()
+
     def __init__(self, pattern):
         """
         :type pattern: `bytes`
@@ -174,9 +181,9 @@ class URIPattern(object):
         pattern = pattern.strip().translate(_TRANS_TO_LOWER)
 
         if (
-            b":" not in pattern
-            or b"*" in pattern
-            or _is_ip_address(pattern)
+            b":" not in pattern or
+            b"*" in pattern or
+            _is_ip_address(pattern)
         ):
             raise CertificateError(
                 "Invalid URI pattern {0!r}.".format(pattern)
@@ -185,11 +192,14 @@ class URIPattern(object):
         self.dns_pattern = DNSPattern(hostname)
 
 
-@attributes(["name_pattern", "dns_pattern"], apply_with_init=False)
+@attr.s(init=False)
 class SRVPattern(object):
     """
     An SRV pattern as extracted from certificates.
     """
+    name_pattern = attr.ib()
+    dns_pattern = attr.ib()
+
     def __init__(self, pattern):
         """
         :type pattern: `bytes`
@@ -200,10 +210,10 @@ class SRVPattern(object):
         pattern = pattern.strip().translate(_TRANS_TO_LOWER)
 
         if (
-            pattern[0] != b"_"[0]
-            or b"." not in pattern
-            or b"*" in pattern
-            or _is_ip_address(pattern)
+            pattern[0] != b"_"[0] or
+            b"." not in pattern or
+            b"*" in pattern or
+            _is_ip_address(pattern)
         ):
             raise CertificateError(
                 "Invalid SRV pattern {0!r}.".format(pattern)
@@ -213,11 +223,13 @@ class SRVPattern(object):
         self.dns_pattern = DNSPattern(hostname)
 
 
-@attributes(["hostname"], apply_with_init=False)
+@attr.s(init=False)
 class DNS_ID(object):
     """
     A DNS service ID, aka hostname.
     """
+    hostname = attr.ib()
+
     # characters that are legal in a normalized hostname
     _RE_LEGAL_CHARS = re.compile(br"^[a-z0-9\-_.]+$")
     pattern_class = DNSPattern
@@ -258,11 +270,14 @@ class DNS_ID(object):
             return False
 
 
-@attributes(["protocol", "dns_id"], apply_with_init=False)
+@attr.s(init=False)
 class URI_ID(object):
     """
     An URI service ID.
     """
+    protocol = attr.ib()
+    dns_id = attr.ib()
+
     pattern_class = URIPattern
     error_on_mismatch = URIMismatch
 
@@ -288,18 +303,21 @@ class URI_ID(object):
         """
         if isinstance(pattern, self.pattern_class):
             return (
-                pattern.protocol_pattern == self.protocol
-                and self.dns_id.verify(pattern.dns_pattern)
+                pattern.protocol_pattern == self.protocol and
+                self.dns_id.verify(pattern.dns_pattern)
             )
         else:
             return False
 
 
-@attributes(["name", "dns_id"], apply_with_init=False)
+@attr.s(init=False)
 class SRV_ID(object):
     """
     An SRV service ID.
     """
+    name = attr.ib()
+    dns_id = attr.ib()
+
     pattern_class = SRVPattern
     error_on_mismatch = SRVMismatch
 
@@ -325,8 +343,8 @@ class SRV_ID(object):
         """
         if isinstance(pattern, self.pattern_class):
             return (
-                self.name == pattern.name_pattern
-                and self.dns_id.verify(pattern.dns_pattern)
+                self.name == pattern.name_pattern and
+                self.dns_id.verify(pattern.dns_pattern)
             )
         else:
             return False
