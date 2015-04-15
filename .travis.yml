@@ -1,4 +1,5 @@
 language: python
+sudo: false
 python: 2.7
 env:
     # No pyOpenSSL 0.12 tests b/c Fails with '.../OpenSSL/SSL.so: undefined symbol: SSLv2_method'.
