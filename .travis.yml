@@ -3,22 +3,32 @@ sudo: false
 python: 2.7
 env:
   # No pyOpenSSL 0.12 tests b/c Fails with '.../OpenSSL/SSL.so: undefined symbol: SSLv2_method'.
+  - TOX_ENV=py26-pyopenssl015-idna
+  - TOX_ENV=py26-pyopenssl015-noidna
   - TOX_ENV=py26-pyopenssl014-idna
   - TOX_ENV=py26-pyopenssl014-noidna
   - TOX_ENV=py26-pyopenssl013-idna
   - TOX_ENV=py26-pyopenssl013-noidna
+  - TOX_ENV=py27-pyopenssl015-idna
+  - TOX_ENV=py27-pyopenssl015-noidna
   - TOX_ENV=py27-pyopenssl014-idna
   - TOX_ENV=py27-pyopenssl014-noidna
   - TOX_ENV=py27-pyopenssl013-idna
   - TOX_ENV=py27-pyopenssl013-noidna
+  - TOX_ENV=py33-pyopenssl015-idna
+  - TOX_ENV=py33-pyopenssl015-noidna
   - TOX_ENV=py33-pyopenssl014-idna
   - TOX_ENV=py33-pyopenssl014-noidna
   - TOX_ENV=py33-pyopenssl013-idna
   - TOX_ENV=py33-pyopenssl013-noidna
+  - TOX_ENV=py34-pyopenssl015-idna
+  - TOX_ENV=py34-pyopenssl015-noidna
   - TOX_ENV=py34-pyopenssl014-idna
   - TOX_ENV=py34-pyopenssl014-noidna
   - TOX_ENV=py34-pyopenssl013-idna
   - TOX_ENV=py34-pyopenssl013-noidna
+  - TOX_ENV=pypy-pyopenssl015-idna
+  - TOX_ENV=pypy-pyopenssl015-noidna
   - TOX_ENV=pypy-pyopenssl014-idna
   - TOX_ENV=pypy-pyopenssl014-noidna
   - TOX_ENV=pypy-pyopenssl013-idna
