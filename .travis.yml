@@ -2,36 +2,39 @@ language: python
 sudo: false
 python: 2.7
 env:
-    # No pyOpenSSL 0.12 tests b/c Fails with '.../OpenSSL/SSL.so: undefined symbol: SSLv2_method'.
-    - TOX_ENV=py26-pyopenssl014-idna
-    - TOX_ENV=py26-pyopenssl014-noidna
-    - TOX_ENV=py26-pyopenssl013-idna
-    - TOX_ENV=py26-pyopenssl013-noidna
-    - TOX_ENV=py27-pyopenssl014-idna
-    - TOX_ENV=py27-pyopenssl014-noidna
-    - TOX_ENV=py27-pyopenssl013-idna
-    - TOX_ENV=py27-pyopenssl013-noidna
-    - TOX_ENV=py33-pyopenssl014-idna
-    - TOX_ENV=py33-pyopenssl014-noidna
-    - TOX_ENV=py33-pyopenssl013-idna
-    - TOX_ENV=py33-pyopenssl013-noidna
-    - TOX_ENV=py34-pyopenssl014-idna
-    - TOX_ENV=py34-pyopenssl014-noidna
-    - TOX_ENV=py34-pyopenssl013-idna
-    - TOX_ENV=py34-pyopenssl013-noidna
-    - TOX_ENV=pypy-pyopenssl014-idna
-    - TOX_ENV=pypy-pyopenssl014-noidna
-    - TOX_ENV=pypy-pyopenssl013-idna
-    - TOX_ENV=pypy-pyopenssl013-noidna
-    - TOX_ENV=flake8-py2
-    - TOX_ENV=flake8-py3
-    - TOX_ENV=manifest
+  # No pyOpenSSL 0.12 tests b/c Fails with '.../OpenSSL/SSL.so: undefined symbol: SSLv2_method'.
+  - TOX_ENV=py26-pyopenssl014-idna
+  - TOX_ENV=py26-pyopenssl014-noidna
+  - TOX_ENV=py26-pyopenssl013-idna
+  - TOX_ENV=py26-pyopenssl013-noidna
+  - TOX_ENV=py27-pyopenssl014-idna
+  - TOX_ENV=py27-pyopenssl014-noidna
+  - TOX_ENV=py27-pyopenssl013-idna
+  - TOX_ENV=py27-pyopenssl013-noidna
+  - TOX_ENV=py33-pyopenssl014-idna
+  - TOX_ENV=py33-pyopenssl014-noidna
+  - TOX_ENV=py33-pyopenssl013-idna
+  - TOX_ENV=py33-pyopenssl013-noidna
+  - TOX_ENV=py34-pyopenssl014-idna
+  - TOX_ENV=py34-pyopenssl014-noidna
+  - TOX_ENV=py34-pyopenssl013-idna
+  - TOX_ENV=py34-pyopenssl013-noidna
+  - TOX_ENV=pypy-pyopenssl014-idna
+  - TOX_ENV=pypy-pyopenssl014-noidna
+  - TOX_ENV=pypy-pyopenssl013-idna
+  - TOX_ENV=pypy-pyopenssl013-noidna
+  - TOX_ENV=flake8-py2
+  - TOX_ENV=flake8-py3
+  - TOX_ENV=manifest
 
 install:
-    - pip install tox coveralls
+  - pip install tox
 
 script:
-    - tox -e $TOX_ENV
+  - tox -e $TOX_ENV
+
+before_install:
+  - pip install codecov
 
 after_success:
-    - coveralls
+  - codecov

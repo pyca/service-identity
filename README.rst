@@ -2,15 +2,15 @@
 Service Identity Verification for pyOpenSSL
 ===========================================
 
-.. image:: https://pypip.in/version/service_identity/badge.svg?style=flat
+.. image:: https://img.shields.io/pypi/v/service_identity.svg
     :target: https://pypi.python.org/pypi/service_identity/
     :alt: Latest Version
 
 .. image:: https://travis-ci.org/pyca/service_identity.svg?branch=master
   :target: https://travis-ci.org/pyca/service_identity
 
-.. image:: https://coveralls.io/repos/pyca/service_identity/badge.svg
-  :target: https://coveralls.io/r/pyca/service_identity
+.. image:: https://codecov.io/github/pyca/service_identity/coverage.svg?branch=master
+  :target: https://codecov.io/github/pyca/service_identity
 
 .. begin
 
