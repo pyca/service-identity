@@ -1,2 +1,12 @@
 [run]
 branch = True
+source = service_identity
+
+[paths]
+source =
+   src/service_identity
+   .tox/*/lib/python*/site-packages/service_identity
+   .tox/pypy*/site-packages/service_identity
+
+[report]
+show_missing = True

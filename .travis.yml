@@ -1,47 +1,112 @@
-language: python
 sudo: false
-python: 2.7
-env:
-  # No pyOpenSSL 0.12 tests b/c Fails with '.../OpenSSL/SSL.so: undefined symbol: SSLv2_method'.
-  - TOX_ENV=py26-pyopenssl015-idna
-  - TOX_ENV=py26-pyopenssl015-noidna
-  - TOX_ENV=py26-pyopenssl014-idna
-  - TOX_ENV=py26-pyopenssl014-noidna
-  - TOX_ENV=py26-pyopenssl013-idna
-  - TOX_ENV=py26-pyopenssl013-noidna
-  - TOX_ENV=py27-pyopenssl015-idna
-  - TOX_ENV=py27-pyopenssl015-noidna
-  - TOX_ENV=py27-pyopenssl014-idna
-  - TOX_ENV=py27-pyopenssl014-noidna
-  - TOX_ENV=py27-pyopenssl013-idna
-  - TOX_ENV=py27-pyopenssl013-noidna
-  - TOX_ENV=py33-pyopenssl015-idna
-  - TOX_ENV=py33-pyopenssl015-noidna
-  - TOX_ENV=py33-pyopenssl014-idna
-  - TOX_ENV=py33-pyopenssl014-noidna
-  - TOX_ENV=py33-pyopenssl013-idna
-  - TOX_ENV=py33-pyopenssl013-noidna
-  - TOX_ENV=py34-pyopenssl015-idna
-  - TOX_ENV=py34-pyopenssl015-noidna
-  - TOX_ENV=py34-pyopenssl014-idna
-  - TOX_ENV=py34-pyopenssl014-noidna
-  - TOX_ENV=py34-pyopenssl013-idna
-  - TOX_ENV=py34-pyopenssl013-noidna
-  - TOX_ENV=pypy-pyopenssl015-idna
-  - TOX_ENV=pypy-pyopenssl015-noidna
-  - TOX_ENV=pypy-pyopenssl014-idna
-  - TOX_ENV=pypy-pyopenssl014-noidna
-  - TOX_ENV=pypy-pyopenssl013-idna
-  - TOX_ENV=pypy-pyopenssl013-noidna
-  - TOX_ENV=flake8-py2
-  - TOX_ENV=flake8-py3
-  - TOX_ENV=manifest
+cache:
+  directories:
+    - $HOME/.cache/pip
+
+language: python
+
+matrix:
+  include:
+    # No pyOpenSSL 0.12 tests b/c Fails with '.../OpenSSL/SSL.so: undefined
+    # symbol: SSLv2_method'.
+    - python: "2.6"
+      env: TOXENV=py26-pyopenssl015-idna
+    - python: "2.6"
+      env: TOXENV=py26-pyopenssl015-noidna
+    - python: "2.6"
+      env: TOXENV=py26-pyopenssl014-idna
+    - python: "2.6"
+      env: TOXENV=py26-pyopenssl014-noidna
+    - python: "2.6"
+      env: TOXENV=py26-pyopenssl013-idna
+    - python: "2.6"
+      env: TOXENV=py26-pyopenssl013-noidna
+    - python: "2.7"
+      env: TOXENV=py27-pyopenssl015-idna
+    - python: "2.7"
+      env: TOXENV=py27-pyopenssl015-noidna
+    - python: "2.7"
+      env: TOXENV=py27-pyopenssl014-idna
+    - python: "2.7"
+      env: TOXENV=py27-pyopenssl014-noidna
+    - python: "2.7"
+      env: TOXENV=py27-pyopenssl013-idna
+    - python: "2.7"
+      env: TOXENV=py27-pyopenssl013-noidna
+    - python: "3.3"
+      env: TOXENV=py33-pyopenssl015-idna
+    - python: "3.3"
+      env: TOXENV=py33-pyopenssl015-noidna
+    - python: "3.3"
+      env: TOXENV=py33-pyopenssl014-idna
+    - python: "3.3"
+      env: TOXENV=py33-pyopenssl014-noidna
+    - python: "3.3"
+      env: TOXENV=py33-pyopenssl013-idna
+    - python: "3.3"
+      env: TOXENV=py33-pyopenssl013-noidna
+    - python: "3.4"
+      env: TOXENV=py34-pyopenssl015-idna
+    - python: "3.4"
+      env: TOXENV=py34-pyopenssl015-noidna
+    - python: "3.4"
+      env: TOXENV=py34-pyopenssl014-idna
+    - python: "3.4"
+      env: TOXENV=py34-pyopenssl014-noidna
+    - python: "3.4"
+      env: TOXENV=py34-pyopenssl013-idna
+    - python: "3.4"
+      env: TOXENV=py34-pyopenssl013-noidna
+    - python: "3.5"
+      env: TOXENV=py35-pyopenssl015-idna
+    - python: "3.5"
+      env: TOXENV=py35-pyopenssl015-noidna
+    - python: "3.5"
+      env: TOXENV=py35-pyopenssl014-idna
+    - python: "3.5"
+      env: TOXENV=py35-pyopenssl014-noidna
+    - python: "3.5"
+      env: TOXENV=py35-pyopenssl013-idna
+    - python: "3.5"
+      env: TOXENV=py35-pyopenssl013-noidna
+    - python: "pypy"
+      env: TOXENV=pypy-pyopenssl015-idna
+    - python: "pypy"
+      env: TOXENV=pypy-pyopenssl015-noidna
+    - python: "pypy"
+      env: TOXENV=pypy-pyopenssl014-idna
+    - python: "pypy"
+      env: TOXENV=pypy-pyopenssl014-noidna
+    - python: "pypy"
+      env: TOXENV=pypy-pyopenssl013-idna
+    - python: "pypy"
+      env: TOXENV=pypy-pyopenssl013-noidna
+
+
+    # Meta
+    - python: "2.7"
+      env: TOXENV=flake8-py2
+    - python: "3.5"
+      env: TOXENV=flake8-py3
+    - python: "2.7"
+      env: TOXENV=manifest
+    - python: "2.7"
+      env: TOXENV=docs
+
+  allow_failures:
+    # PyPy is currently broken on Travis
+    - env: TOXENV=pypy-pyopenssl015-idna
+    - env: TOXENV=pypy-pyopenssl015-noidna
+    - env: TOXENV=pypy-pyopenssl014-idna
+    - env: TOXENV=pypy-pyopenssl014-noidna
+    - env: TOXENV=pypy-pyopenssl013-idna
+    - env: TOXENV=pypy-pyopenssl013-noidna
 
 install:
   - pip install tox
 
 script:
-  - tox -e $TOX_ENV
+  - tox
 
 before_install:
   - pip install codecov

@@ -1,16 +1,48 @@
-from __future__ import absolute_import, division, print_function
-
 import codecs
 import os
 import re
-import sys
 
 from setuptools import setup, find_packages
-from setuptools.command.test import test as TestCommand
 
+
+###############################################################################
 
 NAME = "service_identity"
-META_PATH = os.path.join(NAME, "__init__.py")
+PACKAGES = find_packages(where="src")
+META_PATH = os.path.join("src", NAME, "__init__.py")
+KEYWORDS = ["cryptography", "openssl", "pyopenssl"]
+CLASSIFIERS = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Natural Language :: English",
+    "Operating System :: MacOS :: MacOS X",
+    "Operating System :: POSIX",
+    "Operating System :: POSIX :: BSD",
+    "Operating System :: POSIX :: Linux",
+    "Operating System :: Microsoft :: Windows",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 2",
+    "Programming Language :: Python :: 2.6",
+    "Programming Language :: Python :: 2.7",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.3",
+    "Programming Language :: Python :: 3.4",
+    "Programming Language :: Python :: 3.5",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Programming Language :: Python :: Implementation :: PyPy",
+    "Topic :: Security :: Cryptography",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+INSTALL_REQUIRES = [
+    "attrs",
+    "pyasn1",
+    "pyasn1-modules",
+    "pyopenssl>=0.12",
+]
+EXTRA_REQUIRES = {
+    "idna": ["idna"],
+}
 
 ###############################################################################
 
@@ -42,26 +74,6 @@ def find_meta(meta):
     raise RuntimeError("Unable to find __{meta}__ string.".format(meta=meta))
 
 
-class PyTest(TestCommand):
-    user_options = [("pytest-args=", "a", "Arguments to pass to py.test")]
-
-    def initialize_options(self):
-        TestCommand.initialize_options(self)
-        self.pytest_args = None
-
-    def finalize_options(self):
-        TestCommand.finalize_options(self)
-        self.test_args = []
-        self.test_suite = True
-
-    def run_tests(self):
-        # import here, cause outside the eggs aren't loaded
-        import pytest
-        errno = pytest.main(self.pytest_args or [] +
-                            ["tests"])
-        sys.exit(errno)
-
-
 if __name__ == "__main__":
     setup(
         name=NAME,
@@ -73,47 +85,12 @@ if __name__ == "__main__":
         author_email=find_meta("email"),
         maintainer=find_meta("author"),
         maintainer_email=find_meta("email"),
-        keywords=find_meta("keywords"),
-        long_description=(
-            read("README.rst") + "\n\n" +
-            read("AUTHORS.rst")
-        ),
-        packages=find_packages(exclude=["tests*"]),
+        keywords=KEYWORDS,
+        long_description=read("README.rst"),
+        packages=PACKAGES,
+        package_dir={"": "src"},
         zip_safe=False,
-        install_requires=[
-            "attrs",
-            "pyasn1",
-            "pyasn1-modules",
-            "pyopenssl>=0.12",
-        ],
-        tests_require=[
-            "pytest-cov",
-        ],
-        extra_requires={
-            "idna": ["idna"],
-        },
-        classifiers=[
-            "Development Status :: 5 - Production/Stable",
-            "Intended Audience :: Developers",
-            "License :: OSI Approved :: MIT License",
-            "Natural Language :: English",
-            "Operating System :: MacOS :: MacOS X",
-            "Operating System :: POSIX",
-            "Operating System :: POSIX :: BSD",
-            "Operating System :: POSIX :: Linux",
-            "Operating System :: Microsoft :: Windows",
-            "Programming Language :: Python",
-            "Programming Language :: Python :: 2",
-            "Programming Language :: Python :: 2.6",
-            "Programming Language :: Python :: 2.7",
-            "Programming Language :: Python :: 3",
-            "Programming Language :: Python :: 3.3",
-            "Programming Language :: Python :: 3.4",
-            "Programming Language :: Python :: Implementation :: CPython",
-            "Programming Language :: Python :: Implementation :: PyPy",
-            "Topic :: Security :: Cryptography",
-        ],
-        cmdclass={
-            "test": PyTest,
-        },
+        classifiers=CLASSIFIERS,
+        install_requires=INSTALL_REQUIRES,
+        extra_requires=EXTRA_REQUIRES,
     )

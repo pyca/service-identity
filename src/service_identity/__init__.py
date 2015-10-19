@@ -15,7 +15,6 @@ __version__ = "15.0.0.dev0"
 
 __title__ = "service_identity"
 __description__ = "Service identity verification for pyOpenSSL."
-__keywords__ = "cryptography openssl pyopenssl"
 __uri__ = "https://github.com/pyca/service_identity"
 
 __author__ = "Hynek Schlawack"

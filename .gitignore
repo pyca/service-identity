@@ -2,9 +2,10 @@
 *.egg-info
 dist
 build
-.coverage
+.coverage*
 .venv
 htmlcov
 _build/
 *.pyc
 .eggs
+.cache
