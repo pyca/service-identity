@@ -1,16 +1,17 @@
-# -*- test-case-name: tests.test_pyopenssl -*-
-
 """
 `pyOpenSSL <https://github.com/pyca/pyopenssl>`_-specific code.
 """
 
 from __future__ import absolute_import, division, print_function
 
+import warnings
+
 from pyasn1.codec.der.decoder import decode
 from pyasn1.type.char import IA5String
 from pyasn1.type.univ import ObjectIdentifier
 from pyasn1_modules.rfc2459 import GeneralNames
 
+from .exceptions import SubjectAltNameWarning
 from ._common import (
     CertificateError,
     DNSPattern,
@@ -23,7 +24,21 @@ from ._common import (
 
 def verify_hostname(connection, hostname):
     """
-    Verify whether *connection* has a valid certificate chain for *hostname*.
+    Verify whether the certificate of *connection* is valid for *hostname*.
+
+    :param connection: A pyOpenSSL connection object.
+    :type connection: :class:`OpenSSL.SSL.Connection`
+
+    :param hostname: The hostname that *connection* should be connected to.
+    :type hostname: :class:`unicode`
+
+    :raises service_identity.VerificationError: If *connection* does not
+        provide a certificate that is valid for *hostname*.
+    :raises service_identity.CertificateError: If the certificate chain of
+        *connection* contains a certificate that contains invalid/unexpected
+        data.
+
+    :returns: ``None``
     """
     verify_service_identity(
         cert_patterns=extract_ids(connection.get_peer_certificate()),
@@ -75,6 +90,12 @@ def extract_ids(cert):
         # A client MUST NOT seek a match for a reference identifier of CN-ID if
         # the presented identifiers include a DNS-ID, SRV-ID, URI-ID, or any
         # application-specific identifier types supported by the client.
+        warnings.warn(
+            "Certificate has no `subjectAltName`, falling back to check for a "
+            "`commonName` for now.  This feature is being removed by major "
+            "browsers and deprecated by RFC 2818.",
+            SubjectAltNameWarning
+        )
         ids = [DNSPattern(c[1])
                for c
                in cert.get_subject().get_components()

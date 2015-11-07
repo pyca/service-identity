@@ -60,6 +60,7 @@ def find_version(*file_paths):
 # ones.
 extensions = [
     'sphinx.ext.doctest',
+    'sphinx.ext.autodoc',
     'sphinx.ext.intersphinx',
     'sphinx.ext.todo',
     'sphinx.ext.coverage',

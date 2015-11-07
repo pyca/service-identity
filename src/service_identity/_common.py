@@ -1,5 +1,3 @@
-# -*- test-case-name: tests.test_common -*-
-
 """
 Common verification code.
 """

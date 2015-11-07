@@ -13,20 +13,7 @@ API
 .. currentmodule:: service_identity.pyopenssl
 
 
-.. function:: verify_hostname(connection, hostname)
-
-   Verify whether the certificate of *connection* is valid for *hostname*.
-
-   :param connection: A pyOpenSSL connection object.
-   :type connection: :class:`OpenSSL.SSL.Connection`
-
-   :param hostname: The hostname that *connection* should be connected to.
-   :type hostname: :class:`unicode`
-
-   :raises service_identity.VerificationError: If *connection* does not provide a certificate that is valid for *hostname*.
-   :raises service_identity.CertificateError: If the certificate chain of *connection* contains a certificate that contains invalid/unexpected data.
-
-   :returns: `None`
+.. autofunction:: verify_hostname(connection, hostname)
 
    In practice, this may look like the following::
 
@@ -62,12 +49,8 @@ API
 
 .. currentmodule:: service_identity
 
+.. autoexception:: VerificationError
 
-.. exception:: VerificationError
+.. autoexception:: CertificateError
 
-   Verification failed.
-
-
-.. exception:: CertificateError
-
-   A certificate contains invalid or unexpected data.
+.. autoexception:: SubjectAltNameWarning
