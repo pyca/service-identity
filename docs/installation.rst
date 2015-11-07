@@ -31,6 +31,6 @@ It will receive bug fix releases if necessary but other than that no further dev
 .. _pyOpenSSL: https://pypi.python.org/pypi/pyOpenSSL/
 .. _pyasn1-modules: https://pypi.python.org/pypi/pyasn1-modules/
 .. _pyasn1: https://pypi.python.org/pypi/pyasn1/
-.. _`internationalized domain names`: http://en.wikipedia.org/wiki/Internationalized_domain_name
+.. _`internationalized domain names`: https://en.wikipedia.org/wiki/Internationalized_domain_name
 .. _idna: https://pypi.python.org/pypi/idna/
 .. _outdated: http://bugs.python.org/issue17305
