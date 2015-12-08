@@ -27,8 +27,8 @@ Changes:
 
 - :exc:`service_identity.SubjectAltNameWarning` is now raised if the server certicate lacks a proper ``SubjectAltName``.
   [`#9 <https://github.com/pyca/service_identity/issues/9>`_]
-- Added a ``__str__`` method to ``VerificationError``.
-- Ported from ``characteristic`` to its spiritual successor `attrs <https://attrs.readthedocs.org/>`_
+- Add a ``__str__`` method to ``VerificationError``.
+- Port from ``characteristic`` to its spiritual successor `attrs <https://attrs.readthedocs.org/>`_.
 
 
 ----

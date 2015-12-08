@@ -8,6 +8,9 @@ Service Identity Verification for pyOpenSSL
 .. image:: https://codecov.io/github/pyca/service_identity/coverage.svg?branch=master
   :target: https://codecov.io/github/pyca/service_identity
 
+.. image:: https://www.irccloud.com/invite-svg?channel=%23cryptography-dev&amp;hostname=irc.freenode.net&amp;port=6697&amp;ssl=1
+    :target: https://www.irccloud.com/invite?channel=%23cryptography-dev&amp;hostname=irc.freenode.net&amp;port=6697&amp;ssl=1
+
 .. begin
 
 **TL;DR**: Use this package if you use pyOpenSSL_ and don’t want to be MITM_\ ed.
