@@ -5,6 +5,7 @@ Every open source project lives from the generous help by contributors that sacr
 
 Here are a few guidelines to get you started:
 
+- Try to limit each pull request to one change only.
 - To run the test suite, all you need is a recent tox_.
   It will ensure the test suite runs with all dependencies against all Python versions just as it will on `Travis CI`_.
   If you lack some Python version, you can can always limit the environments like ``tox -e py27,py35`` (in that case you may want to look into pyenv_ that makes it very easy to install many different Python versions in parallel).
