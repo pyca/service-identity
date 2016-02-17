@@ -12,7 +12,7 @@ Installation
 Requirements
 ============
 
-Python 2.6, 2.7, 3.3 and later, as well as PyPy are supported.
+Python 2.7, 3.4 and later, as well as PyPy are supported.
 
 Additionally, the following PyPI modules are required:
 
@@ -25,7 +25,8 @@ Optionally, idna_ ``>= 0.6`` can be used for `internationalized domain names`_ (
 Unfortunately it’s required because Python’s IDN support in the standard library is outdated_ even in the latest releases.
 
 If you need Python 3.2 support, you will have to use the latest 0.2.x release.
-It will receive bug fix releases if necessary but other than that no further development is planned.
+If you need Python 2.6 or 3.3 support, you will have to use the latest 14.0.x release.
+They will receive bug fix releases if necessary but other than that no further development is planned.
 
 .. _attrs: http://attrs.readthedocs.org/
 .. _pyOpenSSL: https://pypi.python.org/pypi/pyOpenSSL/
