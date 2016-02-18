@@ -79,7 +79,7 @@ def find_meta(meta):
         return meta_match.group(1)
     raise RuntimeError("Unable to find __{meta}__ string.".format(meta=meta))
 
-
+URI = find_meta("uri")
 LONG = (
     read("README.rst") + "\n\n" +
     "Release Information\n" +
@@ -87,7 +87,7 @@ LONG = (
     re.search("(\d{2}.\d.\d \(.*?\)\n.*?)\n\n\n----\n\n\n",
               read("CHANGELOG.rst"), re.S).group(1) +
     "\n\n`Full changelog " +
-    "<https://service-identity.readthedocs.org/>`_.\n\n" +
+    "<{uri}/en/stable/changelog.html>`_.\n\n".format(uri=URI) +
     read("AUTHORS.rst")
 )
 
@@ -97,7 +97,7 @@ if __name__ == "__main__":
         name=NAME,
         description=find_meta("description"),
         license=find_meta("license"),
-        url=find_meta("uri"),
+        url=URI,
         version=find_meta("version"),
         author=find_meta("author"),
         author_email=find_meta("email"),
