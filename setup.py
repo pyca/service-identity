@@ -87,9 +87,8 @@ LONG = (
     re.search("(\d{2}.\d.\d \(.*?\)\n.*?)\n\n\n----\n\n\n",
               read("CHANGELOG.rst"), re.S).group(1) +
     "\n\n`Full changelog " +
-    "<{uri}/en/stable/changelog.html>`_.\n\n".format(uri=URI) +
-    read("AUTHORS.rst")
-)
+    "<{uri}en/stable/changelog.html>`_.\n\n" + read("AUTHORS.rst")
+).format(uri=URI)
 
 
 if __name__ == "__main__":
