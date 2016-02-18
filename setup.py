@@ -8,8 +8,6 @@ from setuptools import setup, find_packages
 ###############################################################################
 
 NAME = "service_identity"
-PACKAGES = find_packages(where="src")
-META_PATH = os.path.join("src", NAME, "__init__.py")
 KEYWORDS = ["cryptography", "openssl", "pyopenssl"]
 CLASSIFIERS = [
     "Development Status :: 5 - Production/Stable",
@@ -17,11 +15,10 @@ CLASSIFIERS = [
     "License :: OSI Approved :: MIT License",
     "Natural Language :: English",
     "Operating System :: MacOS :: MacOS X",
-    "Operating System :: POSIX",
+    "Operating System :: Microsoft :: Windows",
     "Operating System :: POSIX :: BSD",
     "Operating System :: POSIX :: Linux",
-    "Operating System :: Microsoft :: Windows",
-    "Programming Language :: Python",
+    "Operating System :: POSIX",
     "Programming Language :: Python :: 2",
     "Programming Language :: Python :: 2.7",
     "Programming Language :: Python :: 3",
@@ -29,6 +26,7 @@ CLASSIFIERS = [
     "Programming Language :: Python :: 3.5",
     "Programming Language :: Python :: Implementation :: CPython",
     "Programming Language :: Python :: Implementation :: PyPy",
+    "Programming Language :: Python",
     "Topic :: Security :: Cryptography",
     "Topic :: Software Development :: Libraries :: Python Modules",
 ]
@@ -38,13 +36,23 @@ INSTALL_REQUIRES = [
     "pyasn1-modules",
     "pyopenssl>=0.12",
 ]
-EXTRA_REQUIRES = {
+EXTRAS_REQUIRE = {
     "idna": ["idna"],
 }
 
 ###############################################################################
 
 HERE = os.path.abspath(os.path.dirname(__file__))
+
+try:
+    PACKAGES
+except NameError:
+    PACKAGES = find_packages(where="src")
+
+try:
+    META_PATH
+except NameError:
+    META_PATH = os.path.join(HERE, "src", NAME, "__init__.py")
 
 
 def read(*parts):
@@ -72,6 +80,18 @@ def find_meta(meta):
     raise RuntimeError("Unable to find __{meta}__ string.".format(meta=meta))
 
 
+LONG = (
+    read("README.rst") + "\n\n" +
+    "Release Information\n" +
+    "===================\n\n" +
+    re.search("(\d{2}.\d.\d \(.*?\)\n.*?)\n\n\n----\n\n\n",
+              read("CHANGELOG.rst"), re.S).group(1) +
+    "\n\n`Full changelog " +
+    "<https://service-identity.readthedocs.org/>`_.\n\n" +
+    read("AUTHORS.rst")
+)
+
+
 if __name__ == "__main__":
     setup(
         name=NAME,
@@ -84,11 +104,11 @@ if __name__ == "__main__":
         maintainer=find_meta("author"),
         maintainer_email=find_meta("email"),
         keywords=KEYWORDS,
-        long_description=read("README.rst"),
+        long_description=LONG,
         packages=PACKAGES,
         package_dir={"": "src"},
         zip_safe=False,
         classifiers=CLASSIFIERS,
         install_requires=INSTALL_REQUIRES,
-        extra_requires=EXTRA_REQUIRES,
+        extras_require=EXTRAS_REQUIRE,
     )

@@ -23,12 +23,6 @@ Backward-incompatible changes:
 - pyOpenSSL versions older than 0.14 are not tested anymore.
   They don't even build with recent OpenSSL versions.
 
-
-Deprecations:
-^^^^^^^^^^^^^
-
-*none*
-
 Changes:
 ^^^^^^^^
 
