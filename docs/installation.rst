@@ -28,7 +28,7 @@ If you need Python 3.2 support, you will have to use the latest 0.2.x release.
 If you need Python 2.6 or 3.3 support, you will have to use the latest 14.0.x release.
 They will receive bug fix releases if necessary but other than that no further development is planned.
 
-.. _attrs: https://attrs.readthedocs.org/
+.. _attrs: https://attrs.readthedocs.io/
 .. _pyOpenSSL: https://pypi.python.org/pypi/pyOpenSSL/
 .. _pyasn1-modules: https://pypi.python.org/pypi/pyasn1-modules/
 .. _pyasn1: https://pypi.python.org/pypi/pyasn1/

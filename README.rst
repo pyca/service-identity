@@ -2,6 +2,10 @@
 Service Identity Verification for pyOpenSSL
 ===========================================
 
+.. image:: https://readthedocs.org/projects/service-identity/badge/?version=stable
+  :target: http://service-identity.readthedocs.io/en/stable/?badge=stable
+  :alt: Documentation Status
+
 .. image:: https://travis-ci.org/pyca/service_identity.svg?branch=master
   :target: https://travis-ci.org/pyca/service_identity
 
@@ -20,7 +24,7 @@ Service Identity Verification for pyOpenSSL
 In the simplest case, this means *host name verification*.
 However, ``service_identity`` implements `RFC 6125`_ fully and plans to add other relevant RFCs too.
 
-``service_identity``\ ’s documentation lives at `Read the Docs <https://service-identity.readthedocs.org/>`_, the code on `GitHub <https://github.com/pyca/service_identity>`_.
+``service_identity``\ ’s documentation lives at `Read the Docs <https://service-identity.readthedocs.io/>`_, the code on `GitHub <https://github.com/pyca/service_identity>`_.
 
 
 .. _Twisted: https://twistedmatrix.com/
