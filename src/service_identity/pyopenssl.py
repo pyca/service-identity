@@ -94,10 +94,7 @@ def extract_ids(cert):
                       for c
                       in cert.get_subject().get_components()
                       if c[0] == b"CN"]
-        if len(components) > 0:
-            cn = components[0]
-        else:
-            cn = b'<not given>'
+        cn = next(iter(components), b'<not given>')
         ids = [DNSPattern(c) for c in components]
         warnings.warn(
             "Certificate with CN {!r} has no `subjectAltName`, falling back "
