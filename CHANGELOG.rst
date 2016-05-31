@@ -13,7 +13,8 @@ The third digit is only for regressions.
 Changes:
 ^^^^^^^^
 
-*none*
+- When ``service_identity.SubjectAltNameWarning`` is raised, the Common Name of the certificate is now included in the warning message.
+  [`#17 <https://github.com/pyca/service_identity/pull/17>`_]
 
 
 ----
