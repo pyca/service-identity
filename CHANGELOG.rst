@@ -15,6 +15,8 @@ Changes:
 
 - When ``service_identity.SubjectAltNameWarning`` is raised, the Common Name of the certificate is now included in the warning message.
   [`#17 <https://github.com/pyca/service_identity/pull/17>`_]
+- ``cryptography.x509`` backend for verifying certificates.
+  [`#18 <https://github.com/pyca/service_identity/pull/18>`_]
 
 
 ----
