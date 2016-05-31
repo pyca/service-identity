@@ -8,6 +8,8 @@ import re
 
 import attr
 
+from pyasn1.type.univ import ObjectIdentifier
+
 from ._compat import maketrans, text_type
 from .exceptions import (
     CertificateError,
@@ -421,3 +423,6 @@ def _validate_pattern(cert_pattern):
 # Ensure no locale magic interferes.
 _TRANS_TO_LOWER = maketrans(b"ABCDEFGHIJKLMNOPQRSTUVWXYZ",
                             b"abcdefghijklmnopqrstuvwxyz")
+
+
+ID_ON_DNS_SRV = ObjectIdentifier('1.3.6.1.5.5.7.8.7')  # id_on_dnsSRV

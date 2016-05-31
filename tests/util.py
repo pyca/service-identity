@@ -1,11 +1,13 @@
 from __future__ import absolute_import, division, print_function
 
+from cryptography.x509 import load_pem_x509_certificate
+from cryptography.hazmat.backends import default_backend
 from OpenSSL.crypto import load_certificate, FILETYPE_PEM
 
 
 # Test certificates
 
-PEM_DNS_ONLY = """\
+PEM_DNS_ONLY = b"""\
 -----BEGIN CERTIFICATE-----
 MIIGbjCCBVagAwIBAgIDCesrMA0GCSqGSIb3DQEBBQUAMIGMMQswCQYDVQQGEwJJ
 TDEWMBQGA1UEChMNU3RhcnRDb20gTHRkLjErMCkGA1UECxMiU2VjdXJlIERpZ2l0
@@ -44,7 +46,7 @@ fJiBDvG/iDAJISgkrR1heuX/e+yWfx7RvqGlMLIE35d+0MhWy92Jzejbl8fJdr4C
 Kulh/pV07MWAUZxscUPtWmPo
 -----END CERTIFICATE-----"""
 
-PEM_CN_ONLY = """\
+PEM_CN_ONLY = b"""\
 -----BEGIN CERTIFICATE-----
 MIIGdDCCBVygAwIBAgIKGOC4tAABAAAx0TANBgkqhkiG9w0BAQUFADCBgDETMBEG
 CgmSJomT8ixkARkWA2NvbTEZMBcGCgmSJomT8ixkARkWCW1pY3Jvc29mdDEUMBIG
@@ -85,7 +87,7 @@ eMkNCM6YlrLcDF4fCLSjWYhoktmSJZnW
 """
 
 
-PEM_OTHER_NAME = """\
+PEM_OTHER_NAME = b"""\
 -----BEGIN CERTIFICATE-----
 MIID/DCCAuSgAwIBAgIJAIS0TSddIw6cMA0GCSqGSIb3DQEBBQUAMGwxFDASBgNV
 BAMTC2V4YW1wbGUuY29tMSAwHgYJKoZIhvcNAQkBFhFib2d1c0BleGFtcGxlLmNv
@@ -114,3 +116,8 @@ EyKUOXPHw78G6zsVmAE1Aw==
 CERT_DNS_ONLY = load_certificate(FILETYPE_PEM, PEM_DNS_ONLY)
 CERT_CN_ONLY = load_certificate(FILETYPE_PEM, PEM_CN_ONLY)
 CERT_OTHER_NAME = load_certificate(FILETYPE_PEM, PEM_OTHER_NAME)
+
+backend = default_backend()
+X509_DNS_ONLY = load_pem_x509_certificate(PEM_DNS_ONLY, backend)
+X509_CN_ONLY = load_pem_x509_certificate(PEM_CN_ONLY, backend)
+X509_OTHER_NAME = load_pem_x509_certificate(PEM_OTHER_NAME, backend)

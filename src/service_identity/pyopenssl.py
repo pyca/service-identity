@@ -8,7 +8,6 @@ import warnings
 
 from pyasn1.codec.der.decoder import decode
 from pyasn1.type.char import IA5String
-from pyasn1.type.univ import ObjectIdentifier
 from pyasn1_modules.rfc2459 import GeneralNames
 
 from .exceptions import SubjectAltNameWarning
@@ -16,6 +15,7 @@ from ._common import (
     CertificateError,
     DNSPattern,
     DNS_ID,
+    ID_ON_DNS_SRV,
     SRVPattern,
     URIPattern,
     verify_service_identity,
@@ -45,9 +45,6 @@ def verify_hostname(connection, hostname):
         obligatory_ids=[DNS_ID(hostname)],
         optional_ids=[],
     )
-
-
-ID_ON_DNS_SRV = ObjectIdentifier('1.3.6.1.5.5.7.8.7')  # id_on_dnsSRV
 
 
 def extract_ids(cert):
