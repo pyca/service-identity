@@ -38,11 +38,12 @@ class TestExtractIDs(object):
         CNs are returned as DNSPattern if no other IDs are present
         and a warning is raised.
         """
-        with pytest.warns(SubjectAltNameWarning):
+        with pytest.warns(SubjectAltNameWarning) as ws:
             rv = extract_ids(CERT_CN_ONLY)
         assert [
             DNSPattern(b"www.microsoft.com")
         ] == rv
+        assert 'www.microsoft.com' in ws[0].message.args[0]
 
     def test_uri(self):
         """

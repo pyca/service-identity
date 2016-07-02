@@ -90,16 +90,18 @@ def extract_ids(cert):
         # A client MUST NOT seek a match for a reference identifier of CN-ID if
         # the presented identifiers include a DNS-ID, SRV-ID, URI-ID, or any
         # application-specific identifier types supported by the client.
+        components = [c[1]
+                      for c
+                      in cert.get_subject().get_components()
+                      if c[0] == b"CN"]
+        cn = next(iter(components), b'<not given>')
+        ids = [DNSPattern(c) for c in components]
         warnings.warn(
-            "Certificate has no `subjectAltName`, falling back to check for a "
-            "`commonName` for now.  This feature is being removed by major "
-            "browsers and deprecated by RFC 2818.",
+            "Certificate with CN {!r} has no `subjectAltName`, falling back "
+            "to check for a `commonName` for now. This feature is being "
+            "removed by major browsers and deprecated by RFC 2818.".format(cn),
             SubjectAltNameWarning
         )
-        ids = [DNSPattern(c[1])
-               for c
-               in cert.get_subject().get_components()
-               if c[0] == b"CN"]
     return ids
 
 
