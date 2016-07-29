@@ -7,7 +7,8 @@ from __future__ import absolute_import, division, print_function
 import warnings
 
 from cryptography.x509 import (
-    DNSName, ExtensionOID, NameOID, OtherName, UniformResourceIdentifier)
+    DNSName, ExtensionOID, NameOID, OtherName, UniformResourceIdentifier,
+    ObjectIdentifier)
 from cryptography.x509.extensions import ExtensionNotFound
 from pyasn1.codec.der.decoder import decode
 from pyasn1.type.char import IA5String
@@ -17,11 +18,13 @@ from ._common import (
     CertificateError,
     DNSPattern,
     DNS_ID,
-    ID_ON_DNS_SRV,
     SRVPattern,
     URIPattern,
     verify_service_identity,
 )
+
+
+ID_ON_DNS_SRV = ObjectIdentifier('1.3.6.1.5.5.7.8.7')  # id_on_dnsSRV
 
 
 def verify_hostname(certificate, hostname):
