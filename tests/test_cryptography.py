@@ -2,11 +2,20 @@ from __future__ import absolute_import, division, print_function
 
 import pytest
 
+from cryptography.x509 import load_pem_x509_certificate
+from cryptography.hazmat.backends import default_backend
+
 from service_identity._common import DNSPattern, URIPattern
 from service_identity import SubjectAltNameWarning
 from service_identity.cryptography import extract_ids, verify_hostname
 
-from .util import X509_CN_ONLY, X509_DNS_ONLY, X509_OTHER_NAME
+from .util import PEM_CN_ONLY, PEM_DNS_ONLY, PEM_OTHER_NAME
+
+
+backend = default_backend()
+X509_DNS_ONLY = load_pem_x509_certificate(PEM_DNS_ONLY, backend)
+X509_CN_ONLY = load_pem_x509_certificate(PEM_CN_ONLY, backend)
+X509_OTHER_NAME = load_pem_x509_certificate(PEM_OTHER_NAME, backend)
 
 
 class TestVerifyHostname(object):

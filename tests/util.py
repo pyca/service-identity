@@ -1,7 +1,5 @@
 from __future__ import absolute_import, division, print_function
 
-from cryptography.x509 import load_pem_x509_certificate
-from cryptography.hazmat.backends import default_backend
 from OpenSSL.crypto import load_certificate, FILETYPE_PEM
 
 
@@ -116,8 +114,3 @@ EyKUOXPHw78G6zsVmAE1Aw==
 CERT_DNS_ONLY = load_certificate(FILETYPE_PEM, PEM_DNS_ONLY)
 CERT_CN_ONLY = load_certificate(FILETYPE_PEM, PEM_CN_ONLY)
 CERT_OTHER_NAME = load_certificate(FILETYPE_PEM, PEM_OTHER_NAME)
-
-backend = default_backend()
-X509_DNS_ONLY = load_pem_x509_certificate(PEM_DNS_ONLY, backend)
-X509_CN_ONLY = load_pem_x509_certificate(PEM_CN_ONLY, backend)
-X509_OTHER_NAME = load_pem_x509_certificate(PEM_OTHER_NAME, backend)
