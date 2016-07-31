@@ -2,11 +2,18 @@ from __future__ import absolute_import, division, print_function
 
 import pytest
 
+from OpenSSL.crypto import load_certificate, FILETYPE_PEM
+
 from service_identity._common import DNSPattern, URIPattern
 from service_identity import SubjectAltNameWarning
 from service_identity.pyopenssl import extract_ids, verify_hostname
 
-from .util import CERT_CN_ONLY, CERT_DNS_ONLY, CERT_OTHER_NAME
+from .util import PEM_CN_ONLY, PEM_DNS_ONLY, PEM_OTHER_NAME
+
+
+CERT_DNS_ONLY = load_certificate(FILETYPE_PEM, PEM_DNS_ONLY)
+CERT_CN_ONLY = load_certificate(FILETYPE_PEM, PEM_CN_ONLY)
+CERT_OTHER_NAME = load_certificate(FILETYPE_PEM, PEM_OTHER_NAME)
 
 
 class TestVerifyHostname(object):

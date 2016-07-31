@@ -1,7 +1,9 @@
 from __future__ import absolute_import, division, print_function
 
-from OpenSSL.crypto import load_certificate, FILETYPE_PEM
+from cryptography.hazmat.backends import default_backend
+from cryptography.x509 import load_pem_x509_certificate
 
+from service_identity.cryptography import extract_ids
 
 # Test certificates
 
@@ -43,6 +45,10 @@ PqwitBZ6nPPHz7aSiAut/+txK3EZll0d+hl0H3Phd+ICeITYhNkLe90k7l1IFpET
 fJiBDvG/iDAJISgkrR1heuX/e+yWfx7RvqGlMLIE35d+0MhWy92Jzejbl8fJdr4C
 Kulh/pV07MWAUZxscUPtWmPo
 -----END CERTIFICATE-----"""
+
+DNS_IDS = extract_ids(
+    load_pem_x509_certificate(PEM_DNS_ONLY, default_backend())
+)
 
 PEM_CN_ONLY = b"""\
 -----BEGIN CERTIFICATE-----
@@ -110,7 +116,3 @@ mG7XBpQebT01I3OijFJ+apKR2ubjwZE8l1+BAlTzHyUmmcTTWTQk8FTFcP3nZuIr
 VyudDBMASs4yVGHzQxmMalYYzd7ZDzM1NrgfG1KyKWqZEA0MzUxiYdUbZN79xL52
 EyKUOXPHw78G6zsVmAE1Aw==
 -----END CERTIFICATE-----"""
-
-CERT_DNS_ONLY = load_certificate(FILETYPE_PEM, PEM_DNS_ONLY)
-CERT_CN_ONLY = load_certificate(FILETYPE_PEM, PEM_CN_ONLY)
-CERT_OTHER_NAME = load_certificate(FILETYPE_PEM, PEM_OTHER_NAME)

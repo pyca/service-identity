@@ -25,8 +25,7 @@ from service_identity.exceptions import (
     SRVMismatch,
     VerificationError,
 )
-from service_identity.pyopenssl import extract_ids
-from .util import CERT_DNS_ONLY
+from .util import DNS_IDS
 
 try:
     import idna
@@ -42,7 +41,7 @@ class TestVerifyServiceIdentity(object):
         """
         Return pairs of certificate ids and service ids on matches.
         """
-        rv = verify_service_identity(extract_ids(CERT_DNS_ONLY),
+        rv = verify_service_identity(DNS_IDS,
                                      [DNS_ID(u"twistedmatrix.com")],
                                      [])
         assert [
@@ -58,7 +57,7 @@ class TestVerifyServiceIdentity(object):
         i = DNS_ID(u"wrong.host")
         with pytest.raises(VerificationError) as e:
             verify_service_identity(
-                extract_ids(CERT_DNS_ONLY),
+                DNS_IDS,
                 obligatory_ids=[i],
                 optional_ids=[],
             )

@@ -22,15 +22,18 @@ from ._common import (
 )
 
 
+__all__ = [
+    "verify_hostname",
+]
+
+
 def verify_hostname(connection, hostname):
     """
     Verify whether the certificate of *connection* is valid for *hostname*.
 
-    :param connection: A pyOpenSSL connection object.
-    :type connection: :class:`OpenSSL.SSL.Connection`
-
-    :param hostname: The hostname that *connection* should be connected to.
-    :type hostname: :class:`unicode`
+    :param OpenSSL.SSL.Connection connection: A pyOpenSSL connection object.
+    :param unicode hostname: The hostname that *connection* should be connected
+        to.
 
     :raises service_identity.VerificationError: If *connection* does not
         provide a certificate that is valid for *hostname*.
@@ -57,8 +60,7 @@ def extract_ids(cert):
     If *cert* doesn't contain any identifiers, the ``CN``s are used as DNS-IDs
     as fallback.
 
-    :param cert: The certificate to be dissected.
-    :type cert: :class:`OpenSSL.SSL.X509`
+    :param OpenSSL.SSL.X509 cert: The certificate to be dissected.
 
     :return: List of IDs.
     """
@@ -103,8 +105,3 @@ def extract_ids(cert):
             SubjectAltNameWarning
         )
     return ids
-
-
-__all__ = [
-    "verify_hostname",
-]

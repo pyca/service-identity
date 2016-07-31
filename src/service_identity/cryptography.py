@@ -24,22 +24,24 @@ from ._common import (
 )
 
 
-ID_ON_DNS_SRV = ObjectIdentifier('1.3.6.1.5.5.7.8.7')  # id_on_dnsSRV
+__all__ = [
+    "verify_hostname",
+]
 
 
 def verify_hostname(certificate, hostname):
     """
     Verify whether *certificate* is valid for *hostname*.
 
-    ..  note:: Nothing is verified about the *authority* of the certificate;
-        the caller must verify that the certificate chains to an appropriate
-        trust root themselves.
+    .. note:: Nothing is verified about the *authority* of the certificate;
+       the caller must verify that the certificate chains to an appropriate
+       trust root themselves.
 
-    :param certificate: A cryptography X509 certificate object.
-    :type certificate: :class:`cryptography.x509.Certificate`
+    :param cryptography.x509.Certificate certificate: A cryptography X509
+        certificate object.
 
-    :param hostname: The hostname that *certificate* should be valid for.
-    :type hostname: :class:`unicode`
+    :param unicode hostname: The hostname that *certificate* should be valid
+        for.
 
     :raises service_identity.VerificationError: If *certificate* is not valid
         for *hostname*.
@@ -55,6 +57,9 @@ def verify_hostname(certificate, hostname):
     )
 
 
+ID_ON_DNS_SRV = ObjectIdentifier('1.3.6.1.5.5.7.8.7')  # id_on_dnsSRV
+
+
 def extract_ids(cert):
     """
     Extract all valid IDs from a certificate for service verification.
@@ -62,8 +67,7 @@ def extract_ids(cert):
     If *cert* doesn't contain any identifiers, the ``CN``s are used as DNS-IDs
     as fallback.
 
-    :param cert: The certificate to be dissected.
-    :type cert: :class:`cryptography.x509.Certificate`
+    :param cryptography.x509.Certificate cert: The certificate to be dissected.
 
     :return: List of IDs.
     """
