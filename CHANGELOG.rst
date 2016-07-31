@@ -36,7 +36,8 @@ Backward-incompatible changes:
 
   Python 3.3 never had a significant user base and wasn't part of any distribution's LTS release.
 - pyOpenSSL versions older than 0.14 are not tested anymore.
-  They don't even build with recent OpenSSL versions.
+  They don't even build on recent OpenSSL versions.
+  Please note that its support may break without further notice.
 
 Changes:
 ^^^^^^^^
