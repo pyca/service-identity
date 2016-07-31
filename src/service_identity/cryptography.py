@@ -25,11 +25,11 @@ from ._common import (
 
 
 __all__ = [
-    "verify_hostname",
+    "verify_certificate_hostname",
 ]
 
 
-def verify_hostname(certificate, hostname):
+def verify_certificate_hostname(certificate, hostname):
     """
     Verify whether *certificate* is valid for *hostname*.
 
@@ -39,7 +39,6 @@ def verify_hostname(certificate, hostname):
 
     :param cryptography.x509.Certificate certificate: A cryptography X509
         certificate object.
-
     :param unicode hostname: The hostname that *certificate* should be valid
         for.
 

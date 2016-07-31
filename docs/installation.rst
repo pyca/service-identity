@@ -14,7 +14,7 @@ Requirements
 
 Python 2.7, 3.4 and later, as well as PyPy are supported.
 
-Additionally, the following PyPI modules are required:
+Additionally, the following PyPI packages are required:
 
 - attrs_
 - pyOpenSSL_ ``>= 0.14`` (``0.12`` and ``0.13`` may work but are not part of CI anymore)

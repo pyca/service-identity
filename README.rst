@@ -17,7 +17,7 @@ Service Identity Verification for pyOpenSSL
 
 .. begin
 
-**TL;DR**: Use this package if you use pyOpenSSL_ and don’t want to be MITM_\ ed.
+**TL;DR**: Use this package if you use pyOpenSSL_ and don’t want to be MITM_\ ed or if you want to verify that a `PyCA cryptography`_ certificate is valid for a certain hostname.
 
 ``service_identity`` aspires to give you all the tools you need for verifying whether a certificate is valid for the intended purposes.
 
@@ -30,4 +30,5 @@ However, ``service_identity`` implements `RFC 6125`_ fully and plans to add othe
 .. _Twisted: https://twistedmatrix.com/
 .. _pyOpenSSL: https://pypi.python.org/pypi/pyOpenSSL/
 .. _MITM: https://en.wikipedia.org/wiki/Man-in-the-middle_attack
-.. _`RFC 6125`: http://www.rfc-editor.org/info/rfc6125
+.. _RFC 6125: http://www.rfc-editor.org/info/rfc6125
+.. _PyCA cryptography: https://cryptography.io/

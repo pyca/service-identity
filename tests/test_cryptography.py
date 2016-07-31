@@ -7,7 +7,9 @@ from cryptography.hazmat.backends import default_backend
 
 from service_identity._common import DNSPattern, URIPattern
 from service_identity import SubjectAltNameWarning
-from service_identity.cryptography import extract_ids, verify_hostname
+from service_identity.cryptography import (
+    extract_ids, verify_certificate_hostname,
+)
 
 from .util import PEM_CN_ONLY, PEM_DNS_ONLY, PEM_OTHER_NAME
 
@@ -24,7 +26,7 @@ class TestVerifyHostname(object):
         It's just a convenience one-liner.  Let's check it doesn't explode b/c
         of some typo.
         """
-        verify_hostname(X509_DNS_ONLY, u"twistedmatrix.com")
+        verify_certificate_hostname(X509_DNS_ONLY, u"twistedmatrix.com")
 
 
 class TestExtractIDs(object):

@@ -4,7 +4,7 @@ Verify service identities.
 
 from __future__ import absolute_import, division, print_function
 
-from . import pyopenssl
+from . import cryptography, pyopenssl
 from .exceptions import (
     CertificateError,
     SubjectAltNameWarning,
@@ -29,5 +29,6 @@ __all__ = [
     "CertificateError",
     "SubjectAltNameWarning",
     "VerificationError",
+    "cryptography",
     "pyopenssl",
 ]

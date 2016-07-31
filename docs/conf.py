@@ -79,11 +79,9 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'service_identity'
+project = u"service_identity"
 year = datetime.date.today().year
-copyright = u'2014{0}, Hynek Schlawack'.format(
-    u'-{0}'.format(year) if year != 2014 else u""
-)
+copyright = u"2014, Hynek Schlawack"
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
