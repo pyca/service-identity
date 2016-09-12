@@ -3,14 +3,16 @@ Service Identity Verification for pyOpenSSL
 ===========================================
 
 .. image:: https://readthedocs.org/projects/service-identity/badge/?version=stable
-  :target: http://service-identity.readthedocs.io/en/stable/?badge=stable
-  :alt: Documentation Status
+   :target: http://service-identity.readthedocs.io/en/stable/?badge=stable
+   :alt: Documentation Status
 
 .. image:: https://travis-ci.org/pyca/service_identity.svg?branch=master
-  :target: https://travis-ci.org/pyca/service_identity
+   :target: https://travis-ci.org/pyca/service_identity
+   :alt: CI status
 
-.. image:: https://codecov.io/github/pyca/service_identity/coverage.svg?branch=master
-  :target: https://codecov.io/github/pyca/service_identity
+.. image:: https://codecov.io/gh/pyca/service_identity/branch/master/graph/badge.svg
+   :target: https://codecov.io/github/pyca/service_identity
+   :alt: Test Coverage
 
 .. image:: https://www.irccloud.com/invite-svg?channel=%23cryptography-dev&amp;hostname=irc.freenode.net&amp;port=6697&amp;ssl=1
     :target: https://www.irccloud.com/invite?channel=%23cryptography-dev&amp;hostname=irc.freenode.net&amp;port=6697&amp;ssl=1
