@@ -79,6 +79,7 @@ def find_meta(meta):
         return meta_match.group(1)
     raise RuntimeError("Unable to find __{meta}__ string.".format(meta=meta))
 
+
 URI = find_meta("uri")
 LONG = (
     read("README.rst") + "\n\n" +
