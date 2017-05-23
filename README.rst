@@ -1,6 +1,6 @@
-===========================================
-Service Identity Verification for pyOpenSSL
-===========================================
+=============================
+Service Identity Verification
+=============================
 
 .. image:: https://readthedocs.org/projects/service-identity/badge/?version=stable
    :target: http://service-identity.readthedocs.io/en/stable/?badge=stable
@@ -19,7 +19,10 @@ Service Identity Verification for pyOpenSSL
 
 .. begin
 
-**TL;DR**: Use this package if you use pyOpenSSL_ and don’t want to be MITM_\ ed or if you want to verify that a `PyCA cryptography`_ certificate is valid for a certain hostname.
+Use this package if:
+
+- you use pyOpenSSL_ and don’t want to be MITM_\ ed or
+- if you want to verify that a `PyCA cryptography`_ certificate is valid for a certain hostname.
 
 ``service_identity`` aspires to give you all the tools you need for verifying whether a certificate is valid for the intended purposes.
 
