@@ -223,10 +223,6 @@ class TestDNS_ID(object):
         for cert, actual in [
             (b"www.example.com", b"www.example.com"),
             (b"*.example.com", b"www.example.com"),
-            (b"xxx*.example.com", b"xxxwww.example.com"),
-            (b"f*.example.com", b"foo.example.com"),
-            (b"*oo.bar.com", b"foo.bar.com"),
-            (b"fo*oo.bar.com", b"fooooo.bar.com"),
         ]:
             assert _hostname_matches(cert, actual)
 
@@ -241,6 +237,10 @@ class TestDNS_ID(object):
             (b"*.bar.com", b"foo.baz.com"),
             (b"*.bar.com", b"bar.com"),
             (b"x*.example.com", b"xn--gtter-jua.example.com"),
+            (b"xxx*.example.com", b"xxxwww.example.com"),
+            (b"f*.example.com", b"foo.example.com"),
+            (b"*oo.bar.com", b"foo.bar.com"),
+            (b"fo*oo.bar.com", b"fooooo.bar.com"),
         ]:
             assert not _hostname_matches(cert, actual)
 

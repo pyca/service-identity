@@ -365,20 +365,7 @@ def _hostname_matches(cert_pattern, actual_hostname):
         if actual_head.startswith(b"xn--"):
             return False
 
-        if cert_head == b"*":
-            return True
-
-        start, end = cert_head.split(b"*")
-        if start == b"":
-            # *oo
-            return actual_head.endswith(end)
-        elif end == b"":
-            # f*
-            return actual_head.startswith(start)
-        else:
-            # f*o
-            return actual_head.startswith(start) and actual_head.endswith(end)
-
+        return cert_head == b"*" or cert_head == actual_head
     else:
         return cert_pattern == actual_hostname
 
