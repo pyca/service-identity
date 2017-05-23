@@ -10,7 +10,7 @@ from __future__ import absolute_import, division, print_function
 import attr
 
 
-class SubjectAltNameWarning(Warning):
+class SubjectAltNameWarning(DeprecationWarning):
     """
     Server Certificate does not contain a ``SubjectAltName``.
 
