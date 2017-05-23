@@ -7,7 +7,7 @@ Versions are year-based with a strict backwards-compatibility policy.
 The third digit is only for regressions.
 
 
-16.1.0 (UNRELEASED)
+17.0.0 (UNRELEASED)
 -------------------
 
 Deprecations:
@@ -21,11 +21,12 @@ Changes:
 ^^^^^^^^
 
 - When ``service_identity.SubjectAltNameWarning`` is raised, the Common Name of the certificate is now included in the warning message.
-  [`#17 <https://github.com/pyca/service_identity/pull/17>`_]
-- ``cryptography.x509`` backend for verifying certificates.
-  [`#18 <https://github.com/pyca/service_identity/pull/18>`_]
-- Do not allow wildcards (``*``) that are not the leftmost label in a certificate.
-  [`#19 <https://github.com/pyca/service_identity/pull/19>`_]
+  `#17 <https://github.com/pyca/service_identity/pull/17>`_
+- Added ``cryptography.x509`` backend for verifying certificates.
+  `#18 <https://github.com/pyca/service_identity/pull/18>`_
+- Wildcards (``*``) are now only allowed if they are the leftmost label in a certificate.
+  This is common practice by all major browsers.
+  `#19 <https://github.com/pyca/service_identity/pull/19>`_
 
 
 ----
@@ -53,7 +54,7 @@ Changes:
 
 - Officially support Python 3.5.
 - ``service_identity.SubjectAltNameWarning`` is now raised if the server certicate lacks a proper ``SubjectAltName``.
-  [`#9 <https://github.com/pyca/service_identity/issues/9>`_]
+  `#9 <https://github.com/pyca/service_identity/issues/9>`_
 - Add a ``__str__`` method to ``VerificationError``.
 - Port from ``characteristic`` to its spiritual successor `attrs <http://www.attrs.org/>`_.
 
