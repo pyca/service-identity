@@ -17,6 +17,8 @@ Changes:
   [`#17 <https://github.com/pyca/service_identity/pull/17>`_]
 - ``cryptography.x509`` backend for verifying certificates.
   [`#18 <https://github.com/pyca/service_identity/pull/18>`_]
+- Do not allow wildcards (``*``) that are not the leftmost label in a certificate.
+  [`#19 <https://github.com/pyca/service_identity/pull/19>`_]
 
 
 ----
