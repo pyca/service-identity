@@ -10,6 +10,13 @@ The third digit is only for regressions.
 16.1.0 (UNRELEASED)
 -------------------
 
+Deprecations:
+^^^^^^^^^^^^^
+
+- Since Chrome 58 and Firefox 48 both don't accept certificates that contain only a Common Name, its usage is hereby deprecated in ``service_identity`` too.
+  We have been raising a warning since 16.0.0 and the support will be removed in mid-2018 for good.
+
+
 Changes:
 ^^^^^^^^
 
@@ -48,7 +55,7 @@ Changes:
 - ``service_identity.SubjectAltNameWarning`` is now raised if the server certicate lacks a proper ``SubjectAltName``.
   [`#9 <https://github.com/pyca/service_identity/issues/9>`_]
 - Add a ``__str__`` method to ``VerificationError``.
-- Port from ``characteristic`` to its spiritual successor `attrs <https://attrs.readthedocs.io/>`_.
+- Port from ``characteristic`` to its spiritual successor `attrs <http://www.attrs.org/>`_.
 
 
 ----

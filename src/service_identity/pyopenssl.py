@@ -99,9 +99,11 @@ def extract_ids(cert):
         cn = next(iter(components), b'<not given>')
         ids = [DNSPattern(c) for c in components]
         warnings.warn(
-            "Certificate with CN {!r} has no `subjectAltName`, falling back "
-            "to check for a `commonName` for now. This feature is being "
-            "removed by major browsers and deprecated by RFC 2818.".format(cn),
+            "Certificate with CN '{}' has no `subjectAltName`, falling back "
+            "to check for a `commonName` for now.  This feature is being "
+            "removed by major browsers and deprecated by RFC 2818.  "
+            "service_identity will remove the support for it in mid-2018."
+            .format(cn.decode("utf-8")),
             SubjectAltNameWarning
         )
     return ids

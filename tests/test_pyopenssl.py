@@ -47,10 +47,18 @@ class TestExtractIDs(object):
         """
         with pytest.warns(SubjectAltNameWarning) as ws:
             rv = extract_ids(CERT_CN_ONLY)
+
+        msg = ws[0].message.args[0]
+
         assert [
             DNSPattern(b"www.microsoft.com")
         ] == rv
-        assert 'www.microsoft.com' in ws[0].message.args[0]
+        assert msg.startswith(
+            "Certificate with CN 'www.microsoft.com' has no `subjectAltName`"
+        )
+        assert msg.endswith(
+            "service_identity will remove the support for it in mid-2018."
+        )
 
     def test_uri(self):
         """
