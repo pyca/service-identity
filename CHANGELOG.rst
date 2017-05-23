@@ -7,7 +7,7 @@ Versions are year-based with a strict backwards-compatibility policy.
 The third digit is only for regressions.
 
 
-17.0.0 (UNRELEASED)
+17.0.0 (2017-05-23)
 -------------------
 
 Deprecations:
