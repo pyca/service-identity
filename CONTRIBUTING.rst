@@ -23,21 +23,21 @@ Here are a few guidelines to get you started:
 
 Please note that this project is released with a Contributor `Code of Conduct`_.
 By participating in this project you agree to abide by its terms.
-Please report any harm to `Hynek Schlawack <me>`_ in any way you find appropriate.
+Please report any harm to `Hynek Schlawack`_ in any way you find appropriate.
 We can usually be found in the ``#cryptography-dev`` channel on freenode_.
 
 Thank you for considering to contribute to ``service_identity``!
 
 
-.. _me: https://hynek.me/about/
+.. _`Hynek Schlawack`: https://hynek.me/about/
 .. _`PEP 8`: https://www.python.org/dev/peps/pep-0008/
 .. _`PEP 257`: https://www.python.org/dev/peps/pep-0257/
 .. _`good test docstrings`: https://jml.io/pages/test-docstrings.html
 .. _`Code of Conduct`: https://github.com/pyca/service_identity/blob/master/CODE_OF_CONDUCT.rst
 .. _changelog: https://github.com/pyca/service_identity/blob/master/CHANGELOG.rst
 .. _`backward compatibility`: https://service-identity.readthedocs.io/en/latest/backward-compatibility.html
-.. _`tox`: https://testrun.org/tox/
+.. _`tox`: https://tox.readthedocs.io/en/latest/
 .. _`Travis CI`: https://travis-ci.org/
-.. _pyenv: https://github.com/yyuu/pyenv
+.. _pyenv: https://github.com/pyenv/pyenv
 .. _CI: https://travis-ci.org/pyca/service_identity
 .. _freenode: http://webchat.freenode.net

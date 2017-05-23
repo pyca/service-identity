@@ -3,14 +3,14 @@ Service Identity Verification
 =============================
 
 .. image:: https://readthedocs.org/projects/service-identity/badge/?version=stable
-   :target: http://service-identity.readthedocs.io/en/stable/?badge=stable
+   :target: https://service-identity.readthedocs.io/en/stable/?badge=stable
    :alt: Documentation Status
 
 .. image:: https://travis-ci.org/pyca/service_identity.svg?branch=master
    :target: https://travis-ci.org/pyca/service_identity
    :alt: CI status
 
-.. image:: https://codecov.io/gh/pyca/service_identity/branch/master/graph/badge.svg
+.. image:: https://codecov.io/github/pyca/service_identity/branch/master/graph/badge.svg
    :target: https://codecov.io/github/pyca/service_identity
    :alt: Test Coverage
 
