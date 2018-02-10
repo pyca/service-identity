@@ -388,7 +388,7 @@ def _validate_pattern(cert_pattern):
     parts = cert_pattern.split(b".")
     if len(parts) < 3:
         raise CertificateError(
-            "Certificate's DNS-ID {0!r} hast too few host components for "
+            "Certificate's DNS-ID {0!r} has too few host components for "
             "wildcard usage."
             .format(cert_pattern)
         )
