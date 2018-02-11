@@ -26,7 +26,8 @@ Deprecations:
 Changes:
 ^^^^^^^^
 
-*none*
+- Added support for ``iPAddress`` ``subjectAltName``\ s.
+  `#12 <https://github.com/pyca/service_identity/pull/12>`_
 
 
 ----

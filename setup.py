@@ -39,6 +39,7 @@ INSTALL_REQUIRES = [
     "pyopenssl>=0.12",
 ]
 EXTRAS_REQUIRE = {
+    ":python_version < '3'": ["ipaddress"],
     "idna": ["idna"],
     "tests": [
         "coverage>=4.2.0",

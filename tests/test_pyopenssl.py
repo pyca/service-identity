@@ -1,19 +1,22 @@
 from __future__ import absolute_import, division, print_function
 
+import ipaddress
+
 import pytest
 
 from OpenSSL.crypto import FILETYPE_PEM, load_certificate
 
 from service_identity import SubjectAltNameWarning
-from service_identity._common import DNSPattern, URIPattern
+from service_identity._common import DNSPattern, IPAddressPattern, URIPattern
 from service_identity.pyopenssl import extract_ids, verify_hostname
 
-from .util import PEM_CN_ONLY, PEM_DNS_ONLY, PEM_OTHER_NAME
+from .util import PEM_CN_ONLY, PEM_DNS_ONLY, PEM_EVERYTHING, PEM_OTHER_NAME
 
 
 CERT_DNS_ONLY = load_certificate(FILETYPE_PEM, PEM_DNS_ONLY)
 CERT_CN_ONLY = load_certificate(FILETYPE_PEM, PEM_CN_ONLY)
 CERT_OTHER_NAME = load_certificate(FILETYPE_PEM, PEM_OTHER_NAME)
+CERT_EVERYTHING = load_certificate(FILETYPE_PEM, PEM_EVERYTHING)
 
 
 class TestVerifyHostname(object):
@@ -68,3 +71,20 @@ class TestExtractIDs(object):
         assert [
             URIPattern(b"http://example.com/")
         ] == [id for id in rv if isinstance(id, URIPattern)]
+
+    def test_ip(self):
+        """
+        Returns IP patterns.
+        """
+        rv = extract_ids(CERT_EVERYTHING)
+
+        assert [
+            DNSPattern(pattern=b"service.identity.invalid"),
+            DNSPattern(pattern=b"*.wildcard.service.identity.invalid"),
+            DNSPattern(pattern=b"service.identity.invalid"),
+            DNSPattern(pattern=b"single.service.identity.invalid"),
+            IPAddressPattern(pattern=ipaddress.IPv4Address(u"1.1.1.1")),
+            IPAddressPattern(pattern=ipaddress.IPv6Address(u"::1")),
+            IPAddressPattern(pattern=ipaddress.IPv4Address(u"2.2.2.2")),
+            IPAddressPattern(pattern=ipaddress.IPv6Address(u"2a00:1c38::53")),
+        ] == rv

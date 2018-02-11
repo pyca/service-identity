@@ -20,6 +20,7 @@ Additionally, the following PyPI packages are required:
 - pyOpenSSL_ ``>= 0.14`` (``0.12`` and ``0.13`` may work but are not part of CI anymore)
 - pyasn1_
 - pyasn1-modules_
+- ipaddress_ on Python 2.7
 
 Optionally, idna_ ``>= 0.6`` can be used for `internationalized domain names`_ (IDN), i.e. non-ASCII domains.
 Unfortunately it’s required because Python’s IDN support in the standard library is outdated_ even in the latest releases.
@@ -35,3 +36,4 @@ They will receive bug fix releases if necessary but other than that no further d
 .. _`internationalized domain names`: https://en.wikipedia.org/wiki/Internationalized_domain_name
 .. _idna: https://pypi.org/project/idna/
 .. _outdated: https://bugs.python.org/issue17305
+.. _ipaddress: https://pypi.org/project/ipaddress/

@@ -6,14 +6,16 @@ from __future__ import absolute_import, division, print_function
 
 import warnings
 
+import six
+
 from pyasn1.codec.der.decoder import decode
 from pyasn1.type.char import IA5String
 from pyasn1.type.univ import ObjectIdentifier
 from pyasn1_modules.rfc2459 import GeneralNames
 
 from ._common import (
-    DNS_ID, CertificateError, DNSPattern, SRVPattern, URIPattern,
-    verify_service_identity
+    DNS_ID, CertificateError, DNSPattern, IPAddressPattern, SRVPattern,
+    URIPattern, verify_service_identity
 )
 from .exceptions import SubjectAltNameWarning
 
@@ -61,7 +63,7 @@ def extract_ids(cert):
     :return: List of IDs.
     """
     ids = []
-    for i in range(cert.get_extension_count()):
+    for i in six.moves.range(cert.get_extension_count()):
         ext = cert.get_extension(i)
         if ext.get_short_name() == b"subjectAltName":
             names, _ = decode(ext.get_data(), asn1Spec=GeneralNames())
@@ -69,6 +71,10 @@ def extract_ids(cert):
                 name_string = n.getName()
                 if name_string == "dNSName":
                     ids.append(DNSPattern(n.getComponent().asOctets()))
+                elif name_string == "iPAddress":
+                    ids.append(IPAddressPattern.from_bytes(
+                        n.getComponent().asOctets()
+                    ))
                 elif name_string == "uniformResourceIdentifier":
                     ids.append(URIPattern(n.getComponent().asOctets()))
                 elif name_string == "otherName":
@@ -100,6 +106,7 @@ def extract_ids(cert):
             "removed by major browsers and deprecated by RFC 2818.  "
             "service_identity will remove the support for it in mid-2018."
             .format(cn.decode("utf-8")),
-            SubjectAltNameWarning
+            SubjectAltNameWarning,
+            stacklevel=2,
         )
     return ids

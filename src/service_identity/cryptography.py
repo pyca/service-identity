@@ -7,7 +7,7 @@ from __future__ import absolute_import, division, print_function
 import warnings
 
 from cryptography.x509 import (
-    DNSName, ExtensionOID, NameOID, ObjectIdentifier, OtherName,
+    DNSName, ExtensionOID, IPAddress, NameOID, ObjectIdentifier, OtherName,
     UniformResourceIdentifier
 )
 from cryptography.x509.extensions import ExtensionNotFound
@@ -15,8 +15,8 @@ from pyasn1.codec.der.decoder import decode
 from pyasn1.type.char import IA5String
 
 from ._common import (
-    DNS_ID, CertificateError, DNSPattern, SRVPattern, URIPattern,
-    verify_service_identity
+    DNS_ID, CertificateError, DNSPattern, IPAddressPattern, SRVPattern,
+    URIPattern, verify_service_identity
 )
 from .exceptions import SubjectAltNameWarning
 
@@ -81,6 +81,9 @@ def extract_ids(cert):
                     for uri
                     in ext.value.get_values_for_type(
                         UniformResourceIdentifier)])
+        ids.extend([IPAddressPattern(ip)
+                    for ip
+                    in ext.value.get_values_for_type(IPAddress)])
         for other in ext.value.get_values_for_type(OtherName):
             if other.type_id == ID_ON_DNS_SRV:
                 srv, _ = decode(other.value)
