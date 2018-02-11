@@ -33,7 +33,7 @@ CLASSIFIERS = [
     "Topic :: Software Development :: Libraries :: Python Modules",
 ]
 INSTALL_REQUIRES = [
-    "attrs",
+    "attrs>=16.0.0",
     "pyasn1",
     "pyasn1-modules",
     "pyopenssl>=0.12",

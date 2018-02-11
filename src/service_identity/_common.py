@@ -20,7 +20,7 @@ except ImportError:  # pragma: nocover
     idna = None
 
 
-@attr.s
+@attr.s(slots=True)
 class ServiceMatch(object):
     """
     A match of a service id and a certificate pattern.
@@ -130,7 +130,7 @@ def _is_ip_address(pattern):
     )
 
 
-@attr.s(init=False)
+@attr.s(init=False, slots=True)
 class DNSPattern(object):
     """
     A DNS pattern as extracted from certificates.
@@ -158,7 +158,7 @@ class DNSPattern(object):
             _validate_pattern(self.pattern)
 
 
-@attr.s(init=False)
+@attr.s(init=False, slots=True)
 class URIPattern(object):
     """
     An URI pattern as extracted from certificates.
@@ -187,7 +187,7 @@ class URIPattern(object):
         self.dns_pattern = DNSPattern(hostname)
 
 
-@attr.s(init=False)
+@attr.s(init=False, slots=True)
 class SRVPattern(object):
     """
     An SRV pattern as extracted from certificates.
@@ -218,7 +218,7 @@ class SRVPattern(object):
         self.dns_pattern = DNSPattern(hostname)
 
 
-@attr.s(init=False)
+@attr.s(init=False, slots=True)
 class DNS_ID(object):
     """
     A DNS service ID, aka hostname.
@@ -265,7 +265,7 @@ class DNS_ID(object):
             return False
 
 
-@attr.s(init=False)
+@attr.s(init=False, slots=True)
 class URI_ID(object):
     """
     An URI service ID.
@@ -305,7 +305,7 @@ class URI_ID(object):
             return False
 
 
-@attr.s(init=False)
+@attr.s(init=False, slots=True)
 class SRV_ID(object):
     """
     An SRV service ID.
