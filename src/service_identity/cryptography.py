@@ -7,21 +7,18 @@ from __future__ import absolute_import, division, print_function
 import warnings
 
 from cryptography.x509 import (
-    DNSName, ExtensionOID, NameOID, OtherName, UniformResourceIdentifier,
-    ObjectIdentifier)
+    DNSName, ExtensionOID, NameOID, ObjectIdentifier, OtherName,
+    UniformResourceIdentifier
+)
 from cryptography.x509.extensions import ExtensionNotFound
 from pyasn1.codec.der.decoder import decode
 from pyasn1.type.char import IA5String
 
-from .exceptions import SubjectAltNameWarning
 from ._common import (
-    CertificateError,
-    DNSPattern,
-    DNS_ID,
-    SRVPattern,
-    URIPattern,
-    verify_service_identity,
+    DNS_ID, CertificateError, DNSPattern, SRVPattern, URIPattern,
+    verify_service_identity
 )
+from .exceptions import SubjectAltNameWarning
 
 
 __all__ = [

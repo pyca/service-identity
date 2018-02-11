@@ -5,6 +5,7 @@ from cryptography.x509 import load_pem_x509_certificate
 
 from service_identity.cryptography import extract_ids
 
+
 # Test certificates
 
 PEM_DNS_ONLY = b"""\

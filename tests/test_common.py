@@ -5,27 +5,16 @@ import pytest
 import service_identity._common
 
 from service_identity._common import (
-    DNSPattern,
-    DNS_ID,
-    ServiceMatch,
-    SRVPattern,
-    SRV_ID,
-    URIPattern,
-    URI_ID,
-    _contains_instance_of,
-    _find_matches,
-    _hostname_matches,
-    _is_ip_address,
-    _validate_pattern,
-    verify_service_identity,
+    DNS_ID, SRV_ID, URI_ID, DNSPattern, ServiceMatch, SRVPattern, URIPattern,
+    _contains_instance_of, _find_matches, _hostname_matches, _is_ip_address,
+    _validate_pattern, verify_service_identity
 )
 from service_identity.exceptions import (
-    CertificateError,
-    DNSMismatch,
-    SRVMismatch,
-    VerificationError,
+    CertificateError, DNSMismatch, SRVMismatch, VerificationError
 )
+
 from .util import DNS_IDS
+
 
 try:
     import idna

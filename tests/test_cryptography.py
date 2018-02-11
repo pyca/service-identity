@@ -2,13 +2,13 @@ from __future__ import absolute_import, division, print_function
 
 import pytest
 
-from cryptography.x509 import load_pem_x509_certificate
 from cryptography.hazmat.backends import default_backend
+from cryptography.x509 import load_pem_x509_certificate
 
-from service_identity._common import DNSPattern, URIPattern
 from service_identity import SubjectAltNameWarning
+from service_identity._common import DNSPattern, URIPattern
 from service_identity.cryptography import (
-    extract_ids, verify_certificate_hostname,
+    extract_ids, verify_certificate_hostname
 )
 
 from .util import PEM_CN_ONLY, PEM_DNS_ONLY, PEM_OTHER_NAME

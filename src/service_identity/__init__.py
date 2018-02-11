@@ -6,16 +6,14 @@ from __future__ import absolute_import, division, print_function
 
 from . import cryptography, pyopenssl
 from .exceptions import (
-    CertificateError,
-    SubjectAltNameWarning,
-    VerificationError,
+    CertificateError, SubjectAltNameWarning, VerificationError
 )
 
 
-__version__ = "17.1.0.dev0"
+__version__ = "18.1.0.dev0"
 
 __title__ = "service_identity"
-__description__ = "Service identity verification for pyOpenSSL."
+__description__ = "Service identity verification for pyOpenSSL & cryptography."
 __uri__ = "https://service-identity.readthedocs.io/"
 
 __author__ = "Hynek Schlawack"

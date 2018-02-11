@@ -10,12 +10,9 @@ import attr
 
 from ._compat import maketrans, text_type
 from .exceptions import (
-    CertificateError,
-    DNSMismatch,
-    SRVMismatch,
-    URIMismatch,
-    VerificationError,
+    CertificateError, DNSMismatch, SRVMismatch, URIMismatch, VerificationError
 )
+
 
 try:
     import idna
