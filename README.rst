@@ -35,5 +35,5 @@ However, ``service_identity`` implements `RFC 6125`_ fully and plans to add othe
 .. _Twisted: https://twistedmatrix.com/
 .. _pyOpenSSL: https://pypi.python.org/pypi/pyOpenSSL/
 .. _MITM: https://en.wikipedia.org/wiki/Man-in-the-middle_attack
-.. _RFC 6125: http://www.rfc-editor.org/info/rfc6125
+.. _RFC 6125: https://www.rfc-editor.org/info/rfc6125
 .. _PyCA cryptography: https://cryptography.io/

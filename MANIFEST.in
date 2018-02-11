@@ -1,6 +1,7 @@
 include LICENSE .coveragerc .travis.yml tox.ini
 include docs/Makefile docs/conf.py
 include *.rst *.txt
-exclude conftest.py
+exclude conftest.py .readthedocs.yml
 recursive-include docs *.rst
 prune tests
+prune .github
