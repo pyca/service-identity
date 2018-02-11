@@ -1,11 +1,12 @@
-============================================
-Service Identity Verification for pyOpenSSL
-============================================
+==========================================================
+Service Identity Verification for pyOpenSSL & cryptography
+==========================================================
 
 Release v\ |release| (:doc:`What's new? <changelog>`).
 
 .. include:: ../README.rst
    :start-after: begin
+
 
 User's Guide
 ============
@@ -28,6 +29,7 @@ Project Information
    license
    contributing
    changelog
+
 
 Indices and tables
 ==================

@@ -1,13 +1,13 @@
 .. :changelog:
 
-History
-=======
+Changelog
+=========
 
-Versions are year-based with a strict backwards-compatibility policy.
+Versions follow `CalVer <http://calver.org>`_ with a strict backwards compatibility policy.
 The third digit is only for regressions.
 
 
-17.1.0 (UNRELEASED)
+18.1.0 (UNRELEASED)
 -------------------
 
 
