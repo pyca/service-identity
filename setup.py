@@ -34,8 +34,10 @@ CLASSIFIERS = [
 ]
 INSTALL_REQUIRES = [
     "attrs>=16.0.0",
-    "pyasn1",
     "pyasn1-modules",
+    # Place pyasn1 after pyasn1-modules to workaround setuptools install bug:
+    # https://github.com/pypa/setuptools/issues/498
+    "pyasn1",
     "pyopenssl>=0.12",
 ]
 EXTRAS_REQUIRE = {
