@@ -32,7 +32,7 @@ class VerificationError(Exception):
 @attr.s
 class DNSMismatch(object):
     """
-    Not matching DNSPattern could be found.
+    No matching DNSPattern could be found.
     """
     mismatched_id = attr.ib()
 
@@ -40,7 +40,7 @@ class DNSMismatch(object):
 @attr.s
 class SRVMismatch(object):
     """
-    Not matching SRVPattern could be found.
+    No matching SRVPattern could be found.
     """
     mismatched_id = attr.ib()
 
@@ -48,7 +48,15 @@ class SRVMismatch(object):
 @attr.s
 class URIMismatch(object):
     """
-    Not matching URIPattern could be found.
+    No matching URIPattern could be found.
+    """
+    mismatched_id = attr.ib()
+
+
+@attr.s
+class IPAddressMismatch(object):
+    """
+    No matching IPAddressPattern could be found.
     """
     mismatched_id = attr.ib()
 

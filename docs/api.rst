@@ -48,6 +48,8 @@ pyOpenSSL
          conn.shutdown()
          conn.close()
 
+.. autofunction:: verify_address
+
 
 PyCA cryptography
 =================

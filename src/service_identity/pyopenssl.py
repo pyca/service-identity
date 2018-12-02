@@ -14,8 +14,8 @@ from pyasn1.type.univ import ObjectIdentifier
 from pyasn1_modules.rfc2459 import GeneralNames
 
 from ._common import (
-    DNS_ID, CertificateError, DNSPattern, IPAddressPattern, SRVPattern,
-    URIPattern, verify_service_identity
+    DNS_ID, CertificateError, DNSPattern, IPAddress_ID, IPAddressPattern,
+    SRVPattern, URIPattern, verify_service_identity
 )
 from .exceptions import SubjectAltNameWarning
 
@@ -44,6 +44,31 @@ def verify_hostname(connection, hostname):
     verify_service_identity(
         cert_patterns=extract_ids(connection.get_peer_certificate()),
         obligatory_ids=[DNS_ID(hostname)],
+        optional_ids=[],
+    )
+
+
+def verify_address(connection, address):
+    """
+    Varify whether the certificate of *connection* is valid for *address*.
+
+    :param OpenSSL.SSL.Connection connection: A pyOpenSSL connection object.
+    :param unicode address: The address that *connection* should be connected
+        to.  Can be an IPv4 or IPv6 address.
+
+    :raises service_identity.VerificationError: If *connection* does not
+        provide a certificate that is valid for *hostname*.
+    :raises service_identity.CertificateError: If the certificate chain of
+        *connection* contains a certificate that contains invalid/unexpected
+        data.
+
+    :returns: ``None``
+
+    .. versionadded:: 18.1.0
+    """
+    verify_service_identity(
+        cert_patterns=extract_ids(connection.get_peer_certificate()),
+        obligatory_ids=[IPAddress_ID(address)],
         optional_ids=[],
     )
 

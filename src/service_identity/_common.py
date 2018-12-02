@@ -11,7 +11,8 @@ import attr
 
 from ._compat import maketrans, text_type
 from .exceptions import (
-    CertificateError, DNSMismatch, SRVMismatch, URIMismatch, VerificationError
+    CertificateError, DNSMismatch, IPAddressMismatch, SRVMismatch, URIMismatch,
+    VerificationError
 )
 
 
@@ -289,6 +290,9 @@ class IPAddress_ID(object):
     An IP address service ID.
     """
     ip = attr.ib(converter=ipaddress.ip_address)
+
+    pattern_class = IPAddressPattern
+    error_on_mismatch = IPAddressMismatch
 
     def verify(self, pattern):
         """

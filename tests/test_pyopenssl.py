@@ -7,8 +7,15 @@ import pytest
 from OpenSSL.crypto import FILETYPE_PEM, load_certificate
 
 from service_identity import SubjectAltNameWarning
-from service_identity._common import DNSPattern, IPAddressPattern, URIPattern
-from service_identity.pyopenssl import extract_ids, verify_hostname
+from service_identity._common import (
+    DNS_ID, DNSPattern, IPAddress_ID, IPAddressPattern, URIPattern
+)
+from service_identity.exceptions import (
+    DNSMismatch, IPAddressMismatch, VerificationError
+)
+from service_identity.pyopenssl import (
+    extract_ids, verify_address, verify_hostname
+)
 
 from .util import PEM_CN_ONLY, PEM_DNS_ONLY, PEM_EVERYTHING, PEM_OTHER_NAME
 
@@ -19,17 +26,62 @@ CERT_OTHER_NAME = load_certificate(FILETYPE_PEM, PEM_OTHER_NAME)
 CERT_EVERYTHING = load_certificate(FILETYPE_PEM, PEM_EVERYTHING)
 
 
-class TestVerifyHostname(object):
-    def test_verify_hostname(self):
+class TestPublicAPI(object):
+    def test_verify_hostname_ok(self):
         """
-        It's just a convenience one-liner.  Let's check it doesn't explode b/c
-        of some typo.
+        verify_hostname succeeds if the hostname match.
         """
         class FakeConnection(object):
             def get_peer_certificate(self):
                 return CERT_DNS_ONLY
 
         verify_hostname(FakeConnection(), u"twistedmatrix.com")
+
+    def test_verify_hostname_fail(self):
+        """
+        verify_hostname fails if the hostname don't match and provides the user
+        with helpful information.
+        """
+        class FakeConnection(object):
+            def get_peer_certificate(self):
+                return CERT_DNS_ONLY
+
+        with pytest.raises(VerificationError) as ei:
+            verify_hostname(FakeConnection(), u"google.com")
+
+        assert [
+            DNSMismatch(mismatched_id=DNS_ID(u'google.com'))
+        ] == ei.value.errors
+
+    @pytest.mark.parametrize("ip", [u"1.1.1.1", u"::1"])
+    def test_verify_address_ok(self, ip):
+        """
+        verify_address succeeds if the addresses match. Works both with IPv4
+        and IPv6.
+        """
+        class FakeConnection(object):
+            def get_peer_certificate(self):
+                return CERT_EVERYTHING
+
+        verify_address(FakeConnection(), ip)
+
+    @pytest.mark.parametrize("ip", [u"1.1.1.2", u"::2"])
+    def test_verify_address_fail(self, ip):
+        """
+        verify_address fails if the addresses don't match and provides the user
+        with helpful information. Works both with IPv4 and IPv6.
+
+        """
+        class FakeConnection(object):
+            def get_peer_certificate(self):
+                return CERT_EVERYTHING
+
+        with pytest.raises(VerificationError) as ei:
+            verify_address(FakeConnection(), ip)
+
+        assert [
+            IPAddressMismatch(mismatched_id=IPAddress_ID(ip))
+        ] == ei.value.errors
 
 
 class TestExtractIDs(object):
