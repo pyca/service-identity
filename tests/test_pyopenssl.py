@@ -68,8 +68,8 @@ class TestPublicAPI(object):
     @pytest.mark.parametrize("ip", [u"1.1.1.2", u"::2"])
     def test_verify_ip_address_fail(self, ip):
         """
-        verify_ip_address fails if the addresses don't match and provides the user
-        with helpful information. Works both with IPv4 and IPv6.
+        verify_ip_address fails if the addresses don't match and provides the
+        user with helpful information. Works both with IPv4 and IPv6.
         """
         class FakeConnection(object):
             def get_peer_certificate(self):
