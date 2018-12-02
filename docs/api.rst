@@ -48,7 +48,7 @@ pyOpenSSL
          conn.shutdown()
          conn.close()
 
-.. autofunction:: verify_address
+.. autofunction:: verify_ip_address
 
 
 PyCA cryptography
@@ -57,7 +57,7 @@ PyCA cryptography
 .. currentmodule:: service_identity.cryptography
 
 .. autofunction:: verify_certificate_hostname
-.. autofunction:: verify_certificate_address
+.. autofunction:: verify_certificate_ip_address
 
 
 Universal Errors and Warnings

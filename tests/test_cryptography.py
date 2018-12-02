@@ -12,7 +12,7 @@ from service_identity._common import (
     DNS_ID, DNSPattern, IPAddress_ID, IPAddressPattern, URIPattern
 )
 from service_identity.cryptography import (
-    extract_ids, verify_certificate_address, verify_certificate_hostname
+    extract_ids, verify_certificate_hostname, verify_certificate_ip_address
 )
 from service_identity.exceptions import (
     DNSMismatch, IPAddressMismatch, VerificationError
@@ -48,21 +48,21 @@ class TestPublicAPI(object):
         ] == ei.value.errors
 
     @pytest.mark.parametrize("ip", [u"1.1.1.1", u"::1"])
-    def test_verify_certificate_address_ok(self, ip):
+    def test_verify_certificate_ip_address_ok(self, ip):
         """
-        verify_certificate_address succeeds if the addresses match. Works both
+        verify_certificate_ip_address succeeds if the addresses match. Works both
         with IPv4 and IPv6.
         """
-        verify_certificate_address(CERT_EVERYTHING, ip)
+        verify_certificate_ip_address(CERT_EVERYTHING, ip)
 
     @pytest.mark.parametrize("ip", [u"1.1.1.2", u"::2"])
-    def test_verify_address_fail(self, ip):
+    def test_verify_ip_address_fail(self, ip):
         """
-        verify_address fails if the addresses don't match and provides the user
+        verify_ip_address fails if the addresses don't match and provides the user
         with helpful information. Works both with IPv4 and IPv6.
         """
         with pytest.raises(VerificationError) as ei:
-            verify_certificate_address(CERT_EVERYTHING, ip)
+            verify_certificate_ip_address(CERT_EVERYTHING, ip)
 
         assert [
             IPAddressMismatch(mismatched_id=IPAddress_ID(ip))

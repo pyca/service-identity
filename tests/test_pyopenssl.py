@@ -14,7 +14,7 @@ from service_identity.exceptions import (
     DNSMismatch, IPAddressMismatch, VerificationError
 )
 from service_identity.pyopenssl import (
-    extract_ids, verify_address, verify_hostname
+    extract_ids, verify_hostname, verify_ip_address
 )
 
 from .util import PEM_CN_ONLY, PEM_DNS_ONLY, PEM_EVERYTHING, PEM_OTHER_NAME
@@ -54,21 +54,21 @@ class TestPublicAPI(object):
         ] == ei.value.errors
 
     @pytest.mark.parametrize("ip", [u"1.1.1.1", u"::1"])
-    def test_verify_address_ok(self, ip):
+    def test_verify_ip_address_ok(self, ip):
         """
-        verify_address succeeds if the addresses match. Works both with IPv4
+        verify_ip_address succeeds if the addresses match. Works both with IPv4
         and IPv6.
         """
         class FakeConnection(object):
             def get_peer_certificate(self):
                 return CERT_EVERYTHING
 
-        verify_address(FakeConnection(), ip)
+        verify_ip_address(FakeConnection(), ip)
 
     @pytest.mark.parametrize("ip", [u"1.1.1.2", u"::2"])
-    def test_verify_address_fail(self, ip):
+    def test_verify_ip_address_fail(self, ip):
         """
-        verify_address fails if the addresses don't match and provides the user
+        verify_ip_address fails if the addresses don't match and provides the user
         with helpful information. Works both with IPv4 and IPv6.
         """
         class FakeConnection(object):
@@ -76,7 +76,7 @@ class TestPublicAPI(object):
                 return CERT_EVERYTHING
 
         with pytest.raises(VerificationError) as ei:
-            verify_address(FakeConnection(), ip)
+            verify_ip_address(FakeConnection(), ip)
 
         assert [
             IPAddressMismatch(mismatched_id=IPAddress_ID(ip))

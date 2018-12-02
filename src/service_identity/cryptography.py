@@ -53,9 +53,9 @@ def verify_certificate_hostname(certificate, hostname):
     )
 
 
-def verify_certificate_address(certificate, address):
+def verify_certificate_ip_address(certificate, ip_address):
     """
-    Verify whether *certificate* is valid for *address*.
+    Verify whether *certificate* is valid for *ip_address*.
 
     .. note:: Nothing is verified about the *authority* of the certificate;
        the caller must verify that the certificate chains to an appropriate
@@ -63,11 +63,11 @@ def verify_certificate_address(certificate, address):
 
     :param cryptography.x509.Certificate certificate: A cryptography X509
         certificate object.
-    :param unicode address: The address that *connection* should be valid for
-        Can be an IPv4 or IPv6 address.
+    :param unicode ip_address: The IP address that *connection* should be valid
+        for.  Can be an IPv4 or IPv6 address.
 
     :raises service_identity.VerificationError: If *certificate* is not valid
-        for *address*.
+        for *ip_address*.
     :raises service_identity.CertificateError: If *certificate* contains
         invalid/unexpected data.
 
@@ -77,7 +77,7 @@ def verify_certificate_address(certificate, address):
     """
     verify_service_identity(
         cert_patterns=extract_ids(certificate),
-        obligatory_ids=[IPAddress_ID(address)],
+        obligatory_ids=[IPAddress_ID(ip_address)],
         optional_ids=[],
     )
 

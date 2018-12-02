@@ -27,7 +27,7 @@ Changes:
 ^^^^^^^^
 
 - Added support for ``iPAddress`` ``subjectAltName``\ s.
-  You can now verify whether a connection or a certificate is valid for an IP address using ``service_identity.pyopenssl.verify_address()`` and ``service_identity.cryptography.verify_certificate_address()``.
+  You can now verify whether a connection or a certificate is valid for an IP address using ``service_identity.pyopenssl.verify_ip_address()`` and ``service_identity.cryptography.verify_certificate_ip_address()``.
   `#12 <https://github.com/pyca/service_identity/pull/12>`_
 
 

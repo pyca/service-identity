@@ -48,16 +48,16 @@ def verify_hostname(connection, hostname):
     )
 
 
-def verify_address(connection, address):
+def verify_ip_address(connection, ip_address):
     """
-    Verify whether the certificate of *connection* is valid for *address*.
+    Verify whether the certificate of *connection* is valid for *ip_address*.
 
     :param OpenSSL.SSL.Connection connection: A pyOpenSSL connection object.
-    :param unicode address: The address that *connection* should be connected
-        to.  Can be an IPv4 or IPv6 address.
+    :param unicode ip_address: The IP address that *connection* should be
+        connected to.  Can be an IPv4 or IPv6 address.
 
     :raises service_identity.VerificationError: If *connection* does not
-        provide a certificate that is valid for *address*.
+        provide a certificate that is valid for *ip_address*.
     :raises service_identity.CertificateError: If the certificate chain of
         *connection* contains a certificate that contains invalid/unexpected
         data.
@@ -68,7 +68,7 @@ def verify_address(connection, address):
     """
     verify_service_identity(
         cert_patterns=extract_ids(connection.get_peer_certificate()),
-        obligatory_ids=[IPAddress_ID(address)],
+        obligatory_ids=[IPAddress_ID(ip_address)],
         optional_ids=[],
     )
 
