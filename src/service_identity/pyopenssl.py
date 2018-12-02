@@ -50,7 +50,7 @@ def verify_hostname(connection, hostname):
 
 def verify_address(connection, address):
     """
-    Varify whether the certificate of *connection* is valid for *address*.
+    Verify whether the certificate of *connection* is valid for *address*.
 
     :param OpenSSL.SSL.Connection connection: A pyOpenSSL connection object.
     :param unicode address: The address that *connection* should be connected
