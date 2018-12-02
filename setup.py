@@ -34,12 +34,12 @@ CLASSIFIERS = [
 ]
 INSTALL_REQUIRES = [
     "attrs>=16.0.0",
+    "ipaddress; python_version<'3.3'",
     "pyasn1",
     "pyasn1-modules",
     "pyopenssl>=0.12",
 ]
 EXTRAS_REQUIRE = {
-    ":python_version < '3'": ["ipaddress"],
     "idna": ["idna"],
     "tests": [
         "coverage>=4.2.0",
