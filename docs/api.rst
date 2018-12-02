@@ -57,6 +57,7 @@ PyCA cryptography
 .. currentmodule:: service_identity.cryptography
 
 .. autofunction:: verify_certificate_hostname
+.. autofunction:: verify_certificate_address
 
 
 Universal Errors and Warnings

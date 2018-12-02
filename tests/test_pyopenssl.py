@@ -29,7 +29,7 @@ CERT_EVERYTHING = load_certificate(FILETYPE_PEM, PEM_EVERYTHING)
 class TestPublicAPI(object):
     def test_verify_hostname_ok(self):
         """
-        verify_hostname succeeds if the hostname match.
+        verify_hostname succeeds if the hostnames match.
         """
         class FakeConnection(object):
             def get_peer_certificate(self):
@@ -39,8 +39,8 @@ class TestPublicAPI(object):
 
     def test_verify_hostname_fail(self):
         """
-        verify_hostname fails if the hostname don't match and provides the user
-        with helpful information.
+        verify_hostname fails if the hostnames don't match and provides the
+        user with helpful information.
         """
         class FakeConnection(object):
             def get_peer_certificate(self):
@@ -70,7 +70,6 @@ class TestPublicAPI(object):
         """
         verify_address fails if the addresses don't match and provides the user
         with helpful information. Works both with IPv4 and IPv6.
-
         """
         class FakeConnection(object):
             def get_peer_certificate(self):

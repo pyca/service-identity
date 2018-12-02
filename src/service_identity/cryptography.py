@@ -15,8 +15,8 @@ from pyasn1.codec.der.decoder import decode
 from pyasn1.type.char import IA5String
 
 from ._common import (
-    DNS_ID, CertificateError, DNSPattern, IPAddressPattern, SRVPattern,
-    URIPattern, verify_service_identity
+    DNS_ID, CertificateError, DNSPattern, IPAddress_ID, IPAddressPattern,
+    SRVPattern, URIPattern, verify_service_identity
 )
 from .exceptions import SubjectAltNameWarning
 
@@ -49,6 +49,35 @@ def verify_certificate_hostname(certificate, hostname):
     verify_service_identity(
         cert_patterns=extract_ids(certificate),
         obligatory_ids=[DNS_ID(hostname)],
+        optional_ids=[],
+    )
+
+
+def verify_certificate_address(certificate, address):
+    """
+    Verify whether *certificate* is valid for *address*.
+
+    .. note:: Nothing is verified about the *authority* of the certificate;
+       the caller must verify that the certificate chains to an appropriate
+       trust root themselves.
+
+    :param cryptography.x509.Certificate certificate: A cryptography X509
+        certificate object.
+    :param unicode address: The address that *connection* should be valid for
+        Can be an IPv4 or IPv6 address.
+
+    :raises service_identity.VerificationError: If *certificate* is not valid
+        for *address*.
+    :raises service_identity.CertificateError: If *certificate* contains
+        invalid/unexpected data.
+
+    :returns: ``None``
+
+    .. versionadded:: 18.1.0
+    """
+    verify_service_identity(
+        cert_patterns=extract_ids(certificate),
+        obligatory_ids=[IPAddress_ID(address)],
         optional_ids=[],
     )
 

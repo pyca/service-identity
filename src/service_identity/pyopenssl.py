@@ -57,7 +57,7 @@ def verify_address(connection, address):
         to.  Can be an IPv4 or IPv6 address.
 
     :raises service_identity.VerificationError: If *connection* does not
-        provide a certificate that is valid for *hostname*.
+        provide a certificate that is valid for *address*.
     :raises service_identity.CertificateError: If the certificate chain of
         *connection* contains a certificate that contains invalid/unexpected
         data.
