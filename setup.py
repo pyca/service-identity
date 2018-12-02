@@ -35,8 +35,10 @@ CLASSIFIERS = [
 INSTALL_REQUIRES = [
     "attrs>=16.0.0",
     "ipaddress; python_version<'3.3'",
-    "pyasn1",
     "pyasn1-modules",
+    # Place pyasn1 after pyasn1-modules to workaround setuptools install bug:
+    # https://github.com/pypa/setuptools/issues/498
+    "pyasn1",
     "pyopenssl>=0.12",
 ]
 EXTRAS_REQUIRE = {
@@ -56,16 +58,8 @@ EXTRAS_REQUIRE["dev"] = EXTRAS_REQUIRE["tests"] + EXTRAS_REQUIRE["docs"] + [
 ###############################################################################
 
 HERE = os.path.abspath(os.path.dirname(__file__))
-
-try:
-    PACKAGES
-except NameError:
-    PACKAGES = find_packages(where="src")
-
-try:
-    META_PATH
-except NameError:
-    META_PATH = os.path.join(HERE, "src", NAME, "__init__.py")
+PACKAGES = find_packages(where="src")
+META_PATH = os.path.join(HERE, "src", NAME, "__init__.py")
 
 
 def read(*parts):
