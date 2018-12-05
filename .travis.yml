@@ -22,7 +22,9 @@ matrix:
     # test
     - python: "2.7"
       stage: test
-      env: TOXENV=py27-pyopenssl015-idna
+      env: TOXENV=py27
+    - python: "2.7"
+      env: TOXENV=py37
     - python: "2.7"
       env: TOXENV=py27-pyopenssl014-idna
     - python: "2.7"
@@ -30,27 +32,19 @@ matrix:
     - python: "2.7"
       env: TOXENV=py27-pyopensslLatest-noidna
     - python: "3.4"
-      env: TOXENV=py34-pyopenssl015-idna
-    - python: "3.4"
       env: TOXENV=py34-pyopenssl014-idna
     - python: "3.4"
       env: TOXENV=py34-pyopensslLatest-idna
     - python: "3.5"
-      env: TOXENV=py35-pyopenssl015-idna
-    - python: "3.5"
       env: TOXENV=py35-pyopenssl014-idna
     - python: "3.5"
       env: TOXENV=py35-pyopensslLatest-idna
-    - python: "3.6"
-      env: TOXENV=py36-pyopenssl015-idna
     - python: "3.6"
       env: TOXENV=py36-pyopenssl014-idna
     - python: "3.6"
       env: TOXENV=py36-pyopensslLatest-idna
     - python: "3.6"
       env: TOXENV=py36-pyopensslLatest-noidna
-    - python: "3.7"
-      env: TOXENV=py37-pyopenssl015-idna
     - python: "3.7"
       env: TOXENV=py37-pyopenssl014-idna
     - python: "3.7"
@@ -59,19 +53,13 @@ matrix:
       env: TOXENV=py37-pyopensslLatest-noidna
     - python: "pypy"
       dist: trusty
-      env: TOXENV=pypy-pyopenssl015-idna
-    - python: "pypy"
+      env: TOXENV=pypy
+    - python: "pypy3"
       dist: trusty
-      env: TOXENV=pypy-pyopenssl014-idna
+      env: TOXENV=pypy3
     - python: "pypy"
       dist: trusty
       env: TOXENV=pypy-pyopensslLatest-idna
-    - python: "pypy3"
-      dist: trusty
-      env: TOXENV=pypy3-pyopenssl015-idna
-    - python: "pypy3"
-      dist: trusty
-      env: TOXENV=pypy3-pyopenssl014-idna
     - python: "pypy3"
       dist: trusty
       env: TOXENV=pypy3-pyopensslLatest-idna
