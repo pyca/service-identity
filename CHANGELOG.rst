@@ -3,7 +3,7 @@
 Changelog
 =========
 
-Versions follow `CalVer <http://calver.org>`_ with a strict backwards compatibility policy.
+Versions follow `CalVer <https://calver.org>`_ with a strict backwards compatibility policy.
 The third digit is only for regressions.
 
 
@@ -13,6 +13,7 @@ The third digit is only for regressions.
 Changes:
 ^^^^^^^^
 
+- pyOpenSSL is optional now if you use ``service_identity.cryptography.*`` only.
 - Added support for ``iPAddress`` ``subjectAltName``\ s.
   You can now verify whether a connection or a certificate is valid for an IP address using ``service_identity.pyopenssl.verify_ip_address()`` and ``service_identity.cryptography.verify_certificate_ip_address()``.
   `#12 <https://github.com/pyca/service_identity/pull/12>`_

@@ -39,7 +39,7 @@ INSTALL_REQUIRES = [
     # Place pyasn1 after pyasn1-modules to workaround setuptools install bug:
     # https://github.com/pypa/setuptools/issues/498
     "pyasn1",
-    "pyopenssl>=0.12",
+    "cryptography",
 ]
 EXTRAS_REQUIRE = {
     "idna": ["idna"],
@@ -47,7 +47,7 @@ EXTRAS_REQUIRE = {
     "docs": ["sphinx"],
 }
 EXTRAS_REQUIRE["dev"] = (
-    EXTRAS_REQUIRE["tests"] + EXTRAS_REQUIRE["docs"] + ["idna"]
+    EXTRAS_REQUIRE["tests"] + EXTRAS_REQUIRE["docs"] + ["idna", "pyOpenSSL"]
 )
 
 ###############################################################################
