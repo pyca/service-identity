@@ -34,6 +34,7 @@ CLASSIFIERS = [
 ]
 INSTALL_REQUIRES = [
     "attrs>=16.0.0",
+    "ipaddress; python_version<'3.3'",
     "pyasn1-modules",
     # Place pyasn1 after pyasn1-modules to workaround setuptools install bug:
     # https://github.com/pypa/setuptools/issues/498
@@ -91,7 +92,7 @@ LONG = (
     read("README.rst") + "\n\n" +
     "Release Information\n" +
     "===================\n\n" +
-    re.search("(\d{2}.\d.\d \(.*?\)\n.*?)\n\n\n----\n\n\n",
+    re.search(r"(\d{2}.\d.\d \(.*?\)\n.*?)\n\n\n----\n\n\n",
               read("CHANGELOG.rst"), re.S).group(1) +
     "\n\n`Full changelog " +
     "<{uri}en/stable/changelog.html>`_.\n\n" + read("AUTHORS.rst")

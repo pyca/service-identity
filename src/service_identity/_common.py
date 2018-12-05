@@ -4,13 +4,15 @@ Common verification code.
 
 from __future__ import absolute_import, division, print_function
 
+import ipaddress
 import re
 
 import attr
 
 from ._compat import maketrans, text_type
 from .exceptions import (
-    CertificateError, DNSMismatch, SRVMismatch, URIMismatch, VerificationError
+    CertificateError, DNSMismatch, IPAddressMismatch, SRVMismatch, URIMismatch,
+    VerificationError
 )
 
 
@@ -98,36 +100,34 @@ def _contains_instance_of(seq, cl):
     return False
 
 
-_RE_IPv4 = re.compile(br"^([0-9*]{1,3}\.){3}[0-9*]{1,3}$")
-_RE_IPv6 = re.compile(br"^([a-f0-9*]{0,4}:)+[a-f0-9*]{1,4}$")
-_RE_NUMBER = re.compile(br"^[0-9]+$")
-
-
 def _is_ip_address(pattern):
     """
     Check whether *pattern* could be/match an IP address.
-
-    Does *not* guarantee that pattern is in fact a valid IP address; especially
-    the checks for IPv6 are rather coarse.  This function is for security
-    checks, not for validating IP addresses.
 
     :param pattern: A pattern for a host name.
     :type pattern: `bytes` or `unicode`
 
     :return: `True` if *pattern* could be an IP address, else `False`.
-    :rtype: `bool`
+    :rtype: bool
     """
-    if isinstance(pattern, text_type):
+    if isinstance(pattern, bytes):
         try:
-            pattern = pattern.encode('ascii')
+            pattern = pattern.decode("ascii")
         except UnicodeError:
             return False
 
-    return (
-        _RE_IPv4.match(pattern) is not None or
-        _RE_IPv6.match(pattern) is not None or
-        _RE_NUMBER.match(pattern) is not None
-    )
+    try:
+        int(pattern)
+        return True
+    except ValueError:
+        pass
+
+    try:
+        ipaddress.ip_address(pattern.replace("*", "1"))
+    except ValueError:
+        return False
+
+    return True
 
 
 @attr.s(init=False, slots=True)
@@ -156,6 +156,25 @@ class DNSPattern(object):
         self.pattern = pattern.translate(_TRANS_TO_LOWER)
         if b'*' in self.pattern:
             _validate_pattern(self.pattern)
+
+
+@attr.s(slots=True)
+class IPAddressPattern(object):
+    """
+    An IP address pattern as extracted from certificates.
+    """
+    pattern = attr.ib()
+
+    @classmethod
+    def from_bytes(cls, bs):
+        try:
+            return cls(
+                pattern=ipaddress.ip_address(bs)
+            )
+        except ValueError:
+            raise CertificateError(
+                "Invalid IP address pattern {!r}.".format(bs)
+            )
 
 
 @attr.s(init=False, slots=True)
@@ -257,12 +276,29 @@ class DNS_ID(object):
 
     def verify(self, pattern):
         """
-        http://tools.ietf.org/search/rfc6125#section-6.4
+        https://tools.ietf.org/search/rfc6125#section-6.4
         """
         if isinstance(pattern, self.pattern_class):
             return _hostname_matches(pattern.pattern, self.hostname)
         else:
             return False
+
+
+@attr.s(slots=True)
+class IPAddress_ID(object):
+    """
+    An IP address service ID.
+    """
+    ip = attr.ib(converter=ipaddress.ip_address)
+
+    pattern_class = IPAddressPattern
+    error_on_mismatch = IPAddressMismatch
+
+    def verify(self, pattern):
+        """
+        https://tools.ietf.org/search/rfc2818#section-3.1
+        """
+        return self.ip == pattern.pattern
 
 
 @attr.s(init=False, slots=True)
@@ -294,7 +330,7 @@ class URI_ID(object):
 
     def verify(self, pattern):
         """
-        http://tools.ietf.org/search/rfc6125#section-6.5.2
+        https://tools.ietf.org/search/rfc6125#section-6.5.2
         """
         if isinstance(pattern, self.pattern_class):
             return (
@@ -334,7 +370,7 @@ class SRV_ID(object):
 
     def verify(self, pattern):
         """
-        http://tools.ietf.org/search/rfc6125#section-6.5.1
+        https://tools.ietf.org/search/rfc6125#section-6.5.1
         """
         if isinstance(pattern, self.pattern_class):
             return (

@@ -1,18 +1,24 @@
 from __future__ import absolute_import, division, print_function
 
+import ipaddress
+
 import pytest
+import six
 
 import service_identity._common
 
 from service_identity._common import (
-    DNS_ID, SRV_ID, URI_ID, DNSPattern, ServiceMatch, SRVPattern, URIPattern,
-    _contains_instance_of, _find_matches, _hostname_matches, _is_ip_address,
-    _validate_pattern, verify_service_identity
+    DNS_ID, SRV_ID, URI_ID, DNSPattern, IPAddress_ID, IPAddressPattern,
+    ServiceMatch, SRVPattern, URIPattern, _contains_instance_of, _find_matches,
+    _hostname_matches, _is_ip_address, _validate_pattern,
+    verify_service_identity
 )
+from service_identity.cryptography import extract_ids
 from service_identity.exceptions import (
     CertificateError, DNSMismatch, SRVMismatch, VerificationError
 )
 
+from .test_cryptography import CERT_EVERYTHING
 from .util import DNS_IDS
 
 
@@ -51,6 +57,25 @@ class TestVerifyServiceIdentity(object):
                 optional_ids=[],
             )
         assert [DNSMismatch(mismatched_id=i)] == e.value.errors
+
+    def test_ip_address_success(self):
+        """
+        IP addresses patterns are matched against IP address IDs.
+        """
+        ip4 = ipaddress.ip_address(u"2.2.2.2")
+        ip6 = ipaddress.ip_address(u"2a00:1c38::53")
+        id4 = IPAddress_ID(six.text_type(ip4))
+        id6 = IPAddress_ID(six.text_type(ip6))
+        rv = verify_service_identity(
+            extract_ids(CERT_EVERYTHING),
+            [id4, id6],
+            [],
+        )
+
+        assert [
+            ServiceMatch(id4, IPAddressPattern(ip4)),
+            ServiceMatch(id6, IPAddressPattern(ip6))
+        ] == rv
 
     def test_obligatory_missing(self):
         """
@@ -168,17 +193,17 @@ class TestDNS_ID(object):
         dns = DNS_ID(u"f\xf8\xf8.com")
         assert b'xn--f-5gaa.com' == dns.hostname
 
-    def test_catches_invalid_dns_ids(self):
+    @pytest.mark.parametrize("invalid_id", [
+        u" ", u"",  # empty strings
+        u"host,name",  # invalid chars
+        u"192.168.0.0", u"::1", u"1234"  # IP addresses
+    ])
+    def test_catches_invalid_dns_ids(self, invalid_id):
         """
         Raise ValueError on invalid DNS-IDs.
         """
-        for invalid_id in [
-            u" ", u"",  # empty strings
-            u"host,name",  # invalid chars
-            u"192.168.0.0", u"::1", u"1234"  # IP addresses
-        ]:
-            with pytest.raises(ValueError):
-                DNS_ID(invalid_id)
+        with pytest.raises(ValueError):
+            DNS_ID(invalid_id)
 
     def test_lowercases(self):
         """
@@ -499,6 +524,29 @@ class TestValidateDNSWildcardPattern(object):
             _validate_pattern(pattern)
 
 
+class TestIPAddressPattern(object):
+    def test_invalid_ip(self):
+        """
+        Raises CertificateError on invalid IP addresses.
+        """
+        with pytest.raises(CertificateError):
+            IPAddressPattern.from_bytes(b"127.o.o.1")
+
+    @pytest.mark.parametrize("ip_s", [
+        u"1.1.1.1",
+        u"::1",
+    ])
+    def test_verify_equal(self, ip_s):
+        """
+        Return True if IP addresses are identical.
+        """
+        ip = ipaddress.ip_address(ip_s)
+
+        assert IPAddress_ID(ip).verify(
+            IPAddressPattern(ip)
+        ) is True
+
+
 class FakeCertID(object):
     pass
 
@@ -574,34 +622,35 @@ class TestFindMatches(object):
 
 
 class TestIsIPAddress(object):
-    def test_ips(self):
+    @pytest.mark.parametrize("ip", [
+        b"127.0.0.1",
+        u"127.0.0.1",
+        "172.16.254.12",
+        "*.0.0.1",
+        "::1",
+        "*::1",
+        "2001:0db8:0000:0000:0000:ff00:0042:8329",
+        "2001:0db8::ff00:0042:8329",
+    ])
+    def test_ips(self, ip):
         """
         Returns True for patterns and hosts that could match IP addresses.
         """
-        for s in [
-            b"127.0.0.1",
-            u"127.0.0.1",
-            b"172.16.254.12",
-            b"*.0.0.1",
-            b"::1",
-            b"*::1",
-            b"2001:0db8:0000:0000:0000:ff00:0042:8329",
-            b"2001:0db8::ff00:0042:8329",
-        ]:
-            assert _is_ip_address(s), "Not detected {0!r}".format(s)
+        assert _is_ip_address(ip) is True
 
-    def test_no_ips(self):
+    @pytest.mark.parametrize("not_ip", [
+        b"*.twistedmatrix.com",
+        b"twistedmatrix.com",
+        b"mail.google.com",
+        b"omega7.de",
+        b"omega7",
+        b"127.\xff.0.1",
+    ])
+    def test_not_ips(self, not_ip):
         """
         Return False for patterns and hosts that aren't IP addresses.
         """
-        for s in [
-            b"*.twistedmatrix.com",
-            b"twistedmatrix.com",
-            b"mail.google.com",
-            b"omega7.de",
-            b"omega7",
-        ]:
-            assert not _is_ip_address(s), "False positive {0!r}".format(s)
+        assert _is_ip_address(not_ip) is False
 
 
 class TestVerificationError(object):

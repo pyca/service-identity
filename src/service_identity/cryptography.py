@@ -7,7 +7,7 @@ from __future__ import absolute_import, division, print_function
 import warnings
 
 from cryptography.x509 import (
-    DNSName, ExtensionOID, NameOID, ObjectIdentifier, OtherName,
+    DNSName, ExtensionOID, IPAddress, NameOID, ObjectIdentifier, OtherName,
     UniformResourceIdentifier
 )
 from cryptography.x509.extensions import ExtensionNotFound
@@ -15,8 +15,8 @@ from pyasn1.codec.der.decoder import decode
 from pyasn1.type.char import IA5String
 
 from ._common import (
-    DNS_ID, CertificateError, DNSPattern, SRVPattern, URIPattern,
-    verify_service_identity
+    DNS_ID, CertificateError, DNSPattern, IPAddress_ID, IPAddressPattern,
+    SRVPattern, URIPattern, verify_service_identity
 )
 from .exceptions import SubjectAltNameWarning
 
@@ -53,6 +53,35 @@ def verify_certificate_hostname(certificate, hostname):
     )
 
 
+def verify_certificate_ip_address(certificate, ip_address):
+    """
+    Verify whether *certificate* is valid for *ip_address*.
+
+    .. note:: Nothing is verified about the *authority* of the certificate;
+       the caller must verify that the certificate chains to an appropriate
+       trust root themselves.
+
+    :param cryptography.x509.Certificate certificate: A cryptography X509
+        certificate object.
+    :param unicode ip_address: The IP address that *connection* should be valid
+        for.  Can be an IPv4 or IPv6 address.
+
+    :raises service_identity.VerificationError: If *certificate* is not valid
+        for *ip_address*.
+    :raises service_identity.CertificateError: If *certificate* contains
+        invalid/unexpected data.
+
+    :returns: ``None``
+
+    .. versionadded:: 18.1.0
+    """
+    verify_service_identity(
+        cert_patterns=extract_ids(certificate),
+        obligatory_ids=[IPAddress_ID(ip_address)],
+        optional_ids=[],
+    )
+
+
 ID_ON_DNS_SRV = ObjectIdentifier('1.3.6.1.5.5.7.8.7')  # id_on_dnsSRV
 
 
@@ -81,6 +110,9 @@ def extract_ids(cert):
                     for uri
                     in ext.value.get_values_for_type(
                         UniformResourceIdentifier)])
+        ids.extend([IPAddressPattern(ip)
+                    for ip
+                    in ext.value.get_values_for_type(IPAddress)])
         for other in ext.value.get_values_for_type(OtherName):
             if other.type_id == ID_ON_DNS_SRV:
                 srv, _ = decode(other.value)

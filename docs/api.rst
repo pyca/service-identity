@@ -4,9 +4,8 @@ API
 
 .. note::
 
-   The APIs for RFC 6125 verification beyond DNS-IDs (i.e. hostnames) aren't public yet.
-   They are in place and used by the documented high-level APIs though.
-   Eventually they will become public.
+   So far, public APIs are only available for hostnames (RFC 6125) and IP addresses (RFC 2818).
+   All IDs specified by RFC 6125 are already implemented though.
    If you'd like to play with them and provide feedback have a look at the ``verify_service_identity`` function in the `_common module <https://github.com/pyca/service_identity/blob/master/src/service_identity/_common.py>`_.
 
 
@@ -48,6 +47,8 @@ pyOpenSSL
          conn.shutdown()
          conn.close()
 
+.. autofunction:: verify_ip_address
+
 
 PyCA cryptography
 =================
@@ -55,6 +56,7 @@ PyCA cryptography
 .. currentmodule:: service_identity.cryptography
 
 .. autofunction:: verify_certificate_hostname
+.. autofunction:: verify_certificate_ip_address
 
 
 Universal Errors and Warnings
