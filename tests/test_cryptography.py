@@ -31,7 +31,7 @@ CERT_EVERYTHING = load_pem_x509_certificate(PEM_EVERYTHING, backend)
 class TestPublicAPI(object):
     def test_certificate_verify_hostname_ok(self):
         """
-        verify_certificate_hostname succeeds if the hostname match.
+        verify_certificate_hostname succeeds if the hostnames match.
         """
         verify_certificate_hostname(X509_DNS_ONLY, u"twistedmatrix.com")
 
