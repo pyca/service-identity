@@ -142,7 +142,7 @@ def extract_ids(cert):
                     raise CertificateError("Unexpected certificate content.")
 
     if not ids:
-        # http://tools.ietf.org/search/rfc6125#section-6.4.4
+        # https://tools.ietf.org/search/rfc6125#section-6.4.4
         # A client MUST NOT seek a match for a reference identifier of CN-ID if
         # the presented identifiers include a DNS-ID, SRV-ID, URI-ID, or any
         # application-specific identifier types supported by the client.

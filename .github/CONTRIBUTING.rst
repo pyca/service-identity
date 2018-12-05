@@ -174,9 +174,9 @@ Thank you for considering to contribute to ``service_identity``!
 .. _`Travis CI`: https://travis-ci.org/
 .. _pyenv: https://github.com/pyenv/pyenv
 .. _CI: https://travis-ci.org/pyca/service_identity
-.. _freenode: http://webchat.freenode.net
-.. _reStructuredText: http://www.sphinx-doc.org/en/stable/rest.html
-.. _semantic newlines: http://rhodesmill.org/brandon/2012/one-sentence-per-line/
+.. _freenode: https://webchat.freenode.net
+.. _reStructuredText: https://www.sphinx-doc.org/en/master/usage/restructuredtext/basics.html
+.. _semantic newlines: https://rhodesmill.org/brandon/2012/one-sentence-per-line/
 .. _isort: https://github.com/timothycrosley/isort
 .. _black: https://github.com/ambv/black
 .. _pre-commit: https://pre-commit.com/
