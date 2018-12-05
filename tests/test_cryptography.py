@@ -9,13 +9,21 @@ from cryptography.x509 import load_pem_x509_certificate
 
 from service_identity import SubjectAltNameWarning
 from service_identity._common import (
-    DNS_ID, DNSPattern, IPAddress_ID, IPAddressPattern, URIPattern
+    DNS_ID,
+    DNSPattern,
+    IPAddress_ID,
+    IPAddressPattern,
+    URIPattern,
 )
 from service_identity.cryptography import (
-    extract_ids, verify_certificate_hostname, verify_certificate_ip_address
+    extract_ids,
+    verify_certificate_hostname,
+    verify_certificate_ip_address,
 )
 from service_identity.exceptions import (
-    DNSMismatch, IPAddressMismatch, VerificationError
+    DNSMismatch,
+    IPAddressMismatch,
+    VerificationError,
 )
 
 from .util import PEM_CN_ONLY, PEM_DNS_ONLY, PEM_EVERYTHING, PEM_OTHER_NAME
@@ -44,7 +52,7 @@ class TestPublicAPI(object):
             verify_certificate_hostname(X509_DNS_ONLY, u"google.com")
 
         assert [
-            DNSMismatch(mismatched_id=DNS_ID(u'google.com'))
+            DNSMismatch(mismatched_id=DNS_ID(u"google.com"))
         ] == ei.value.errors
 
     @pytest.mark.parametrize("ip", [u"1.1.1.1", u"::1"])
@@ -77,7 +85,7 @@ class TestExtractIDs(object):
         rv = extract_ids(X509_DNS_ONLY)
         assert [
             DNSPattern(b"www.twistedmatrix.com"),
-            DNSPattern(b"twistedmatrix.com")
+            DNSPattern(b"twistedmatrix.com"),
         ] == rv
 
     def test_cn_ids_are_used_as_fallback(self):
@@ -87,18 +95,16 @@ class TestExtractIDs(object):
         """
         with pytest.warns(SubjectAltNameWarning):
             rv = extract_ids(X509_CN_ONLY)
-        assert [
-            DNSPattern(b"www.microsoft.com")
-        ] == rv
+        assert [DNSPattern(b"www.microsoft.com")] == rv
 
     def test_uri(self):
         """
         Returns the correct URIPattern from a certificate.
         """
         rv = extract_ids(X509_OTHER_NAME)
-        assert [
-            URIPattern(b"http://example.com/")
-        ] == [id for id in rv if isinstance(id, URIPattern)]
+        assert [URIPattern(b"http://example.com/")] == [
+            id for id in rv if isinstance(id, URIPattern)
+        ]
 
     def test_ip(self):
         """

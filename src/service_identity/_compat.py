@@ -11,5 +11,6 @@ if PY3:  # pragma: nocover
     text_type = str
 else:  # pragma: nocover
     import string
+
     maketrans = string.maketrans
     text_type = unicode  # noqa

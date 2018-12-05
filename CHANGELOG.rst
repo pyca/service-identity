@@ -10,19 +10,6 @@ The third digit is only for regressions.
 18.1.0 (UNRELEASED)
 -------------------
 
-
-Backward-incompatible changes:
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-*none*
-
-
-Deprecations:
-^^^^^^^^^^^^^
-
-*none*
-
-
 Changes:
 ^^^^^^^^
 
@@ -83,7 +70,7 @@ Changes:
 - ``service_identity.SubjectAltNameWarning`` is now raised if the server certicate lacks a proper ``SubjectAltName``.
   `#9 <https://github.com/pyca/service_identity/issues/9>`_
 - Add a ``__str__`` method to ``VerificationError``.
-- Port from ``characteristic`` to its spiritual successor `attrs <http://www.attrs.org/>`_.
+- Port from ``characteristic`` to its spiritual successor `attrs <https://www.attrs.org/>`_.
 
 
 ----

@@ -1,4 +1,4 @@
-include LICENSE .coveragerc .travis.yml tox.ini
+include LICENSE .coveragerc .travis.yml .pre-commit-config.yaml tox.ini pyproject.toml
 include docs/Makefile docs/conf.py
 include *.rst *.txt
 exclude conftest.py .readthedocs.yml

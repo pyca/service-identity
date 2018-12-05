@@ -23,6 +23,7 @@ class VerificationError(Exception):
     """
     Service identity verification failed.
     """
+
     errors = attr.ib()
 
     def __str__(self):
@@ -34,6 +35,7 @@ class DNSMismatch(object):
     """
     No matching DNSPattern could be found.
     """
+
     mismatched_id = attr.ib()
 
 
@@ -42,6 +44,7 @@ class SRVMismatch(object):
     """
     No matching SRVPattern could be found.
     """
+
     mismatched_id = attr.ib()
 
 
@@ -50,6 +53,7 @@ class URIMismatch(object):
     """
     No matching URIPattern could be found.
     """
+
     mismatched_id = attr.ib()
 
 
@@ -58,6 +62,7 @@ class IPAddressMismatch(object):
     """
     No matching IPAddressPattern could be found.
     """
+
     mismatched_id = attr.ib()
 
 

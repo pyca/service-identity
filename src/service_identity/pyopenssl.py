@@ -14,15 +14,19 @@ from pyasn1.type.univ import ObjectIdentifier
 from pyasn1_modules.rfc2459 import GeneralNames
 
 from ._common import (
-    DNS_ID, CertificateError, DNSPattern, IPAddress_ID, IPAddressPattern,
-    SRVPattern, URIPattern, verify_service_identity
+    DNS_ID,
+    CertificateError,
+    DNSPattern,
+    IPAddress_ID,
+    IPAddressPattern,
+    SRVPattern,
+    URIPattern,
+    verify_service_identity,
 )
 from .exceptions import SubjectAltNameWarning
 
 
-__all__ = [
-    "verify_hostname",
-]
+__all__ = ["verify_hostname"]
 
 
 def verify_hostname(connection, hostname):
@@ -73,7 +77,7 @@ def verify_ip_address(connection, ip_address):
     )
 
 
-ID_ON_DNS_SRV = ObjectIdentifier('1.3.6.1.5.5.7.8.7')  # id_on_dnsSRV
+ID_ON_DNS_SRV = ObjectIdentifier("1.3.6.1.5.5.7.8.7")  # id_on_dnsSRV
 
 
 def extract_ids(cert):
@@ -97,9 +101,11 @@ def extract_ids(cert):
                 if name_string == "dNSName":
                     ids.append(DNSPattern(n.getComponent().asOctets()))
                 elif name_string == "iPAddress":
-                    ids.append(IPAddressPattern.from_bytes(
-                        n.getComponent().asOctets()
-                    ))
+                    ids.append(
+                        IPAddressPattern.from_bytes(
+                            n.getComponent().asOctets()
+                        )
+                    )
                 elif name_string == "uniformResourceIdentifier":
                     ids.append(URIPattern(n.getComponent().asOctets()))
                 elif name_string == "otherName":
@@ -123,18 +129,17 @@ def extract_ids(cert):
         # A client MUST NOT seek a match for a reference identifier of CN-ID if
         # the presented identifiers include a DNS-ID, SRV-ID, URI-ID, or any
         # application-specific identifier types supported by the client.
-        components = [c[1]
-                      for c
-                      in cert.get_subject().get_components()
-                      if c[0] == b"CN"]
-        cn = next(iter(components), b'<not given>')
+        components = [
+            c[1] for c in cert.get_subject().get_components() if c[0] == b"CN"
+        ]
+        cn = next(iter(components), b"<not given>")
         ids = [DNSPattern(c) for c in components]
         warnings.warn(
-            "Certificate with CN '{}' has no `subjectAltName`, falling back "
+            "Certificate with CN '%s' has no `subjectAltName`, falling back "
             "to check for a `commonName` for now.  This feature is being "
             "removed by major browsers and deprecated by RFC 2818.  "
             "service_identity will remove the support for it in mid-2018."
-            .format(cn.decode("utf-8")),
+            % (cn.decode("utf-8"),),
             SubjectAltNameWarning,
             stacklevel=2,
         )

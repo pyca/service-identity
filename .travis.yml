@@ -1,4 +1,4 @@
-dist: trusty
+dist: xenial
 group: travis_latest
 sudo: false
 cache:
@@ -12,7 +12,16 @@ matrix:
   fast_finish: true
 
   include:
+    # lint
+    - python: "3.7"
+      stage: lint
+      env: TOXENV=lint
+    - python: "3.7"
+      env: TOXENV=manifest
+
+    # test
     - python: "2.7"
+      stage: test
       env: TOXENV=py27-pyopenssl015-idna
     - python: "2.7"
       env: TOXENV=py27-pyopenssl014-idna
@@ -40,17 +49,31 @@ matrix:
       env: TOXENV=py36-pyopensslLatest-idna
     - python: "3.6"
       env: TOXENV=py36-pyopensslLatest-noidna
+    - python: "3.7"
+      env: TOXENV=py37-pyopenssl015-idna
+    - python: "3.7"
+      env: TOXENV=py37-pyopenssl014-idna
+    - python: "3.7"
+      env: TOXENV=py37-pyopensslLatest-idna
+    - python: "3.7"
+      env: TOXENV=py37-pyopensslLatest-noidna
     - python: "pypy"
+      dist: trusty
       env: TOXENV=pypy-pyopenssl015-idna
     - python: "pypy"
+      dist: trusty
       env: TOXENV=pypy-pyopenssl014-idna
     - python: "pypy"
+      dist: trusty
       env: TOXENV=pypy-pyopensslLatest-idna
     - python: "pypy3"
+      dist: trusty
       env: TOXENV=pypy3-pyopenssl015-idna
     - python: "pypy3"
+      dist: trusty
       env: TOXENV=pypy3-pyopenssl014-idna
     - python: "pypy3"
+      dist: trusty
       env: TOXENV=pypy3-pyopensslLatest-idna
 
     # Prevent breakage by a new releases
@@ -59,15 +82,12 @@ matrix:
     - python: "3.7-dev"
       env: TOXENV=py37-pyopensslLatest-idna
 
-    # Meta
-    - python: "3.6"
-      env: TOXENV=flake8
-    - python: "3.6"
-      env: TOXENV=manifest
-    - python: "3.6"
+    # Docs
+    - python: "3.7"
+      stage: docs
       env: TOXENV=docs
-    - python: "3.6"
-      env: TOXENV=readme
+    - python: "3.7"
+      env: TOXENV=pypi-description
 
   allow_failures:
     - python: "3.6-dev"

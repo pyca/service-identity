@@ -11,8 +11,12 @@ import attr
 
 from ._compat import maketrans, text_type
 from .exceptions import (
-    CertificateError, DNSMismatch, IPAddressMismatch, SRVMismatch, URIMismatch,
-    VerificationError
+    CertificateError,
+    DNSMismatch,
+    IPAddressMismatch,
+    SRVMismatch,
+    URIMismatch,
+    VerificationError,
 )
 
 
@@ -27,6 +31,7 @@ class ServiceMatch(object):
     """
     A match of a service id and a certificate pattern.
     """
+
     service_id = attr.ib()
     cert_pattern = attr.ib()
 
@@ -40,8 +45,9 @@ def verify_service_identity(cert_patterns, obligatory_ids, optional_ids):
     if a pattern of the respective type is present.
     """
     errors = []
-    matches = (_find_matches(cert_patterns, obligatory_ids) +
-               _find_matches(cert_patterns, optional_ids))
+    matches = _find_matches(cert_patterns, obligatory_ids) + _find_matches(
+        cert_patterns, optional_ids
+    )
 
     matched_ids = [match.service_id for match in matches]
     for i in obligatory_ids:
@@ -53,9 +59,8 @@ def verify_service_identity(cert_patterns, obligatory_ids, optional_ids):
         # is a pattern of the same type , it is an error and the verification
         # fails.  Example: the user passes a SRV-ID for "_mail.domain.com" but
         # the certificate contains an SRV-Pattern for "_xmpp.domain.com".
-        if (
-            i not in matched_ids and
-            _contains_instance_of(cert_patterns, i.pattern_class)
+        if i not in matched_ids and _contains_instance_of(
+            cert_patterns, i.pattern_class
         ):
             errors.append(i.error_on_mismatch(mismatched_id=i))
 
@@ -81,9 +86,7 @@ def _find_matches(cert_patterns, service_ids):
     for sid in service_ids:
         for cid in cert_patterns:
             if sid.verify(cid):
-                matches.append(
-                    ServiceMatch(cert_pattern=cid, service_id=sid)
-                )
+                matches.append(ServiceMatch(cert_pattern=cid, service_id=sid))
     return matches
 
 
@@ -135,6 +138,7 @@ class DNSPattern(object):
     """
     A DNS pattern as extracted from certificates.
     """
+
     pattern = attr.ib()
 
     _RE_LEGAL_CHARS = re.compile(br"^[a-z0-9\-_.]+$")
@@ -154,7 +158,7 @@ class DNSPattern(object):
             )
 
         self.pattern = pattern.translate(_TRANS_TO_LOWER)
-        if b'*' in self.pattern:
+        if b"*" in self.pattern:
             _validate_pattern(self.pattern)
 
 
@@ -163,14 +167,13 @@ class IPAddressPattern(object):
     """
     An IP address pattern as extracted from certificates.
     """
+
     pattern = attr.ib()
 
     @classmethod
     def from_bytes(cls, bs):
         try:
-            return cls(
-                pattern=ipaddress.ip_address(bs)
-            )
+            return cls(pattern=ipaddress.ip_address(bs))
         except ValueError:
             raise CertificateError(
                 "Invalid IP address pattern {!r}.".format(bs)
@@ -182,6 +185,7 @@ class URIPattern(object):
     """
     An URI pattern as extracted from certificates.
     """
+
     protocol_pattern = attr.ib()
     dns_pattern = attr.ib()
 
@@ -194,11 +198,7 @@ class URIPattern(object):
 
         pattern = pattern.strip().translate(_TRANS_TO_LOWER)
 
-        if (
-            b":" not in pattern or
-            b"*" in pattern or
-            _is_ip_address(pattern)
-        ):
+        if b":" not in pattern or b"*" in pattern or _is_ip_address(pattern):
             raise CertificateError(
                 "Invalid URI pattern {0!r}.".format(pattern)
             )
@@ -211,6 +211,7 @@ class SRVPattern(object):
     """
     An SRV pattern as extracted from certificates.
     """
+
     name_pattern = attr.ib()
     dns_pattern = attr.ib()
 
@@ -224,10 +225,10 @@ class SRVPattern(object):
         pattern = pattern.strip().translate(_TRANS_TO_LOWER)
 
         if (
-            pattern[0] != b"_"[0] or
-            b"." not in pattern or
-            b"*" in pattern or
-            _is_ip_address(pattern)
+            pattern[0] != b"_"[0]
+            or b"." not in pattern
+            or b"*" in pattern
+            or _is_ip_address(pattern)
         ):
             raise CertificateError(
                 "Invalid SRV pattern {0!r}.".format(pattern)
@@ -242,6 +243,7 @@ class DNS_ID(object):
     """
     A DNS service ID, aka hostname.
     """
+
     hostname = attr.ib()
 
     # characters that are legal in a normalized hostname
@@ -289,6 +291,7 @@ class IPAddress_ID(object):
     """
     An IP address service ID.
     """
+
     ip = attr.ib(converter=ipaddress.ip_address)
 
     pattern_class = IPAddressPattern
@@ -306,6 +309,7 @@ class URI_ID(object):
     """
     An URI service ID.
     """
+
     protocol = attr.ib()
     dns_id = attr.ib()
 
@@ -334,8 +338,8 @@ class URI_ID(object):
         """
         if isinstance(pattern, self.pattern_class):
             return (
-                pattern.protocol_pattern == self.protocol and
-                self.dns_id.verify(pattern.dns_pattern)
+                pattern.protocol_pattern == self.protocol
+                and self.dns_id.verify(pattern.dns_pattern)
             )
         else:
             return False
@@ -346,6 +350,7 @@ class SRV_ID(object):
     """
     An SRV service ID.
     """
+
     name = attr.ib()
     dns_id = attr.ib()
 
@@ -373,9 +378,8 @@ class SRV_ID(object):
         https://tools.ietf.org/search/rfc6125#section-6.5.1
         """
         if isinstance(pattern, self.pattern_class):
-            return (
-                self.name == pattern.name_pattern and
-                self.dns_id.verify(pattern.dns_pattern)
+            return self.name == pattern.name_pattern and self.dns_id.verify(
+                pattern.dns_pattern
             )
         else:
             return False
@@ -389,7 +393,7 @@ def _hostname_matches(cert_pattern, actual_hostname):
     :return: `True` if *cert_pattern* matches *actual_hostname*, else `False`.
     :rtype: `bool`
     """
-    if b'*' in cert_pattern:
+    if b"*" in cert_pattern:
         cert_head, cert_tail = cert_pattern.split(b".", 1)
         actual_head, actual_tail = actual_hostname.split(b".", 1)
         if cert_tail != actual_tail:
@@ -415,15 +419,15 @@ def _validate_pattern(cert_pattern):
     cnt = cert_pattern.count(b"*")
     if cnt > 1:
         raise CertificateError(
-            "Certificate's DNS-ID {0!r} contains too many wildcards."
-            .format(cert_pattern)
+            "Certificate's DNS-ID {0!r} contains too many wildcards.".format(
+                cert_pattern
+            )
         )
     parts = cert_pattern.split(b".")
     if len(parts) < 3:
         raise CertificateError(
             "Certificate's DNS-ID {0!r} has too few host components for "
-            "wildcard usage."
-            .format(cert_pattern)
+            "wildcard usage.".format(cert_pattern)
         )
     # We assume there will always be only one wildcard allowed.
     if b"*" not in parts[0]:
@@ -433,11 +437,13 @@ def _validate_pattern(cert_pattern):
         )
     if any(not len(p) for p in parts):
         raise CertificateError(
-            "Certificate's DNS-ID {0!r} contains empty parts."
-            .format(cert_pattern)
+            "Certificate's DNS-ID {0!r} contains empty parts.".format(
+                cert_pattern
+            )
         )
 
 
 # Ensure no locale magic interferes.
-_TRANS_TO_LOWER = maketrans(b"ABCDEFGHIJKLMNOPQRSTUVWXYZ",
-                            b"abcdefghijklmnopqrstuvwxyz")
+_TRANS_TO_LOWER = maketrans(
+    b"ABCDEFGHIJKLMNOPQRSTUVWXYZ", b"abcdefghijklmnopqrstuvwxyz"
+)

@@ -14,6 +14,10 @@ Service Identity Verification
    :target: https://codecov.io/github/pyca/service_identity
    :alt: Test Coverage
 
+.. image:: https://img.shields.io/badge/code%20style-black-000000.svg
+   :target: https://github.com/ambv/black
+   :alt: Code style: black
+
 .. image:: https://www.irccloud.com/invite-svg?channel=%23cryptography-dev&amp;hostname=irc.freenode.net&amp;port=6697&amp;ssl=1
     :target: https://www.irccloud.com/invite?channel=%23cryptography-dev&amp;hostname=irc.freenode.net&amp;port=6697&amp;ssl=1
 
@@ -22,7 +26,7 @@ Service Identity Verification
 Use this package if:
 
 - you use pyOpenSSL_ and don’t want to be MITM_\ ed or
-- if you want to verify that a `PyCA cryptography`_ certificate is valid for a certain hostname.
+- if you want to verify that a `PyCA cryptography`_ certificate is valid for a certain hostname or IP address.
 
 ``service_identity`` aspires to give you all the tools you need for verifying whether a certificate is valid for the intended purposes.
 

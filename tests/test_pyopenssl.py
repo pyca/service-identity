@@ -8,13 +8,21 @@ from OpenSSL.crypto import FILETYPE_PEM, load_certificate
 
 from service_identity import SubjectAltNameWarning
 from service_identity._common import (
-    DNS_ID, DNSPattern, IPAddress_ID, IPAddressPattern, URIPattern
+    DNS_ID,
+    DNSPattern,
+    IPAddress_ID,
+    IPAddressPattern,
+    URIPattern,
 )
 from service_identity.exceptions import (
-    DNSMismatch, IPAddressMismatch, VerificationError
+    DNSMismatch,
+    IPAddressMismatch,
+    VerificationError,
 )
 from service_identity.pyopenssl import (
-    extract_ids, verify_hostname, verify_ip_address
+    extract_ids,
+    verify_hostname,
+    verify_ip_address,
 )
 
 from .util import PEM_CN_ONLY, PEM_DNS_ONLY, PEM_EVERYTHING, PEM_OTHER_NAME
@@ -31,6 +39,7 @@ class TestPublicAPI(object):
         """
         verify_hostname succeeds if the hostnames match.
         """
+
         class FakeConnection(object):
             def get_peer_certificate(self):
                 return CERT_DNS_ONLY
@@ -42,6 +51,7 @@ class TestPublicAPI(object):
         verify_hostname fails if the hostnames don't match and provides the
         user with helpful information.
         """
+
         class FakeConnection(object):
             def get_peer_certificate(self):
                 return CERT_DNS_ONLY
@@ -50,7 +60,7 @@ class TestPublicAPI(object):
             verify_hostname(FakeConnection(), u"google.com")
 
         assert [
-            DNSMismatch(mismatched_id=DNS_ID(u'google.com'))
+            DNSMismatch(mismatched_id=DNS_ID(u"google.com"))
         ] == ei.value.errors
 
     @pytest.mark.parametrize("ip", [u"1.1.1.1", u"::1"])
@@ -59,6 +69,7 @@ class TestPublicAPI(object):
         verify_ip_address succeeds if the addresses match. Works both with IPv4
         and IPv6.
         """
+
         class FakeConnection(object):
             def get_peer_certificate(self):
                 return CERT_EVERYTHING
@@ -71,6 +82,7 @@ class TestPublicAPI(object):
         verify_ip_address fails if the addresses don't match and provides the
         user with helpful information. Works both with IPv4 and IPv6.
         """
+
         class FakeConnection(object):
             def get_peer_certificate(self):
                 return CERT_EVERYTHING
@@ -91,7 +103,7 @@ class TestExtractIDs(object):
         rv = extract_ids(CERT_DNS_ONLY)
         assert [
             DNSPattern(b"www.twistedmatrix.com"),
-            DNSPattern(b"twistedmatrix.com")
+            DNSPattern(b"twistedmatrix.com"),
         ] == rv
 
     def test_cn_ids_are_used_as_fallback(self):
@@ -104,9 +116,7 @@ class TestExtractIDs(object):
 
         msg = ws[0].message.args[0]
 
-        assert [
-            DNSPattern(b"www.microsoft.com")
-        ] == rv
+        assert [DNSPattern(b"www.microsoft.com")] == rv
         assert msg.startswith(
             "Certificate with CN 'www.microsoft.com' has no `subjectAltName`"
         )
@@ -119,9 +129,9 @@ class TestExtractIDs(object):
         Returns the correct URIPattern from a certificate.
         """
         rv = extract_ids(CERT_OTHER_NAME)
-        assert [
-            URIPattern(b"http://example.com/")
-        ] == [id for id in rv if isinstance(id, URIPattern)]
+        assert [URIPattern(b"http://example.com/")] == [
+            id for id in rv if isinstance(id, URIPattern)
+        ]
 
     def test_ip(self):
         """
