@@ -7,7 +7,7 @@ Versions follow `CalVer <https://calver.org>`_ with a strict backwards compatibi
 The third digit is only for regressions.
 
 
-18.1.0 (UNRELEASED)
+18.1.0 (2018-12-05)
 -------------------
 
 Changes:
