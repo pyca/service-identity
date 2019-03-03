@@ -1,7 +1,7 @@
-include LICENSE .coveragerc .travis.yml .pre-commit-config.yaml tox.ini pyproject.toml
+include LICENSE .coveragerc *.yml .pre-commit-config.yaml tox.ini pyproject.toml conftest.py
 include docs/Makefile docs/conf.py
 include *.rst *.txt
-exclude conftest.py .readthedocs.yml
 recursive-include docs *.rst
-prune tests
-prune .github
+recursive-include tests *.py
+recursive-exclude tests *.pyc
+graft .github
