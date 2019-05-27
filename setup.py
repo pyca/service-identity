@@ -49,6 +49,9 @@ EXTRAS_REQUIRE = {
 EXTRAS_REQUIRE["dev"] = (
     EXTRAS_REQUIRE["tests"] + EXTRAS_REQUIRE["docs"] + ["idna", "pyOpenSSL"]
 )
+EXTRAS_REQUIRE["azure-pipelines"] = EXTRAS_REQUIRE["tests"] + [
+    "pytest-azurepipelines"
+]
 
 ###############################################################################
 
