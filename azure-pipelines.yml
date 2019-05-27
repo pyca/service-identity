@@ -1,0 +1,98 @@
+
+# Don't have two build jobs for each pull request.
+trigger:
+- master
+
+jobs:
+  - job: 'Test'
+    pool:
+      vmImage: 'ubuntu-latest'
+    strategy:
+      matrix:
+        Lint:
+            python.version: '3.7'
+            TOXENV: lint
+        Manifest:
+            python.version: '3.7'
+            TOXENV: manifest
+
+        py27:
+          python.version: '2.7'
+          TOXENV: py27
+        py37:
+          python.version: '3.7'
+          TOXENV: py37
+        py27-pyopenssl014-idna:
+          python.version: '2.7'
+          TOXENV: py27-pyopenssl014-idna
+        py27-pyopensslLatest-idna:
+          python.version: '2.7'
+          TOXENV: py27-pyopensslLatest-idna
+        py27-pyopensslLatest-noidna:
+          python.version: '2.7'
+          TOXENV: py27-pyopensslLatest-noidna
+        py34-pyopenssl014-idna:
+          python.version: '3.4'
+          TOXENV: py34-pyopenssl014-idna
+        py34-pyopensslLatest-idna:
+          python.version: '3.4'
+          TOXENV: py34-pyopensslLatest-idna
+        py35-pyopenssl014-idna:
+          python.version: '3.5'
+          TOXENV: py35-pyopenssl014-idna
+        py35-pyopensslLatest-idna:
+          python.version: '3.5'
+          TOXENV: py35-pyopensslLatest-idna
+        py36-pyopenssl014-idna:
+          python.version: '3.6'
+          TOXENV: py36-pyopenssl014-idna
+        py36-pyopensslLatest-idna:
+          python.version: '3.6'
+          TOXENV: py36-pyopensslLatest-idna
+        py36-pyopensslLatest-noidna:
+          python.version: '3.6'
+          TOXENV: py36-pyopensslLatest-noidna
+        py37-pyopenssl014-idna:
+          python.version: '3.7'
+          TOXENV: py37-pyopenssl014-idna
+        py37-pyopensslLatest-idna:
+          python.version: '3.7'
+          TOXENV: py37-pyopensslLatest-idna
+        py37-pyopensslLatest-noidna:
+          python.version: '3.7'
+          TOXENV: py37-pyopensslLatest-noidna
+        pypy:
+          python.version: pypy2
+          TOXENV: pypy
+        pypy3:
+          python.version: pypy3
+          TOXENV: pypy3
+        pypy-pyopensslLatest-idna:
+          python.version: pypy2
+          TOXENV: pypy-pyopensslLatest-idna
+        pypy3-pyopensslLatest-idna:
+          python.version: pypy3
+          TOXENV: pypy3-pyopensslLatest-idna
+   
+        Docs:
+          python.version: '3.7'
+          TOXENV: docs
+        PyPI-Description:
+          python.version: '3.7'
+          TOXENV: pypi-description
+
+    steps:
+      - task: UsePythonVersion@0
+        inputs:
+          versionSpec: '$(python.version)'
+          architecture: 'x64'
+
+      - script: python -m pip install --upgrade tox codecov
+        displayName: install tox
+      - script: env TOX_AP_TEST_EXTRAS=azure-pipelines tox
+        displayName: run tox
+      - script: |
+          coverage combine
+          codecov -t $(CODECOV_TOKEN)
+        displayName: Report Coverage
+        condition: succeeded()
