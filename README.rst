@@ -6,9 +6,9 @@ Service Identity Verification
    :target: https://service-identity.readthedocs.io/en/stable/?badge=stable
    :alt: Documentation Status
 
-.. image:: https://travis-ci.org/pyca/service_identity.svg?branch=master
-   :target: https://travis-ci.org/pyca/service_identity
-   :alt: CI status
+.. image:: https://dev.azure.com/pyca/service_identity/_apis/build/status/pyca.service_identity?branchName=master
+   :target: https://dev.azure.com/pyca/service_identity/_build?definitionId=11
+   :alt: CI Status
 
 .. image:: https://codecov.io/github/pyca/service_identity/branch/master/graph/badge.svg
    :target: https://codecov.io/github/pyca/service_identity
