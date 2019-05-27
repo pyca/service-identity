@@ -73,7 +73,7 @@ jobs:
         pypy3-pyopensslLatest-idna:
           python.version: pypy3
           TOXENV: pypy3-pyopensslLatest-idna
-   
+
         Docs:
           python.version: '3.7'
           TOXENV: docs
