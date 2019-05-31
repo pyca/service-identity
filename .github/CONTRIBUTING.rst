@@ -58,7 +58,7 @@ Tests
      assert "foo" == x._a_private_attribute
 
 - To run the test suite, all you need is a recent tox_.
-  It will ensure the test suite runs with all dependencies against all Python versions just as it will on `Travis CI`_.
+  It will ensure the test suite runs with all dependencies against all Python versions just as it will in our CI.
   If you lack some Python versions, you can can make it a non-failure using ``tox --skip-missing-interpreters`` (in that case you may want to look into pyenv_ that makes it very easy to install many different Python versions in parallel).
 - Write `good test docstrings`_.
 
@@ -171,9 +171,8 @@ Thank you for considering to contribute to ``service_identity``!
 .. _changelog: https://github.com/pyca/service_identity/blob/master/CHANGELOG.rst
 .. _`backward compatibility`: https://service-identity.readthedocs.io/en/latest/backward-compatibility.html
 .. _`tox`: https://tox.readthedocs.io/en/latest/
-.. _`Travis CI`: https://travis-ci.org/
 .. _pyenv: https://github.com/pyenv/pyenv
-.. _CI: https://travis-ci.org/pyca/service_identity
+.. _CI: https://dev.azure.com/pyca/service_identity/_build?definitionId=11
 .. _freenode: https://webchat.freenode.net
 .. _reStructuredText: https://www.sphinx-doc.org/en/master/usage/restructuredtext/basics.html
 .. _semantic newlines: https://rhodesmill.org/brandon/2012/one-sentence-per-line/
