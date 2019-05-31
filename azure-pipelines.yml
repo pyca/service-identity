@@ -10,76 +10,76 @@ jobs:
     strategy:
       matrix:
         Lint:
-            python.version: '3.7'
-            TOXENV: lint
+          python.version: '3.7'
+          tox.env: lint
         Manifest:
-            python.version: '3.7'
-            TOXENV: manifest
+          python.version: '3.7'
+          tox.env: manifest
 
         py27:
           python.version: '2.7'
-          TOXENV: py27
+          tox.env: py27
         py37:
           python.version: '3.7'
-          TOXENV: py37
+          tox.env: py37
         py27-pyopenssl014-idna:
           python.version: '2.7'
-          TOXENV: py27-pyopenssl014-idna
+          tox.env: py27-pyopenssl014-idna
         py27-pyopensslLatest-idna:
           python.version: '2.7'
-          TOXENV: py27-pyopensslLatest-idna
+          tox.env: py27-pyopensslLatest-idna
         py27-pyopensslLatest-noidna:
           python.version: '2.7'
-          TOXENV: py27-pyopensslLatest-noidna
+          tox.env: py27-pyopensslLatest-noidna
         py34-pyopenssl014-idna:
           python.version: '3.4'
-          TOXENV: py34-pyopenssl014-idna
+          tox.env: py34-pyopenssl014-idna
         py34-pyopensslLatest-idna:
           python.version: '3.4'
-          TOXENV: py34-pyopensslLatest-idna
+          tox.env: py34-pyopensslLatest-idna
         py35-pyopenssl014-idna:
           python.version: '3.5'
-          TOXENV: py35-pyopenssl014-idna
+          tox.env: py35-pyopenssl014-idna
         py35-pyopensslLatest-idna:
           python.version: '3.5'
-          TOXENV: py35-pyopensslLatest-idna
+          tox.env: py35-pyopensslLatest-idna
         py36-pyopenssl014-idna:
           python.version: '3.6'
-          TOXENV: py36-pyopenssl014-idna
+          tox.env: py36-pyopenssl014-idna
         py36-pyopensslLatest-idna:
           python.version: '3.6'
-          TOXENV: py36-pyopensslLatest-idna
+          tox.env: py36-pyopensslLatest-idna
         py36-pyopensslLatest-noidna:
           python.version: '3.6'
-          TOXENV: py36-pyopensslLatest-noidna
+          tox.env: py36-pyopensslLatest-noidna
         py37-pyopenssl014-idna:
           python.version: '3.7'
-          TOXENV: py37-pyopenssl014-idna
+          tox.env: py37-pyopenssl014-idna
         py37-pyopensslLatest-idna:
           python.version: '3.7'
-          TOXENV: py37-pyopensslLatest-idna
+          tox.env: py37-pyopensslLatest-idna
         py37-pyopensslLatest-noidna:
           python.version: '3.7'
-          TOXENV: py37-pyopensslLatest-noidna
+          tox.env: py37-pyopensslLatest-noidna
         pypy:
           python.version: pypy2
-          TOXENV: pypy
+          tox.env: pypy
         pypy3:
           python.version: pypy3
-          TOXENV: pypy3
+          tox.env: pypy3
         pypy-pyopensslLatest-idna:
           python.version: pypy2
-          TOXENV: pypy-pyopensslLatest-idna
+          tox.env: pypy-pyopensslLatest-idna
         pypy3-pyopensslLatest-idna:
           python.version: pypy3
-          TOXENV: pypy3-pyopensslLatest-idna
+          tox.env: pypy3-pyopensslLatest-idna
 
         Docs:
           python.version: '3.7'
-          TOXENV: docs
+          tox.env: docs
         PyPI-Description:
           python.version: '3.7'
-          TOXENV: pypi-description
+          tox.env: pypi-description
 
     steps:
       - task: UsePythonVersion@0
@@ -88,9 +88,11 @@ jobs:
           architecture: 'x64'
 
       - script: python -m pip install --upgrade tox codecov
-        displayName: install tox
-      - script: env TOX_AP_TEST_EXTRAS=azure-pipelines tox
+        displayName: install tox & codecov
+      - script: tox -e $(tox.env)
         displayName: run tox
+        env:
+          TOX_AP_TEST_EXTRAS=azure-pipelines
       - script: |
           coverage combine
           codecov -t $(CODECOV_TOKEN)
