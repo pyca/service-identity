@@ -121,7 +121,7 @@ class TestExtractIDs(object):
             "Certificate with CN 'www.microsoft.com' has no `subjectAltName`"
         )
         assert msg.endswith(
-            "service_identity will remove the support for it in mid-2018."
+            "service-identity will remove the support for it in mid-2018."
         )
 
     def test_uri(self):

@@ -1,7 +1,7 @@
 Backward Compatibility
 ======================
 
-``service_identity`` has a very strong backward compatibility policy.
+``service-identity`` has a very strong backward compatibility policy.
 Generally speaking, you shouldn't ever be afraid of updating.
 
 If breaking changes are needed do be done, they are:

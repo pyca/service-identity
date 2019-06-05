@@ -6,7 +6,7 @@ Installation and Requirements
 Installation
 ============
 
-``$ pip install service_identity``
+``$ pip install service-identity``
 
 
 Requirements

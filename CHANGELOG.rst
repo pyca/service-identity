@@ -41,7 +41,7 @@ Changes:
 - pyOpenSSL is optional now if you use ``service_identity.cryptography.*`` only.
 - Added support for ``iPAddress`` ``subjectAltName``\ s.
   You can now verify whether a connection or a certificate is valid for an IP address using ``service_identity.pyopenssl.verify_ip_address()`` and ``service_identity.cryptography.verify_certificate_ip_address()``.
-  `#12 <https://github.com/pyca/service_identity/pull/12>`_
+  `#12 <https://github.com/pyca/service-identity/pull/12>`_
 
 
 ----
@@ -53,7 +53,7 @@ Changes:
 Deprecations:
 ^^^^^^^^^^^^^
 
-- Since Chrome 58 and Firefox 48 both don't accept certificates that contain only a Common Name, its usage is hereby deprecated in ``service_identity`` too.
+- Since Chrome 58 and Firefox 48 both don't accept certificates that contain only a Common Name, its usage is hereby deprecated in ``service-identity`` too.
   We have been raising a warning since 16.0.0 and the support will be removed in mid-2018 for good.
 
 
@@ -61,12 +61,12 @@ Changes:
 ^^^^^^^^
 
 - When ``service_identity.SubjectAltNameWarning`` is raised, the Common Name of the certificate is now included in the warning message.
-  `#17 <https://github.com/pyca/service_identity/pull/17>`_
+  `#17 <https://github.com/pyca/service-identity/pull/17>`_
 - Added ``cryptography.x509`` backend for verifying certificates.
-  `#18 <https://github.com/pyca/service_identity/pull/18>`_
+  `#18 <https://github.com/pyca/service-identity/pull/18>`_
 - Wildcards (``*``) are now only allowed if they are the leftmost label in a certificate.
   This is common practice by all major browsers.
-  `#19 <https://github.com/pyca/service_identity/pull/19>`_
+  `#19 <https://github.com/pyca/service-identity/pull/19>`_
 
 
 ----
@@ -94,7 +94,7 @@ Changes:
 
 - Officially support Python 3.5.
 - ``service_identity.SubjectAltNameWarning`` is now raised if the server certicate lacks a proper ``SubjectAltName``.
-  `#9 <https://github.com/pyca/service_identity/issues/9>`_
+  `#9 <https://github.com/pyca/service-identity/issues/9>`_
 - Add a ``__str__`` method to ``VerificationError``.
 - Port from ``characteristic`` to its spiritual successor `attrs <https://www.attrs.org/>`_.
 
@@ -130,11 +130,11 @@ Changes:
 
 - Move into the `Python Cryptography Authority’s GitHub account <https://github.com/pyca/>`_.
 - Move exceptions into ``service_identity.exceptions`` so tracebacks don’t contain private module names.
-- Promoting to stable since Twisted 14.0 is optionally depending on ``service_identity`` now.
+- Promoting to stable since Twisted 14.0 is optionally depending on ``service-identity`` now.
 - Use `characteristic <https://characteristic.readthedocs.io/>`_ instead of a home-grown solution.
 - ``idna`` 0.6 did some backward-incompatible fixes that broke Python 3 support.
-  This has been fixed now therefore ``service_identity`` only works with ``idna`` 0.6 and later.
-  Unfortunately since ``idna`` doesn’t offer version introspection, ``service_identity`` can’t warn about it.
+  This has been fixed now therefore ``service-identity`` only works with ``idna`` 0.6 and later.
+  Unfortunately since ``idna`` doesn’t offer version introspection, ``service-identity`` can’t warn about it.
 
 
 ----

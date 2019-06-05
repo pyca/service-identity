@@ -10,8 +10,8 @@ Service Identity Verification
    :target: https://dev.azure.com/pyca/service_identity/_build?definitionId=11
    :alt: CI Status
 
-.. image:: https://codecov.io/github/pyca/service_identity/branch/master/graph/badge.svg
-   :target: https://codecov.io/github/pyca/service_identity
+.. image:: https://codecov.io/github/pyca/service-identity/branch/master/graph/badge.svg
+   :target: https://codecov.io/github/pyca/service-identity
    :alt: Test Coverage
 
 .. image:: https://img.shields.io/badge/code%20style-black-000000.svg
@@ -28,12 +28,12 @@ Use this package if:
 - you use pyOpenSSL_ and don’t want to be MITM_\ ed or
 - if you want to verify that a `PyCA cryptography`_ certificate is valid for a certain hostname or IP address.
 
-``service_identity`` aspires to give you all the tools you need for verifying whether a certificate is valid for the intended purposes.
+``service-identity`` aspires to give you all the tools you need for verifying whether a certificate is valid for the intended purposes.
 
 In the simplest case, this means *host name verification*.
-However, ``service_identity`` implements `RFC 6125`_ fully and plans to add other relevant RFCs too.
+However, ``service-identity`` implements `RFC 6125`_ fully and plans to add other relevant RFCs too.
 
-``service_identity``\ ’s documentation lives at `Read the Docs <https://service-identity.readthedocs.io/>`_, the code on `GitHub <https://github.com/pyca/service_identity>`_.
+``service-identity``\ ’s documentation lives at `Read the Docs <https://service-identity.readthedocs.io/>`_, the code on `GitHub <https://github.com/pyca/service-identity>`_.
 
 
 .. _Twisted: https://twistedmatrix.com/
