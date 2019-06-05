@@ -138,7 +138,7 @@ def extract_ids(cert):
             "Certificate with CN '%s' has no `subjectAltName`, falling back "
             "to check for a `commonName` for now.  This feature is being "
             "removed by major browsers and deprecated by RFC 2818.  "
-            "service_identity will remove the support for it in mid-2018."
+            "service-identity will remove the support for it in mid-2018."
             % (cn.decode("utf-8"),),
             SubjectAltNameWarning,
             stacklevel=2,

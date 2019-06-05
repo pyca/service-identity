@@ -1,5 +1,5 @@
 """
-All exceptions and warnings thrown by ``service_identity``.
+All exceptions and warnings thrown by ``service-identity``.
 
 Separated into an own package for nicer tracebacks, you should still import
 them from __init__.py.

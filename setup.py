@@ -7,7 +7,7 @@ from setuptools import find_packages, setup
 
 ###############################################################################
 
-NAME = "service_identity"
+NAME = "service-identity"
 KEYWORDS = ["cryptography", "openssl", "pyopenssl"]
 CLASSIFIERS = [
     "Development Status :: 5 - Production/Stable",
@@ -57,7 +57,7 @@ EXTRAS_REQUIRE["azure-pipelines"] = EXTRAS_REQUIRE["tests"] + [
 
 HERE = os.path.abspath(os.path.dirname(__file__))
 PACKAGES = find_packages(where="src")
-META_PATH = os.path.join(HERE, "src", NAME, "__init__.py")
+META_PATH = os.path.join(HERE, "src", NAME.replace("-", "_"), "__init__.py")
 
 
 def read(*parts):

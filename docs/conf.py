@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# service_identity documentation build configuration file, created by
+# service-identity documentation build configuration file, created by
 # sphinx-quickstart on Mon Jun  2 16:32:11 2014.
 #
 # This file is execfile()d with the current directory set to its
@@ -76,7 +76,7 @@ source_suffix = ".rst"
 master_doc = "index"
 
 # General information about the project.
-project = u"service_identity"
+project = u"service-identity"
 year = datetime.date.today().year
 copyright = u"2014, Hynek Schlawack"
 
@@ -216,7 +216,7 @@ html_theme_options = {
 # html_file_suffix = None
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = "service_identitydoc"
+htmlhelp_basename = "service-identitydoc"
 
 
 # -- Options for LaTeX output ---------------------------------------------
@@ -229,7 +229,7 @@ latex_elements = {}
 latex_documents = [
     (
         "index",
-        "service_identity.tex",
+        "service-identity.tex",
         u"service\\_identity Documentation",
         u"Hynek Schlawack",
         "manual",
@@ -264,8 +264,8 @@ latex_documents = [
 man_pages = [
     (
         "index",
-        "service_identity",
-        u"service_identity Documentation",
+        "service-identity",
+        u"service-identity Documentation",
         [u"Hynek Schlawack"],
         1,
     )
@@ -283,10 +283,10 @@ man_pages = [
 texinfo_documents = [
     (
         "index",
-        "service_identity",
-        u"service_identity Documentation",
+        "service-identity",
+        u"service-identity Documentation",
         u"Hynek Schlawack",
-        "service_identity",
+        "service-identity",
         "Service Identity Verification for pyOpenSSL",
         "Miscellaneous",
     )
