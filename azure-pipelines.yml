@@ -30,18 +30,21 @@ jobs:
         py27-pyopensslLatest-noidna:
           python.version: '2.7'
           tox.env: py27-pyopensslLatest-noidna
+
         py34-pyopenssl014-idna:
           python.version: '3.4'
           tox.env: py34-pyopenssl014-idna
         py34-pyopensslLatest-idna:
           python.version: '3.4'
           tox.env: py34-pyopensslLatest-idna
+
         py35-pyopenssl014-idna:
           python.version: '3.5'
           tox.env: py35-pyopenssl014-idna
         py35-pyopensslLatest-idna:
           python.version: '3.5'
           tox.env: py35-pyopensslLatest-idna
+
         py36-pyopenssl014-idna:
           python.version: '3.6'
           tox.env: py36-pyopenssl014-idna
@@ -51,6 +54,7 @@ jobs:
         py36-pyopensslLatest-noidna:
           python.version: '3.6'
           tox.env: py36-pyopensslLatest-noidna
+
         py37-pyopenssl014-idna:
           python.version: '3.7'
           tox.env: py37-pyopenssl014-idna
@@ -60,6 +64,17 @@ jobs:
         py37-pyopensslLatest-noidna:
           python.version: '3.7'
           tox.env: py37-pyopensslLatest-noidna
+
+        py38-pyopenssl014-idna:
+          python.version: '3.8'
+          tox.env: py38-pyopenssl014-idna
+        py38-pyopensslLatest-idna:
+          python.version: '3.8'
+          tox.env: py38-pyopensslLatest-idna
+        py38-pyopensslLatest-noidna:
+          python.version: '3.8'
+          tox.env: py38-pyopensslLatest-noidna
+
         pypy:
           python.version: pypy2
           tox.env: pypy
