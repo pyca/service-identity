@@ -52,6 +52,11 @@ EXTRAS_REQUIRE["dev"] = (
 EXTRAS_REQUIRE["azure-pipelines"] = EXTRAS_REQUIRE["tests"] + [
     "pytest-azurepipelines"
 ]
+PROJECT_URLS = {
+    "Documentation": "https://service-identity.readthedocs.io/",
+    "Bug Tracker": "https://github.com/pyca/service-identity/issues",
+    "Source Code": "https://github.com/pyca/service-identity",
+}
 
 ###############################################################################
 
@@ -84,7 +89,7 @@ def find_meta(meta):
     raise RuntimeError("Unable to find __{meta}__ string.".format(meta=meta))
 
 
-URI = find_meta("uri")
+URL = find_meta("url")
 LONG = (
     read("README.rst")
     + "\n\n"
@@ -98,7 +103,7 @@ LONG = (
     + "\n\n`Full changelog "
     + "<{uri}en/stable/changelog.html>`_.\n\n"
     + read("AUTHORS.rst")
-).format(uri=URI)
+).format(uri=URL)
 
 
 if __name__ == "__main__":
@@ -106,7 +111,8 @@ if __name__ == "__main__":
         name=NAME,
         description=find_meta("description"),
         license=find_meta("license"),
-        url=URI,
+        url=URL,
+        project_urls=PROJECT_URLS,
         version=find_meta("version"),
         author=find_meta("author"),
         author_email=find_meta("email"),

@@ -16,7 +16,8 @@ __version__ = "19.1.0.dev0"
 
 __title__ = "service-identity"
 __description__ = "Service identity verification for pyOpenSSL & cryptography."
-__uri__ = "https://service-identity.readthedocs.io/"
+__url__ = "https://service-identity.readthedocs.io/"
+__uri__ = __url__
 
 __author__ = "Hynek Schlawack"
 __email__ = "hs@ox.cx"
