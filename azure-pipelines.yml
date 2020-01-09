@@ -31,13 +31,6 @@ jobs:
           python.version: '2.7'
           tox.env: py27-pyopensslLatest-noidna
 
-        py34-pyopenssl014-idna:
-          python.version: '3.4'
-          tox.env: py34-pyopenssl014-idna
-        py34-pyopensslLatest-idna:
-          python.version: '3.4'
-          tox.env: py34-pyopensslLatest-idna
-
         py35-pyopenssl014-idna:
           python.version: '3.5'
           tox.env: py35-pyopenssl014-idna

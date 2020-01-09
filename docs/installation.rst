@@ -12,7 +12,7 @@ Installation
 Requirements
 ============
 
-Python 2.7, 3.4 and later, as well as PyPy are supported.
+Python 2.7, 3.5 and later, as well as PyPy are supported.
 
 Additionally, the following PyPI packages are required:
 

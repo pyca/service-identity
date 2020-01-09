@@ -7,14 +7,18 @@ Versions follow `CalVer <https://calver.org>`_ with a strict backwards compatibi
 The third digit is only for regressions.
 
 
-18.2.0 (UNRELEASED)
+20.1.0 (UNRELEASED)
 -------------------
 
 
 Backward-incompatible changes:
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-*none*
+- Python 3.4 is not supported anymore.
+  It has been unsupported by the Python core team for a while now, its PyPI downloads are negligible, and our CI provider removed it as a supported option.
+
+  It's very unlikely that ``service-identity`` will break under 3.4 anytime soon, which is why we do *not* block its installation on Python 3.4.
+  But we don't test it anymore and will block it once someone reports breakage.
 
 
 Deprecations:

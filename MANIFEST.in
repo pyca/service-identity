@@ -1,4 +1,4 @@
-include LICENSE .coveragerc *.yml .pre-commit-config.yaml tox.ini pyproject.toml conftest.py
+include LICENSE *.yml .pre-commit-config.yaml tox.ini pyproject.toml conftest.py
 include docs/Makefile docs/conf.py
 include *.rst *.txt *.md
 recursive-include docs *.rst
