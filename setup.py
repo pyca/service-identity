@@ -49,9 +49,6 @@ EXTRAS_REQUIRE = {
 EXTRAS_REQUIRE["dev"] = (
     EXTRAS_REQUIRE["tests"] + EXTRAS_REQUIRE["docs"] + ["idna", "pyOpenSSL"]
 )
-EXTRAS_REQUIRE["azure-pipelines"] = EXTRAS_REQUIRE["tests"] + [
-    "pytest-azurepipelines"
-]
 PROJECT_URLS = {
     "Documentation": "https://service-identity.readthedocs.io/",
     "Bug Tracker": "https://github.com/pyca/service-identity/issues",
@@ -96,7 +93,7 @@ LONG = (
     + "Release Information\n"
     + "===================\n\n"
     + re.search(
-        r"(\d{2}.\d.\d \(.*?\)\n.*?)\n\n\n----\n\n\n",
+        r"(\d+.\d.\d \(.*?\)\r?\n.*?)\r?\n\r?\n\r?\n----\r?\n\r?\n\r?\n",
         read("CHANGELOG.rst"),
         re.S,
     ).group(1)
