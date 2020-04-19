@@ -172,7 +172,7 @@ Thank you for considering to contribute to ``service_identity``!
 .. _`backward compatibility`: https://service-identity.readthedocs.io/en/latest/backward-compatibility.html
 .. _`tox`: https://tox.readthedocs.io/en/latest/
 .. _pyenv: https://github.com/pyenv/pyenv
-.. _CI: https://dev.azure.com/pyca/service_identity/_build?definitionId=11
+.. _CI: https://github.com/pyca/service-identity/actions
 .. _freenode: https://webchat.freenode.net
 .. _reStructuredText: https://www.sphinx-doc.org/en/master/usage/restructuredtext/basics.html
 .. _semantic newlines: https://rhodesmill.org/brandon/2012/one-sentence-per-line/
