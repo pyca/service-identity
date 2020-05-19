@@ -325,6 +325,17 @@ class TestURI_ID(object):
         """
         assert not URI_ID(u"sip:bar.com").verify(URIPattern(b"sip:foo.com"))
 
+    def test_handles_arnlike_uris(self):
+        """
+        If the SAN is a URI that looks akin to a Amazon Resource Identifier,
+        ensure we can match it.
+        """
+        assert not URI_ID(
+            u"URI:arn:aws:ec2:us-west-2:12345678:instance/i-0123456789"
+        ).verify(
+            URIPattern(b"URI:arn:aws:ec2:us-west-2:12345678:instance/i-0123456789")
+        )
+
     def test_match(self):
         """
         Accept legal matches.
@@ -466,6 +477,14 @@ class TestURIPattern(object):
         """
         with pytest.raises(CertificateError):
             URIPattern(b"sip:*.foo.com")
+
+    def test_handles_uri_with_multiple_colons(self):
+        """
+        Handle an ARN-like URI.
+        """
+        p = URIPattern(b"URI:arn:aws:ec2:us-west-2:12345678:instance/i-0123456789")
+        assert p.protocol_pattern == b"uri"
+        assert p.hostname == b"arn:aws:ec2:us-west-2:12345678:instance/i-0123456789"
 
 
 class TestSRVPattern(object):

@@ -202,7 +202,7 @@ class URIPattern(object):
             raise CertificateError(
                 "Invalid URI pattern {0!r}.".format(pattern)
             )
-        self.protocol_pattern, hostname = pattern.split(b":")
+        self.protocol_pattern, hostname = pattern.split(b":", 1)
         self.dns_pattern = DNSPattern(hostname)
 
 
@@ -327,7 +327,7 @@ class URI_ID(object):
         if u":" not in uri or _is_ip_address(uri):
             raise ValueError("Invalid URI-ID.")
 
-        prot, hostname = uri.split(u":")
+        prot, hostname = uri.split(u":", 1)
 
         self.protocol = prot.encode("ascii").translate(_TRANS_TO_LOWER)
         self.dns_id = DNS_ID(hostname.strip(u"/"))
