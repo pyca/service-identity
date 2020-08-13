@@ -25,7 +25,6 @@ include_trailing_comma = true
 lines_after_imports = 2
 lines_between_types = 1
 multi_line_output = 3
-not_skip = "__init__.py"
 
 known_first_party = "service_identity"
 known_third_party = ["OpenSSL", "attr", "cryptography", "pyasn1", "pyasn1_modules", "pytest", "service_identity", "setuptools", "six"]
