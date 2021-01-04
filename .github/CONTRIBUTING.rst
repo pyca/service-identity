@@ -176,6 +176,6 @@ Thank you for considering to contribute to ``service_identity``!
 .. _freenode: https://webchat.freenode.net
 .. _reStructuredText: https://www.sphinx-doc.org/en/master/usage/restructuredtext/basics.html
 .. _semantic newlines: https://rhodesmill.org/brandon/2012/one-sentence-per-line/
-.. _isort: https://github.com/timothycrosley/isort
-.. _black: https://github.com/ambv/black
+.. _isort: https://github.com/PyCQA/isort
+.. _black: https://github.com/psf/black
 .. _pre-commit: https://pre-commit.com/
