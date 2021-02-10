@@ -26,6 +26,7 @@ CLASSIFIERS = [
     "Programming Language :: Python :: 3.6",
     "Programming Language :: Python :: 3.7",
     "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: Implementation :: CPython",
     "Programming Language :: Python :: Implementation :: PyPy",
     "Programming Language :: Python",
@@ -43,7 +44,7 @@ INSTALL_REQUIRES = [
 ]
 EXTRAS_REQUIRE = {
     "idna": ["idna"],
-    "tests": ["coverage[toml]>=5.0.2", "pytest"],
+    "tests": ["coverage[toml]>=5.0.2", "pytest", "six"],
     "docs": ["sphinx"],
 }
 EXTRAS_REQUIRE["dev"] = (
@@ -53,6 +54,7 @@ PROJECT_URLS = {
     "Documentation": "https://service-identity.readthedocs.io/",
     "Bug Tracker": "https://github.com/pyca/service-identity/issues",
     "Source Code": "https://github.com/pyca/service-identity",
+    "Funding": "https://github.com/sponsors/hynek",
 }
 
 ###############################################################################
