@@ -67,7 +67,7 @@ jobs:
         run: "check-wheel-contents dist/*.whl"
       - name: "Check long_description"
         run: "python -m twine check dist/*"
-        
+
   install-dev:
     strategy:
       matrix:
