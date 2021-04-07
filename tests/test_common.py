@@ -670,7 +670,7 @@ class TestIsIPAddress(object):
 class TestVerificationError(object):
     def test_repr_str(self):
         """
-        The __str__ returns something sane.
+        The __str__ and __repr__ methods return something helpful.
         """
         try:
             raise VerificationError(errors=["foo"])
