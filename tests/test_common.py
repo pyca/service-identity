@@ -667,8 +667,8 @@ class TestIsIPAddress(object):
         assert _is_ip_address(not_ip) is False
 
 
-class TestExceptinos(object):
-    def test_verification_error_repr_str(self):
+class TestVerificationError(object):
+    def test_repr_str(self):
         """
         The __str__ returns something sane.
         """
