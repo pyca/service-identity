@@ -12,7 +12,7 @@ from .exceptions import (
 )
 
 
-__version__ = "20.1.0.dev0"
+__version__ = "21.1.0.dev0"
 
 __title__ = "service-identity"
 __description__ = "Service identity verification for pyOpenSSL & cryptography."
