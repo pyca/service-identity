@@ -1,6 +1,7 @@
 from __future__ import absolute_import, division, print_function
 
 import ipaddress
+import pickle
 
 import pytest
 import six
@@ -667,12 +668,32 @@ class TestIsIPAddress(object):
 
 
 class TestVerificationError(object):
-    """
-    The __str__ returns something sane.
-    """
+    def test_repr_str(self):
+        """
+        The __str__ and __repr__ methods return something helpful.
+        """
+        try:
+            raise VerificationError(errors=["foo"])
+        except VerificationError as e:
+            assert repr(e) == str(e)
+            assert str(e) != ""
 
-    try:
-        raise VerificationError(errors=["foo"])
-    except VerificationError as e:
-        assert repr(e) == str(e)
-        assert str(e) != ""
+    @pytest.mark.parametrize("proto", range(0, pickle.HIGHEST_PROTOCOL + 1))
+    @pytest.mark.parametrize(
+        "exc",
+        [
+            VerificationError(errors=[]),
+            VerificationError(errors=[DNSMismatch("example.com")]),
+            VerificationError([]),
+            VerificationError([DNSMismatch("example.com")]),
+        ],
+    )
+    def test_pickle(self, exc, proto):
+        """
+        Exceptions can be pickled and unpickled.
+        """
+        new_exc = pickle.loads(pickle.dumps(exc, proto))
+
+        # Exceptions can't be compared.
+        assert exc.__class__ == new_exc.__class__
+        assert exc.__dict__ == new_exc.__dict__

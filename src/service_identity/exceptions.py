@@ -18,7 +18,7 @@ class SubjectAltNameWarning(DeprecationWarning):
     """
 
 
-@attr.s
+@attr.s(auto_exc=True)
 class VerificationError(Exception):
     """
     Service identity verification failed.

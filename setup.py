@@ -34,7 +34,7 @@ CLASSIFIERS = [
     "Topic :: Software Development :: Libraries :: Python Modules",
 ]
 INSTALL_REQUIRES = [
-    "attrs>=17.4.0",
+    "attrs>=19.1.0",
     "ipaddress; python_version<'3.3'",
     "pyasn1-modules",
     # Place pyasn1 after pyasn1-modules to workaround setuptools install bug:

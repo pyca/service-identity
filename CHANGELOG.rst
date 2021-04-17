@@ -7,7 +7,7 @@ Versions follow `CalVer <https://calver.org>`_ with a strict backwards compatibi
 The third digit is only for regressions.
 
 
-20.1.0 (UNRELEASED)
+21.1.0 (UNRELEASED)
 -------------------
 
 
@@ -30,7 +30,8 @@ Deprecations:
 Changes:
 ^^^^^^^^
 
-*none*
+- ``service_identity.exceptions.VerificationError`` can now be pickled and is overall more well-behaved as an exception.
+  This raises the requirement of ``attrs`` to 19.1.0.
 
 
 ----
