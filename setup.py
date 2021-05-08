@@ -41,10 +41,11 @@ INSTALL_REQUIRES = [
     # https://github.com/pypa/setuptools/issues/498
     "pyasn1",
     "cryptography",
+    "six",
 ]
 EXTRAS_REQUIRE = {
     "idna": ["idna"],
-    "tests": ["coverage[toml]>=5.0.2", "pytest", "six"],
+    "tests": ["coverage[toml]>=5.0.2", "pytest"],
     "docs": ["sphinx"],
 }
 EXTRAS_REQUIRE["dev"] = (
