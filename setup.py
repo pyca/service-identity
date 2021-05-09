@@ -47,7 +47,7 @@ INSTALL_REQUIRES = [
 EXTRAS_REQUIRE = {
     "idna": ["idna"],
     "tests": ["coverage[toml]>=5.0.2", "pytest"],
-    "docs": ["sphinx"],
+    "docs": ["sphinx", "furo"],
 }
 EXTRAS_REQUIRE["dev"] = (
     EXTRAS_REQUIRE["tests"] + EXTRAS_REQUIRE["docs"] + ["idna", "pyOpenSSL"]
