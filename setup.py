@@ -27,6 +27,7 @@ CLASSIFIERS = [
     "Programming Language :: Python :: 3.7",
     "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: Implementation :: CPython",
     "Programming Language :: Python :: Implementation :: PyPy",
     "Programming Language :: Python",
@@ -46,7 +47,7 @@ INSTALL_REQUIRES = [
 EXTRAS_REQUIRE = {
     "idna": ["idna"],
     "tests": ["coverage[toml]>=5.0.2", "pytest"],
-    "docs": ["sphinx"],
+    "docs": ["sphinx", "furo"],
 }
 EXTRAS_REQUIRE["dev"] = (
     EXTRAS_REQUIRE["tests"] + EXTRAS_REQUIRE["docs"] + ["idna", "pyOpenSSL"]
