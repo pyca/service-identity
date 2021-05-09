@@ -6,11 +6,11 @@ Service Identity Verification
    :target: https://service-identity.readthedocs.io/en/stable/?badge=stable
    :alt: Documentation Status
 
-.. image:: https://github.com/pyca/service-identity/workflows/CI/badge.svg?branch=master
+.. image:: https://github.com/pyca/service-identity/workflows/CI/badge.svg?branch=main
    :target: https://github.com/pyca/service-identity/actions?workflow=CI
    :alt: CI Status
 
-.. image:: https://codecov.io/github/pyca/service-identity/branch/master/graph/badge.svg
+.. image:: https://codecov.io/github/pyca/service-identity/branch/main/graph/badge.svg
    :target: https://codecov.io/github/pyca/service-identity
    :alt: Test Coverage
 
