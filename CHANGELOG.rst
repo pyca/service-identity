@@ -7,6 +7,30 @@ Versions follow `CalVer <https://calver.org>`_ with a strict backwards compatibi
 The third digit is only for regressions.
 
 
+21.2.0 (UNRELEASED)
+-------------------
+
+Backward-incompatible changes:
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+*none*
+
+
+Deprecations:
+^^^^^^^^^^^^^
+
+*none*
+
+
+Changes:
+^^^^^^^^
+
+*none*
+
+
+----
+
+
 21.1.0 (2021-05-09)
 -------------------
 
