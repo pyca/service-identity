@@ -39,12 +39,14 @@ However, ``service-identity`` implements `RFC 6125`_ fully and plans to add othe
 .. _MITM: https://en.wikipedia.org/wiki/Man-in-the-middle_attack
 .. _RFC 6125: https://www.rfc-editor.org/info/rfc6125
 .. _PyCA cryptography: https://cryptography.io/
+
 .. spiel-end
 
 Project Information
 ===================
 
 .. meta-begin
+
 ``service-identity``\ is released under the MIT license, its documentation lives at `Read the Docs <https://service-identity.readthedocs.io/>`_, the code on `GitHub <https://github.com/pyca/service-identity>`_, and the latest release on `PyPI <https://pypi.org/project/service-identity/>`_.
 It’s rigorously tested on Python 2.7, 3.5+, and PyPy.
 
