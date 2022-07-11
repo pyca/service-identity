@@ -4,6 +4,8 @@ repos:
     rev: 21.12b0
     hooks:
       - id: black
+        # Black needs _unicodefun from click
+        additional_dependencies: [click<8]
         language_version: python3.10
 
   - repo: https://github.com/PyCQA/isort
