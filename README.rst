@@ -22,7 +22,7 @@ Service Identity Verification
    :target: https://www.irccloud.com/invite?channel=%23pyca&amp;hostname=irc.libera.chat&amp;port=6697&amp;ssl=1
    :alt: PyCA on IRC
 
-.. begin
+.. spiel-begin
 
 Use this package if:
 
@@ -34,11 +34,26 @@ Use this package if:
 In the simplest case, this means *host name verification*.
 However, ``service-identity`` implements `RFC 6125`_ fully and plans to add other relevant RFCs too.
 
-``service-identity``\ ’s documentation lives at `Read the Docs <https://service-identity.readthedocs.io/>`_, the code on `GitHub <https://github.com/pyca/service-identity>`_.
-
-
 .. _Twisted: https://twistedmatrix.com/
 .. _pyOpenSSL: https://pypi.org/project/pyOpenSSL/
 .. _MITM: https://en.wikipedia.org/wiki/Man-in-the-middle_attack
 .. _RFC 6125: https://www.rfc-editor.org/info/rfc6125
 .. _PyCA cryptography: https://cryptography.io/
+.. spiel-end
+
+Project Information
+===================
+
+.. meta-begin
+``service-identity``\ is released under the MIT license, its documentation lives at `Read the Docs <https://service-identity.readthedocs.io/>`_, the code on `GitHub <https://github.com/pyca/service-identity>`_, and the latest release on `PyPI <https://pypi.org/project/service-identity/>`_.
+It’s rigorously tested on Python 2.7, 3.5+, and PyPy.
+
+
+``service-identity`` for Enterprise
+-----------------------------------
+
+Available as part of the Tidelift Subscription.
+
+The maintainers of ``service-identity`` and thousands of other packages are working with Tidelift to deliver commercial support and maintenance for the open-source packages you use to build your applications.
+Save time, reduce risk, and improve code health, while paying the maintainers of the exact packages you use.
+`Learn more. <https://tidelift.com/subscription/pkg/service-identity?utm_source=undefined&utm_medium=referral&utm_campaign=enterprise&utm_term=repo>`_

@@ -5,7 +5,8 @@ Service Identity Verification for pyOpenSSL & cryptography
 Release v\ |release| (:doc:`What's new? <changelog>`).
 
 .. include:: ../README.rst
-   :start-after: begin
+   :start-after: spiel-begin
+   :end-before: spiel-end
 
 
 User's Guide
@@ -20,7 +21,10 @@ User's Guide
 
 
 Project Information
--------------------
+===================
+
+.. include:: ../README.rst
+   :start-after: meta-begin
 
 .. toctree::
    :maxdepth: 1
