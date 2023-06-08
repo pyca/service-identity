@@ -11,39 +11,26 @@ NAME = "service-identity"
 KEYWORDS = ["cryptography", "openssl", "pyopenssl"]
 CLASSIFIERS = [
     "Development Status :: 5 - Production/Stable",
-    "Intended Audience :: Developers",
     "License :: OSI Approved :: MIT License",
-    "Natural Language :: English",
-    "Operating System :: MacOS :: MacOS X",
-    "Operating System :: Microsoft :: Windows",
-    "Operating System :: POSIX :: BSD",
-    "Operating System :: POSIX :: Linux",
-    "Operating System :: POSIX",
-    "Programming Language :: Python :: 2",
-    "Programming Language :: Python :: 2.7",
-    "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.5",
-    "Programming Language :: Python :: 3.6",
+    "Operating System :: OS Independent",
     "Programming Language :: Python :: 3.7",
     "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: Implementation :: CPython",
     "Programming Language :: Python :: Implementation :: PyPy",
-    "Programming Language :: Python",
     "Topic :: Security :: Cryptography",
     "Topic :: Software Development :: Libraries :: Python Modules",
 ]
 INSTALL_REQUIRES = [
     "attrs>=19.1.0",
-    "ipaddress; python_version<'3.3'",
     "pyasn1-modules",
     # Place pyasn1 after pyasn1-modules to workaround setuptools install bug:
     # https://github.com/pypa/setuptools/issues/498
     "pyasn1",
     "cryptography",
-    "six",
 ]
 EXTRAS_REQUIRE = {
     "idna": ["idna"],
@@ -103,8 +90,7 @@ LONG = (
         re.S,
     ).group(1)
     + "\n\n`Full changelog "
-    + "<{uri}en/stable/changelog.html>`_.\n\n"
-    + read("AUTHORS.rst")
+    + "<{uri}en/stable/changelog.html>`_."
 ).format(uri=URL)
 
 

@@ -4,13 +4,10 @@
 
 from __future__ import absolute_import, division, print_function
 
-import warnings
-
 from cryptography.x509 import (
     DNSName,
     ExtensionOID,
     IPAddress,
-    NameOID,
     ObjectIdentifier,
     OtherName,
     UniformResourceIdentifier,
@@ -29,7 +26,6 @@ from ._common import (
     URIPattern,
     verify_service_identity,
 )
-from .exceptions import SubjectAltNameWarning
 
 
 __all__ = ["verify_certificate_hostname"]
@@ -98,12 +94,12 @@ def extract_ids(cert):
     """
     Extract all valid IDs from a certificate for service verification.
 
-    If *cert* doesn't contain any identifiers, the ``CN``s are used as DNS-IDs
-    as fallback.
-
     :param cryptography.x509.Certificate cert: The certificate to be dissected.
 
     :return: List of IDs.
+
+    .. removed:: 23.1.0
+       ``commonName`` is not used as a fallback anymore.
     """
     ids = []
     try:
@@ -141,21 +137,4 @@ def extract_ids(cert):
                 else:  # pragma: nocover
                     raise CertificateError("Unexpected certificate content.")
 
-    if not ids:
-        # https://tools.ietf.org/search/rfc6125#section-6.4.4
-        # A client MUST NOT seek a match for a reference identifier of CN-ID if
-        # the presented identifiers include a DNS-ID, SRV-ID, URI-ID, or any
-        # application-specific identifier types supported by the client.
-        cns = [
-            n.value
-            for n in cert.subject.get_attributes_for_oid(NameOID.COMMON_NAME)
-        ]
-        cn = next(iter(cns), b"<not given>")
-        ids = [DNSPattern(n.encode("utf-8")) for n in cns]
-        warnings.warn(
-            "Certificate with CN {!r} has no `subjectAltName`, falling back "
-            "to check for a `commonName` for now.  This feature is being "
-            "removed by major browsers and deprecated by RFC 2818.".format(cn),
-            SubjectAltNameWarning,
-        )
     return ids

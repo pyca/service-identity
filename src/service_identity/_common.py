@@ -141,7 +141,7 @@ class DNSPattern(object):
 
     pattern = attr.ib()
 
-    _RE_LEGAL_CHARS = re.compile(br"^[a-z0-9\-_.]+$")
+    _RE_LEGAL_CHARS = re.compile(rb"^[a-z0-9\-_.]+$")
 
     def __init__(self, pattern):
         """
@@ -247,7 +247,7 @@ class DNS_ID(object):
     hostname = attr.ib()
 
     # characters that are legal in a normalized hostname
-    _RE_LEGAL_CHARS = re.compile(br"^[a-z0-9\-_.]+$")
+    _RE_LEGAL_CHARS = re.compile(rb"^[a-z0-9\-_.]+$")
     pattern_class = DNSPattern
     error_on_mismatch = DNSMismatch
 
@@ -259,7 +259,7 @@ class DNS_ID(object):
             raise TypeError("DNS-ID must be a unicode string.")
 
         hostname = hostname.strip()
-        if hostname == u"" or _is_ip_address(hostname):
+        if hostname == "" or _is_ip_address(hostname):
             raise ValueError("Invalid DNS-ID.")
 
         if any(ord(c) > 127 for c in hostname):
@@ -324,13 +324,13 @@ class URI_ID(object):
             raise TypeError("URI-ID must be a unicode string.")
 
         uri = uri.strip()
-        if u":" not in uri or _is_ip_address(uri):
+        if ":" not in uri or _is_ip_address(uri):
             raise ValueError("Invalid URI-ID.")
 
-        prot, hostname = uri.split(u":")
+        prot, hostname = uri.split(":")
 
         self.protocol = prot.encode("ascii").translate(_TRANS_TO_LOWER)
-        self.dns_id = DNS_ID(hostname.strip(u"/"))
+        self.dns_id = DNS_ID(hostname.strip("/"))
 
     def verify(self, pattern):
         """
@@ -365,10 +365,10 @@ class SRV_ID(object):
             raise TypeError("SRV-ID must be a unicode string.")
 
         srv = srv.strip()
-        if u"." not in srv or _is_ip_address(srv) or srv[0] != u"_":
+        if "." not in srv or _is_ip_address(srv) or srv[0] != "_":
             raise ValueError("Invalid SRV-ID.")
 
-        name, hostname = srv.split(u".", 1)
+        name, hostname = srv.split(".", 1)
 
         self.name = name[1:].encode("ascii").translate(_TRANS_TO_LOWER)
         self.dns_id = DNS_ID(hostname)

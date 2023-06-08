@@ -6,7 +6,6 @@ import pytest
 
 from OpenSSL.crypto import FILETYPE_PEM, load_certificate
 
-from service_identity import SubjectAltNameWarning
 from service_identity._common import (
     DNS_ID,
     DNSPattern,
@@ -44,7 +43,7 @@ class TestPublicAPI(object):
             def get_peer_certificate(self):
                 return CERT_DNS_ONLY
 
-        verify_hostname(FakeConnection(), u"twistedmatrix.com")
+        verify_hostname(FakeConnection(), "twistedmatrix.com")
 
     def test_verify_hostname_fail(self):
         """
@@ -57,13 +56,13 @@ class TestPublicAPI(object):
                 return CERT_DNS_ONLY
 
         with pytest.raises(VerificationError) as ei:
-            verify_hostname(FakeConnection(), u"google.com")
+            verify_hostname(FakeConnection(), "google.com")
 
         assert [
-            DNSMismatch(mismatched_id=DNS_ID(u"google.com"))
+            DNSMismatch(mismatched_id=DNS_ID("google.com"))
         ] == ei.value.errors
 
-    @pytest.mark.parametrize("ip", [u"1.1.1.1", u"::1"])
+    @pytest.mark.parametrize("ip", ["1.1.1.1", "::1"])
     def test_verify_ip_address_ok(self, ip):
         """
         verify_ip_address succeeds if the addresses match. Works both with IPv4
@@ -76,7 +75,7 @@ class TestPublicAPI(object):
 
         verify_ip_address(FakeConnection(), ip)
 
-    @pytest.mark.parametrize("ip", [u"1.1.1.2", u"::2"])
+    @pytest.mark.parametrize("ip", ["1.1.1.2", "::2"])
     def test_verify_ip_address_fail(self, ip):
         """
         verify_ip_address fails if the addresses don't match and provides the
@@ -106,23 +105,11 @@ class TestExtractIDs(object):
             DNSPattern(b"twistedmatrix.com"),
         ] == rv
 
-    def test_cn_ids_are_used_as_fallback(self):
+    def test_cn_ids_are_ignored(self):
         """
-        CNs are returned as DNSPattern if no other IDs are present
-        and a warning is raised.
+        commonName is not supported anymore and therefore ignored.
         """
-        with pytest.warns(SubjectAltNameWarning) as ws:
-            rv = extract_ids(CERT_CN_ONLY)
-
-        msg = ws[0].message.args[0]
-
-        assert [DNSPattern(b"www.microsoft.com")] == rv
-        assert msg.startswith(
-            "Certificate with CN 'www.microsoft.com' has no `subjectAltName`"
-        )
-        assert msg.endswith(
-            "service-identity will remove the support for it in mid-2018."
-        )
+        assert [] == extract_ids(CERT_CN_ONLY)
 
     def test_uri(self):
         """
@@ -144,8 +131,8 @@ class TestExtractIDs(object):
             DNSPattern(pattern=b"*.wildcard.service.identity.invalid"),
             DNSPattern(pattern=b"service.identity.invalid"),
             DNSPattern(pattern=b"single.service.identity.invalid"),
-            IPAddressPattern(pattern=ipaddress.IPv4Address(u"1.1.1.1")),
-            IPAddressPattern(pattern=ipaddress.IPv6Address(u"::1")),
-            IPAddressPattern(pattern=ipaddress.IPv4Address(u"2.2.2.2")),
-            IPAddressPattern(pattern=ipaddress.IPv6Address(u"2a00:1c38::53")),
+            IPAddressPattern(pattern=ipaddress.IPv4Address("1.1.1.1")),
+            IPAddressPattern(pattern=ipaddress.IPv6Address("::1")),
+            IPAddressPattern(pattern=ipaddress.IPv4Address("2.2.2.2")),
+            IPAddressPattern(pattern=ipaddress.IPv6Address("2a00:1c38::53")),
         ] == rv

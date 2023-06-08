@@ -1,30 +1,35 @@
 ---
+default_language_version:
+  python: python3.11
+
 repos:
   - repo: https://github.com/psf/black
-    rev: 21.12b0
+    rev: 23.3.0
     hooks:
       - id: black
-        # Black needs _unicodefun from click
-        additional_dependencies: [click<8]
-        language_version: python3.10
 
   - repo: https://github.com/PyCQA/isort
-    rev: 5.8.0
+    rev: 5.12.0
     hooks:
       - id: isort
         additional_dependencies: [toml]
-        language_version: python3.10
+
+  - repo: https://github.com/asottile/yesqa
+    rev: v1.4.0
+    hooks:
+      - id: yesqa
 
   - repo: https://github.com/pycqa/flake8
-    rev: 3.9.0
+    rev: 6.0.0
     hooks:
-    - id: flake8
-      additional_dependencies: [flake8-bugbear]
-      language_version: python3.10
+      - id: flake8
+        additional_dependencies: [flake8-bugbear]
 
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v3.4.0
+    rev: v4.4.0
     hooks:
       - id: trailing-whitespace
       - id: end-of-file-fixer
       - id: debug-statements
+      - id: check-toml
+      - id: check-yaml

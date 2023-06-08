@@ -1,7 +1,8 @@
-include LICENSE *.yml .pre-commit-config.yaml tox.ini pyproject.toml conftest.py
+include LICENSE *.yml *.yaml .pre-commit-config.yaml tox.ini pyproject.toml conftest.py .python-version
 include docs/Makefile docs/conf.py
 include *.rst *.txt *.md
 recursive-include docs *.rst
 recursive-include tests *.py
 recursive-exclude tests *.pyc
 graft .github
+graft constraints

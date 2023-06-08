@@ -1,0 +1,159 @@
+---
+name: CI
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+permissions:
+  contents: read
+
+env:
+  FORCE_COLOR: "1"  # Make tools pretty.
+  TOX_TESTENV_PASSENV: FORCE_COLOR
+  # N.B. default Python version for setup-python comes from the .python-version
+  # file at the root of the project.
+
+
+jobs:
+  lint:
+    runs-on: "ubuntu-latest"
+    steps:
+      - uses: "actions/checkout@v3"
+      - uses: "actions/setup-python@v4"
+        with:
+          cache: pip
+
+      - run: python -Im pip install --upgrade tox
+      - run: python -Im tox run -e lint,manifest
+
+  tests:
+    name: "Tests on ${{ matrix.python-version }}"
+    runs-on: "ubuntu-latest"
+    strategy:
+      matrix:
+        python-version:
+          - "3.7"
+          - "3.8"
+          - "3.9"
+          - "3.10"
+          - "3.11"
+          - "3.12"
+          - "pypy37"
+          - "pypy38"
+          - "pypy39"
+
+    steps:
+      - uses: "actions/checkout@v3"
+      - uses: "actions/setup-python@v4"
+        with:
+          python-version: "${{ matrix.python-version }}"
+          allow-prereleases: true
+          cache: pip
+
+      - run: python -Im pip install --upgrade tox
+
+      - run: python -Im tox run -f py$(echo ${{ matrix.python-version }} | tr -d .)
+
+      - name: Upload coverage data
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage-data
+          path: .coverage.*
+          if-no-files-found: ignore
+
+  coverage:
+    name: Combine & check coverage.
+    needs: tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          cache: pip
+
+      - run: python -Im pip install --upgrade coverage[toml]
+
+      - uses: actions/download-artifact@v3
+        with:
+          name: coverage-data
+
+      - name: Combine coverage & fail if it's <100%.
+        run: |
+          python -Im coverage combine
+          python -Im coverage html --skip-covered --skip-empty
+
+          # Report and write to summary.
+          python -Im coverage report | sed 's/^/    /' >> $GITHUB_STEP_SUMMARY
+
+          # Report again and fail if under 100%.
+          python -Im coverage report --fail-under=100
+
+      - name: Upload HTML report if check failed.
+        uses: actions/upload-artifact@v3
+        with:
+          name: html-report
+          path: htmlcov
+        if: ${{ failure() }}
+
+  build-package:
+    name: Build & verify package
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: hynek/build-and-inspect-python-package@v1
+
+  install-dev:
+    strategy:
+      matrix:
+        os: ["ubuntu-latest", "windows-latest", "macos-latest"]
+
+    name: "Verify dev env"
+    runs-on: "${{ matrix.os }}"
+
+    steps:
+      - uses: "actions/checkout@v3"
+      - uses: "actions/setup-python@v4"
+
+      - name: "Install in dev mode"
+        run: "python -Im pip install -e .[dev]"
+      - name: "Import package"
+        run: "python -Ic 'import service_identity; print(service_identity.__version__)'"
+
+  docs:
+    name: Build docs & run doctests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          # Keep in sync with tox.ini/docs & .readthedocs.yaml
+          python-version: "3.11"
+          cache: pip
+      - run: python -Im pip install --upgrade wheel tox
+
+      - run: python -Im tox run -e docs
+
+  # Ensure everything required is passing for branch protection.
+  required-checks-pass:
+    if: always()
+
+    needs:
+      - coverage
+      - docs
+      - install-dev
+      - build-package
+      - lint
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Decide whether the needed jobs succeeded or failed
+        uses: re-actors/alls-green@release/v1
+        with:
+          jobs: ${{ toJSON(needs) }}

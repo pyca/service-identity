@@ -12,9 +12,15 @@ import attr
 
 class SubjectAltNameWarning(DeprecationWarning):
     """
+    This warning is not used anymore and will be removed in a future version.
+
+    Formerly:
+
     Server Certificate does not contain a ``SubjectAltName``.
 
     Hostname matching is performed on the ``CommonName`` which is deprecated.
+
+    .. deprecated:: 23.1.0
     """
 
 
