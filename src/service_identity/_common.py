@@ -152,9 +152,7 @@ class DNSPattern:
         pattern = pattern.strip()
 
         if pattern == b"" or _is_ip_address(pattern) or b"\0" in pattern:
-            raise CertificateError(
-                f"Invalid DNS pattern {pattern!r}."
-            )
+            raise CertificateError(f"Invalid DNS pattern {pattern!r}.")
 
         self.pattern = pattern.translate(_TRANS_TO_LOWER)
         if b"*" in self.pattern:
@@ -174,9 +172,7 @@ class IPAddressPattern:
         try:
             return cls(pattern=ipaddress.ip_address(bs))
         except ValueError:
-            raise CertificateError(
-                f"Invalid IP address pattern {bs!r}."
-            )
+            raise CertificateError(f"Invalid IP address pattern {bs!r}.")
 
 
 @attr.s(init=False, slots=True)
@@ -198,9 +194,7 @@ class URIPattern:
         pattern = pattern.strip().translate(_TRANS_TO_LOWER)
 
         if b":" not in pattern or b"*" in pattern or _is_ip_address(pattern):
-            raise CertificateError(
-                f"Invalid URI pattern {pattern!r}."
-            )
+            raise CertificateError(f"Invalid URI pattern {pattern!r}.")
         self.protocol_pattern, hostname = pattern.split(b":")
         self.dns_pattern = DNSPattern(hostname)
 
@@ -229,9 +223,7 @@ class SRVPattern:
             or b"*" in pattern
             or _is_ip_address(pattern)
         ):
-            raise CertificateError(
-                f"Invalid SRV pattern {pattern!r}."
-            )
+            raise CertificateError(f"Invalid SRV pattern {pattern!r}.")
         name, hostname = pattern.split(b".", 1)
         self.name_pattern = name[1:]
         self.dns_pattern = DNSPattern(hostname)
