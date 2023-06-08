@@ -4,10 +4,6 @@
 
 from __future__ import absolute_import, division, print_function
 
-import warnings
-
-import six
-
 from pyasn1.codec.der.decoder import decode
 from pyasn1.type.char import IA5String
 from pyasn1.type.univ import ObjectIdentifier
@@ -23,7 +19,6 @@ from ._common import (
     URIPattern,
     verify_service_identity,
 )
-from .exceptions import SubjectAltNameWarning
 
 
 __all__ = ["verify_hostname"]
@@ -92,7 +87,7 @@ def extract_ids(cert):
     :return: List of IDs.
     """
     ids = []
-    for i in six.moves.range(cert.get_extension_count()):
+    for i in range(cert.get_extension_count()):
         ext = cert.get_extension(i)
         if ext.get_short_name() == b"subjectAltName":
             names, _ = decode(ext.get_data(), asn1Spec=GeneralNames())
@@ -124,23 +119,4 @@ def extract_ids(cert):
                 else:  # pragma: nocover
                     pass
 
-    if not ids:
-        # https://tools.ietf.org/search/rfc6125#section-6.4.4
-        # A client MUST NOT seek a match for a reference identifier of CN-ID if
-        # the presented identifiers include a DNS-ID, SRV-ID, URI-ID, or any
-        # application-specific identifier types supported by the client.
-        components = [
-            c[1] for c in cert.get_subject().get_components() if c[0] == b"CN"
-        ]
-        cn = next(iter(components), b"<not given>")
-        ids = [DNSPattern(c) for c in components]
-        warnings.warn(
-            "Certificate with CN '%s' has no `subjectAltName`, falling back "
-            "to check for a `commonName` for now.  This feature is being "
-            "removed by major browsers and deprecated by RFC 2818.  "
-            "service-identity will remove the support for it in mid-2018."
-            % (cn.decode("utf-8"),),
-            SubjectAltNameWarning,
-            stacklevel=2,
-        )
     return ids

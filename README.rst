@@ -29,10 +29,10 @@ Use this package if:
 - you use pyOpenSSL_ and don’t want to be MITM_\ ed or
 - if you want to verify that a `PyCA cryptography`_ certificate is valid for a certain hostname or IP address.
 
-``service-identity`` aspires to give you all the tools you need for verifying whether a certificate is valid for the intended purposes.
+*service-identity* aspires to give you all the tools you need for verifying whether a certificate is valid for the intended purposes.
 
 In the simplest case, this means *host name verification*.
-However, ``service-identity`` implements `RFC 6125`_ fully and plans to add other relevant RFCs too.
+However, *service-identity* implements `RFC 6125`_ fully and plans to add other relevant RFCs too.
 
 .. _Twisted: https://twistedmatrix.com/
 .. _pyOpenSSL: https://pypi.org/project/pyOpenSSL/
@@ -47,15 +47,24 @@ Project Information
 
 .. meta-begin
 
-``service-identity``\ is released under the MIT license, its documentation lives at `Read the Docs <https://service-identity.readthedocs.io/>`_, the code on `GitHub <https://github.com/pyca/service-identity>`_, and the latest release on `PyPI <https://pypi.org/project/service-identity/>`_.
-It’s rigorously tested on Python 2.7, 3.5+, and PyPy.
+*service-identity* is released under the MIT license, its documentation lives at `Read the Docs <https://service-identity.readthedocs.io/>`_, the code on `GitHub <https://github.com/pyca/service-identity>`_, and the latest release on `PyPI <https://pypi.org/project/service-identity/>`_.
 
 
-``service-identity`` for Enterprise
------------------------------------
+Credits
+-------
+
+*service-identity* is written and maintained by `Hynek Schlawack <https://hynek.me/>`_.
+
+The development is kindly supported by `Variomedia AG <https://www.variomedia.de/>`_.
+
+Other contributors can be found in `GitHub's overview <https://github.com/pyca/service-identity/graphs/contributors>`_.
+
+
+*service-identity* for Enterprise
+---------------------------------
 
 Available as part of the Tidelift Subscription.
 
-The maintainers of ``service-identity`` and thousands of other packages are working with Tidelift to deliver commercial support and maintenance for the open-source packages you use to build your applications.
+The maintainers of *service-identity* and thousands of other packages are working with Tidelift to deliver commercial support and maintenance for the open-source packages you use to build your applications.
 Save time, reduce risk, and improve code health, while paying the maintainers of the exact packages you use.
 `Learn more. <https://tidelift.com/subscription/pkg/service-identity?utm_source=undefined&utm_medium=referral&utm_campaign=enterprise&utm_term=repo>`_

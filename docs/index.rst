@@ -26,14 +26,12 @@ Project Information
 .. include:: ../README.rst
    :start-after: meta-begin
 
+.. Prevent warning; the changelog is linked in the header.
+
 .. toctree::
-   :maxdepth: 1
+   :hidden:
 
-   backward-compatibility
-   license
-   contributing
    changelog
-
 
 Indices and tables
 ==================

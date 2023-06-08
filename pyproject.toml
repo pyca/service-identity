@@ -3,16 +3,29 @@ requires = ["setuptools>=40.6.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 
+[tool.pytest.ini_options]
+addopts = ["-ra", "--strict-markers", "--strict-config"]
+xfail_strict = true
+testpaths = "tests"
+filterwarnings = [
+    "once::Warning",
+    "ignore:::aiohttp[.*]",
+    "ignore:::importlib[.*]",
+    "ignore::DeprecationWarning:twisted.python.threadable",
+]
+
+
 [tool.coverage.run]
 parallel = true
 branch = true
 source = ["service_identity"]
 
 [tool.coverage.paths]
-source = ["src", ".tox/*/site-packages"]
+source = ["src", ".tox/py*/**/site-packages"]
 
 [tool.coverage.report]
 show_missing = true
+skip_covered = true
 
 
 [tool.black]

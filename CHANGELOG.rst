@@ -3,17 +3,26 @@
 Changelog
 =========
 
-Versions follow `CalVer <https://calver.org>`_ with a strict backwards compatibility policy.
-The third digit is only for regressions.
+Versions follow `CalVer <https://calver.org>`_ with a strict backwards compatibility policy:
+
+If breaking changes are needed do be done, they are:
+
+#. …announced in the :doc:`changelog`.
+#. …the old behavior raises a :exc:`DeprecationWarning` for a year.
+#. …are done with another announcement in the :doc:`changelog`.
 
 
-21.2.0 (UNRELEASED)
+XX.Y.Z (UNRELEASED)
 -------------------
 
 Backward-incompatible changes:
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-*none*
+- All Python versions up to and including 3.6 have been dropped.
+- Support for ``commonName`` in certificates has been dropped.
+  It has been deprecated for a while now and is neither supported by any major browser, nor by the *cryptography* package.
+- The oldest supported pyOpenSSL version (if the ``pyopenssl`` backend is used) is now 17.0.0.
+  When using such an old pyOpenSSL version, You have to pin *cryptography* to yourself -- please check out ```contraints/oldest-pyopenssl.txt`` to verify what we are testing against.
 
 
 Deprecations:
