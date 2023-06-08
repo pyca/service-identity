@@ -3,7 +3,7 @@
 Changelog
 =========
 
-Versions follow `CalVer <https://calver.org>`_ with a strict backwards -compatibility policy:
+Versions follow `CalVer <https://calver.org>`_ with a strict backwards-compatibility policy:
 
 If breaking changes are needed do be done, they are:
 
