@@ -7,6 +7,7 @@ Installation
 ============
 
 .. code-block:: console
+
    $ python -Im pip install service-identity
 
 
