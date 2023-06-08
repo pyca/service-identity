@@ -55,7 +55,19 @@ jobs:
 
       - run: python -Im pip install --upgrade tox
 
-      - run: python -Im tox run -f py$(echo ${{ matrix.python-version }} | tr -d .)
+      - name: Determine Python version for tox
+        run: |
+          V=${{ matrix.python-version }}
+
+          if [[ "$V" = pypy-* ]]; then
+            V=pypy3
+          else
+            V=py$(echo $V | tr -d .)
+          fi
+
+          echo TOX_PYTHON=$V >>$GITHUB_ENV
+
+      - run: python -Im tox run -f ${{ env.TOX_PYTHON }}
 
       - name: Upload coverage data
         uses: actions/upload-artifact@v3
