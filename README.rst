@@ -55,9 +55,9 @@ Credits
 
 *service-identity* is written and maintained by `Hynek Schlawack <https://hynek.me/>`_.
 
-The development is kindly supported by `Variomedia AG <https://www.variomedia.de/>`_.
+The development is kindly supported by my employer `Variomedia AG <https://www.variomedia.de/>`_, *service-identity*'s `Tidelift subscribers <https://tidelift.com/subscription/pkg/pypi-service-identity?utm_source=pypi-service-identity&utm_medium=referral&utm_campaign=readme>`_, and all my amazing `GitHub Sponsors <https://github.com/sponsors/hynek>`_.
 
-Other contributors can be found in `GitHub's overview <https://github.com/pyca/service-identity/graphs/contributors>`_.
+A full list of contributors can be found in GitHub's `overview <https://github.com/pyca/service-identity/graphs/contributors>`_.
 
 
 *service-identity* for Enterprise

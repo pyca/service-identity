@@ -1,11 +1,10 @@
 .tox
-*.egg-info
 dist
 build
+_build
 .coverage*
 .venv
 htmlcov
-_build/
 *.pyc
 .cache
 .pytest_cache

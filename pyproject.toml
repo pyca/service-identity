@@ -1,6 +1,79 @@
 [build-system]
-requires = ["setuptools>=40.6.0", "wheel"]
-build-backend = "setuptools.build_meta"
+requires = ["hatchling", "hatch-vcs", "hatch-fancy-pypi-readme"]
+build-backend = "hatchling.build"
+
+[project]
+name = "service-identity"
+authors = [{ name = "Hynek Schlawack", email = "hs@ox.cx" }]
+license = "MIT"
+requires-python = ">=3.7"
+description = "Service identity verification for pyOpenSSL & cryptography."
+keywords = ["cryptography", "openssl", "pyopenssl"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Programming Language :: Python :: Implementation :: PyPy",
+    "Topic :: Security :: Cryptography",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+dependencies = [
+    "attrs>=19.1.0",
+    "pyasn1-modules",
+    "pyasn1",
+    "cryptography",
+]
+dynamic = ["version", "readme"]
+
+[project.optional-dependencies]
+idna = ["idna"]
+tests = ["coverage[toml]>=5.0.2", "pytest"]
+docs = ["sphinx", "furo"]
+dev = ["service-identity[tests,docs,idna]", "pyOpenSSL"]
+
+[project.urls]
+Documentation = "https://service-identity.readthedocs.io/"
+"Bug Tracker" = "https://github.com/pyca/service-identity/issues"
+"Source Code" = "https://github.com/pyca/service-identity"
+Funding = "https://github.com/sponsors/hynek"
+
+
+[tool.hatch.version]
+source = "vcs"
+raw-options = { local_scheme = "no-local-version" }
+
+[tool.hatch.metadata.hooks.fancy-pypi-readme]
+content-type = "text/x-rst"
+
+[[tool.hatch.metadata.hooks.fancy-pypi-readme.fragments]]
+path = "README.rst"
+
+[[tool.hatch.metadata.hooks.fancy-pypi-readme.fragments]]
+text = """
+
+
+Release Information
+===================
+"""
+
+[[tool.hatch.metadata.hooks.fancy-pypi-readme.fragments]]
+path = "CHANGELOG.rst"
+start-after = ".. changelog follows\n"
+end-before = "\n----\n"
+
+[[tool.hatch.metadata.hooks.fancy-pypi-readme.fragments]]
+text = """
+----
+
+`Full changelog <https://service-identity.readthedocs.io/en/stable/changelog.html/en/stable/changelog.html>`_.
+"""
 
 
 [tool.pytest.ini_options]

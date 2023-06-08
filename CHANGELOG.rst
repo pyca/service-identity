@@ -3,7 +3,7 @@
 Changelog
 =========
 
-Versions follow `CalVer <https://calver.org>`_ with a strict backwards compatibility policy:
+Versions follow `CalVer <https://calver.org>`_ with a strict backwards -compatibility policy:
 
 If breaking changes are needed do be done, they are:
 
@@ -11,11 +11,12 @@ If breaking changes are needed do be done, they are:
 #. …the old behavior raises a :exc:`DeprecationWarning` for a year.
 #. …are done with another announcement in the :doc:`changelog`.
 
+.. changelog follows
 
 XX.Y.Z (UNRELEASED)
 -------------------
 
-Backward-incompatible changes:
+Backwards-incompatible Changes:
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - All Python versions up to and including 3.6 have been dropped.
@@ -44,7 +45,7 @@ Changes:
 -------------------
 
 
-Backward-incompatible changes:
+Backwards-incompatible Changes:
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Python 3.4 is not supported anymore.
@@ -113,7 +114,7 @@ Changes:
 16.0.0 (2016-02-18)
 -------------------
 
-Backward-incompatible changes:
+Backwards-incompatible Changes:
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Python 3.3 and 2.6 aren't supported anymore.
@@ -157,7 +158,7 @@ Changes:
 1.0.0 (2014-06-15)
 ------------------
 
-Backward-incompatible changes:
+Backwards-incompatible Changes:
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Drop support for Python 3.2.
@@ -181,7 +182,7 @@ Changes:
 0.2.0 (2014-04-06)
 ------------------
 
-Backward-incompatible changes:
+Backwards-incompatible Changes:
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Refactor into a multi-module package.
