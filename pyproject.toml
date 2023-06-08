@@ -44,6 +44,7 @@ Documentation = "https://service-identity.readthedocs.io/"
 "Bug Tracker" = "https://github.com/pyca/service-identity/issues"
 "Source Code" = "https://github.com/pyca/service-identity"
 Funding = "https://github.com/sponsors/hynek"
+Tidelift = "https://tidelift.com/subscription/pkg/pypi-service-identity?utm_source=pypi-service-identity&utm_medium=pypi"
 
 
 [tool.hatch.version]
