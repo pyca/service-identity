@@ -17,7 +17,7 @@ XX.Y.Z (UNRELEASED)
 -------------------
 
 Backwards-incompatible Changes:
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - All Python versions up to and including 3.6 have been dropped.
 - Support for ``commonName`` in certificates has been dropped.
@@ -46,7 +46,7 @@ Changes:
 
 
 Backwards-incompatible Changes:
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Python 3.4 is not supported anymore.
   It has been unsupported by the Python core team for a while now, its PyPI downloads are negligible, and our CI provider removed it as a supported option.
@@ -115,7 +115,7 @@ Changes:
 -------------------
 
 Backwards-incompatible Changes:
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Python 3.3 and 2.6 aren't supported anymore.
   They may work by chance but any effort to keep them working has ceased.
@@ -159,7 +159,7 @@ Changes:
 ------------------
 
 Backwards-incompatible Changes:
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Drop support for Python 3.2.
   There is no justification to add complexity and unnecessary function calls for a Python version that `nobody uses <https://alexgaynor.net/2014/jan/03/pypi-download-statistics/>`_.
@@ -183,7 +183,7 @@ Changes:
 ------------------
 
 Backwards-incompatible Changes:
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Refactor into a multi-module package.
   Most notably, ``verify_hostname`` and ``extract_ids`` live in the ``service_identity.pyopenssl`` module now.
