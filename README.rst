@@ -10,14 +10,6 @@ Service Identity Verification
    :target: https://github.com/pyca/service-identity/actions?workflow=CI
    :alt: CI Status
 
-.. image:: https://codecov.io/github/pyca/service-identity/branch/main/graph/badge.svg
-   :target: https://codecov.io/github/pyca/service-identity
-   :alt: Test Coverage
-
-.. image:: https://img.shields.io/badge/code%20style-black-000000.svg
-   :target: https://github.com/ambv/black
-   :alt: Code style: black
-
 .. image:: https://www.irccloud.com/invite-svg?channel=%23pyca&amp;hostname=irc.libera.chat&amp;port=6697&amp;ssl=1
    :target: https://www.irccloud.com/invite?channel=%23pyca&amp;hostname=irc.libera.chat&amp;port=6697&amp;ssl=1
    :alt: PyCA on IRC
