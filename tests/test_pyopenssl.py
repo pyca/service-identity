@@ -1,5 +1,3 @@
-from __future__ import absolute_import, division, print_function
-
 import ipaddress
 
 import pytest
@@ -33,13 +31,13 @@ CERT_OTHER_NAME = load_certificate(FILETYPE_PEM, PEM_OTHER_NAME)
 CERT_EVERYTHING = load_certificate(FILETYPE_PEM, PEM_EVERYTHING)
 
 
-class TestPublicAPI(object):
+class TestPublicAPI:
     def test_verify_hostname_ok(self):
         """
         verify_hostname succeeds if the hostnames match.
         """
 
-        class FakeConnection(object):
+        class FakeConnection:
             def get_peer_certificate(self):
                 return CERT_DNS_ONLY
 
@@ -51,7 +49,7 @@ class TestPublicAPI(object):
         user with helpful information.
         """
 
-        class FakeConnection(object):
+        class FakeConnection:
             def get_peer_certificate(self):
                 return CERT_DNS_ONLY
 
@@ -69,7 +67,7 @@ class TestPublicAPI(object):
         and IPv6.
         """
 
-        class FakeConnection(object):
+        class FakeConnection:
             def get_peer_certificate(self):
                 return CERT_EVERYTHING
 
@@ -82,7 +80,7 @@ class TestPublicAPI(object):
         user with helpful information. Works both with IPv4 and IPv6.
         """
 
-        class FakeConnection(object):
+        class FakeConnection:
             def get_peer_certificate(self):
                 return CERT_EVERYTHING
 
@@ -94,7 +92,7 @@ class TestPublicAPI(object):
         ] == ei.value.errors
 
 
-class TestExtractIDs(object):
+class TestExtractIDs:
     def test_dns(self):
         """
         Returns the correct DNSPattern from a certificate.

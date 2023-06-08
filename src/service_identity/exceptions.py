@@ -5,7 +5,6 @@ Separated into an own package for nicer tracebacks, you should still import
 them from __init__.py.
 """
 
-from __future__ import absolute_import, division, print_function
 
 import attr
 
@@ -37,7 +36,7 @@ class VerificationError(Exception):
 
 
 @attr.s
-class DNSMismatch(object):
+class DNSMismatch:
     """
     No matching DNSPattern could be found.
     """
@@ -46,7 +45,7 @@ class DNSMismatch(object):
 
 
 @attr.s
-class SRVMismatch(object):
+class SRVMismatch:
     """
     No matching SRVPattern could be found.
     """
@@ -55,7 +54,7 @@ class SRVMismatch(object):
 
 
 @attr.s
-class URIMismatch(object):
+class URIMismatch:
     """
     No matching URIPattern could be found.
     """
@@ -64,7 +63,7 @@ class URIMismatch(object):
 
 
 @attr.s
-class IPAddressMismatch(object):
+class IPAddressMismatch:
     """
     No matching IPAddressPattern could be found.
     """

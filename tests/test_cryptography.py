@@ -1,5 +1,3 @@
-from __future__ import absolute_import, division, print_function
-
 import ipaddress
 
 import pytest
@@ -35,7 +33,7 @@ X509_OTHER_NAME = load_pem_x509_certificate(PEM_OTHER_NAME, backend)
 CERT_EVERYTHING = load_pem_x509_certificate(PEM_EVERYTHING, backend)
 
 
-class TestPublicAPI(object):
+class TestPublicAPI:
     def test_certificate_verify_hostname_ok(self):
         """
         verify_certificate_hostname succeeds if the hostnames match.
@@ -76,7 +74,7 @@ class TestPublicAPI(object):
         ] == ei.value.errors
 
 
-class TestExtractIDs(object):
+class TestExtractIDs:
     def test_dns(self):
         """
         Returns the correct DNSPattern from a certificate.

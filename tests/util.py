@@ -1,5 +1,3 @@
-from __future__ import absolute_import, division, print_function
-
 from cryptography.hazmat.backends import default_backend
 from cryptography.x509 import load_pem_x509_certificate
 

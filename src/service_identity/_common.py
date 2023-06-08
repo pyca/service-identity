@@ -2,7 +2,6 @@
 Common verification code.
 """
 
-from __future__ import absolute_import, division, print_function
 
 import ipaddress
 import re
@@ -27,7 +26,7 @@ except ImportError:  # pragma: nocover
 
 
 @attr.s(slots=True)
-class ServiceMatch(object):
+class ServiceMatch:
     """
     A match of a service id and a certificate pattern.
     """
@@ -134,7 +133,7 @@ def _is_ip_address(pattern):
 
 
 @attr.s(init=False, slots=True)
-class DNSPattern(object):
+class DNSPattern:
     """
     A DNS pattern as extracted from certificates.
     """
@@ -154,7 +153,7 @@ class DNSPattern(object):
 
         if pattern == b"" or _is_ip_address(pattern) or b"\0" in pattern:
             raise CertificateError(
-                "Invalid DNS pattern {0!r}.".format(pattern)
+                f"Invalid DNS pattern {pattern!r}."
             )
 
         self.pattern = pattern.translate(_TRANS_TO_LOWER)
@@ -163,7 +162,7 @@ class DNSPattern(object):
 
 
 @attr.s(slots=True)
-class IPAddressPattern(object):
+class IPAddressPattern:
     """
     An IP address pattern as extracted from certificates.
     """
@@ -176,12 +175,12 @@ class IPAddressPattern(object):
             return cls(pattern=ipaddress.ip_address(bs))
         except ValueError:
             raise CertificateError(
-                "Invalid IP address pattern {!r}.".format(bs)
+                f"Invalid IP address pattern {bs!r}."
             )
 
 
 @attr.s(init=False, slots=True)
-class URIPattern(object):
+class URIPattern:
     """
     An URI pattern as extracted from certificates.
     """
@@ -200,14 +199,14 @@ class URIPattern(object):
 
         if b":" not in pattern or b"*" in pattern or _is_ip_address(pattern):
             raise CertificateError(
-                "Invalid URI pattern {0!r}.".format(pattern)
+                f"Invalid URI pattern {pattern!r}."
             )
         self.protocol_pattern, hostname = pattern.split(b":")
         self.dns_pattern = DNSPattern(hostname)
 
 
 @attr.s(init=False, slots=True)
-class SRVPattern(object):
+class SRVPattern:
     """
     An SRV pattern as extracted from certificates.
     """
@@ -231,7 +230,7 @@ class SRVPattern(object):
             or _is_ip_address(pattern)
         ):
             raise CertificateError(
-                "Invalid SRV pattern {0!r}.".format(pattern)
+                f"Invalid SRV pattern {pattern!r}."
             )
         name, hostname = pattern.split(b".", 1)
         self.name_pattern = name[1:]
@@ -239,7 +238,7 @@ class SRVPattern(object):
 
 
 @attr.s(init=False, slots=True)
-class DNS_ID(object):
+class DNS_ID:
     """
     A DNS service ID, aka hostname.
     """
@@ -287,7 +286,7 @@ class DNS_ID(object):
 
 
 @attr.s(slots=True)
-class IPAddress_ID(object):
+class IPAddress_ID:
     """
     An IP address service ID.
     """
@@ -305,7 +304,7 @@ class IPAddress_ID(object):
 
 
 @attr.s(init=False, slots=True)
-class URI_ID(object):
+class URI_ID:
     """
     An URI service ID.
     """
@@ -346,7 +345,7 @@ class URI_ID(object):
 
 
 @attr.s(init=False, slots=True)
-class SRV_ID(object):
+class SRV_ID:
     """
     An SRV service ID.
     """
@@ -419,25 +418,25 @@ def _validate_pattern(cert_pattern):
     cnt = cert_pattern.count(b"*")
     if cnt > 1:
         raise CertificateError(
-            "Certificate's DNS-ID {0!r} contains too many wildcards.".format(
+            "Certificate's DNS-ID {!r} contains too many wildcards.".format(
                 cert_pattern
             )
         )
     parts = cert_pattern.split(b".")
     if len(parts) < 3:
         raise CertificateError(
-            "Certificate's DNS-ID {0!r} has too few host components for "
+            "Certificate's DNS-ID {!r} has too few host components for "
             "wildcard usage.".format(cert_pattern)
         )
     # We assume there will always be only one wildcard allowed.
     if b"*" not in parts[0]:
         raise CertificateError(
-            "Certificate's DNS-ID {0!r} has a wildcard outside the left-most "
+            "Certificate's DNS-ID {!r} has a wildcard outside the left-most "
             "part.".format(cert_pattern)
         )
     if any(not len(p) for p in parts):
         raise CertificateError(
-            "Certificate's DNS-ID {0!r} contains empty parts.".format(
+            "Certificate's DNS-ID {!r} contains empty parts.".format(
                 cert_pattern
             )
         )

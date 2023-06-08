@@ -1,5 +1,3 @@
-from __future__ import absolute_import, division, print_function
-
 import ipaddress
 import pickle
 
@@ -42,7 +40,7 @@ except ImportError:
     idna = None
 
 
-class TestVerifyServiceIdentity(object):
+class TestVerifyServiceIdentity:
     """
     Simple integration tests for verify_service_identity.
     """
@@ -157,7 +155,7 @@ class TestVerifyServiceIdentity(object):
         assert ServiceMatch(cert_pattern=p, service_id=i) == rv[1]
 
 
-class TestContainsInstance(object):
+class TestContainsInstance:
     def test_positive(self):
         """
         If the list contains an object of the type, return True.
@@ -171,7 +169,7 @@ class TestContainsInstance(object):
         assert not _contains_instance_of([object(), list(), {}], tuple)
 
 
-class TestDNS_ID(object):
+class TestDNS_ID:
     def test_enforces_unicode(self):
         """
         Raise TypeError if pass DNS-ID is not unicode.
@@ -276,7 +274,7 @@ class TestDNS_ID(object):
             assert not _hostname_matches(cert, actual)
 
 
-class TestURI_ID(object):
+class TestURI_ID:
     def test_enforces_unicode(self):
         """
         Raise TypeError if pass URI-ID is not unicode.
@@ -332,7 +330,7 @@ class TestURI_ID(object):
         assert URI_ID("sip:foo.com").verify(URIPattern(b"sip:foo.com"))
 
 
-class TestSRV_ID(object):
+class TestSRV_ID:
     def test_enforces_unicode(self):
         """
         Raise TypeError if pass srv-ID is not unicode.
@@ -407,7 +405,7 @@ class TestSRV_ID(object):
         )
 
 
-class TestDNSPattern(object):
+class TestDNSPattern:
     def test_enforces_bytes(self):
         """
         Raise TypeError if unicode is passed.
@@ -445,7 +443,7 @@ class TestDNSPattern(object):
             DNSPattern(b"*.foo.*")
 
 
-class TestURIPattern(object):
+class TestURIPattern:
     def test_enforces_bytes(self):
         """
         Raise TypeError if unicode is passed.
@@ -468,7 +466,7 @@ class TestURIPattern(object):
             URIPattern(b"sip:*.foo.com")
 
 
-class TestSRVPattern(object):
+class TestSRVPattern:
     def test_enforces_bytes(self):
         """
         Raise TypeError if unicode is passed.
@@ -491,7 +489,7 @@ class TestSRVPattern(object):
             SRVPattern(b"sip:*.foo.com")
 
 
-class TestValidateDNSWildcardPattern(object):
+class TestValidateDNSWildcardPattern:
     def test_allows_only_one_wildcard(self):
         """
         Raise CertificateError on multiple wildcards.
@@ -536,7 +534,7 @@ class TestValidateDNSWildcardPattern(object):
             _validate_pattern(pattern)
 
 
-class TestIPAddressPattern(object):
+class TestIPAddressPattern:
     def test_invalid_ip(self):
         """
         Raises CertificateError on invalid IP addresses.
@@ -554,11 +552,11 @@ class TestIPAddressPattern(object):
         assert IPAddress_ID(ip).verify(IPAddressPattern(ip)) is True
 
 
-class FakeCertID(object):
+class FakeCertID:
     pass
 
 
-class Fake_ID(object):
+class Fake_ID:
     """
     An ID that accepts exactly on object as pattern.
     """
@@ -573,7 +571,7 @@ class Fake_ID(object):
         return other is self._pattern
 
 
-class TestFindMatches(object):
+class TestFindMatches:
     def test_one_match(self):
         """
         If there's a match, return a tuple of the certificate id and the
@@ -628,7 +626,7 @@ class TestFindMatches(object):
         ] == rv
 
 
-class TestIsIPAddress(object):
+class TestIsIPAddress:
     @pytest.mark.parametrize(
         "ip",
         [
@@ -666,7 +664,7 @@ class TestIsIPAddress(object):
         assert _is_ip_address(not_ip) is False
 
 
-class TestVerificationError(object):
+class TestVerificationError:
     def test_repr_str(self):
         """
         The __str__ and __repr__ methods return something helpful.
