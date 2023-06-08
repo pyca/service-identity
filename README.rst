@@ -2,13 +2,13 @@
 Service Identity Verification
 =============================
 
-.. image:: https://readthedocs.org/projects/service-identity/badge/?version=stable
-   :target: https://service-identity.readthedocs.io/en/stable/?badge=stable
-   :alt: Documentation Status
+.. image:: https://img.shields.io/badge/Docs-Read%20The%20Docs-black
+   :target: https://service-identity.readthedocs.io/
+   :alt: Documentation
 
-.. image:: https://github.com/pyca/service-identity/workflows/CI/badge.svg?branch=main
-   :target: https://github.com/pyca/service-identity/actions?workflow=CI
-   :alt: CI Status
+.. image:: https://img.shields.io/badge/license-MIT-C06524
+   :target: https://github.com/pyca/service-identity/blob/main/LICENSE
+   :alt: License: MIT
 
 .. image:: https://www.irccloud.com/invite-svg?channel=%23pyca&amp;hostname=irc.libera.chat&amp;port=6697&amp;ssl=1
    :target: https://www.irccloud.com/invite?channel=%23pyca&amp;hostname=irc.libera.chat&amp;port=6697&amp;ssl=1
