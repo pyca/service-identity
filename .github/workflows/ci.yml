@@ -27,7 +27,7 @@ jobs:
           cache: pip
 
       - run: python -Im pip install --upgrade tox
-      - run: python -Im tox run -e lint,manifest
+      - run: python -Im tox run -e lint
 
   tests:
     name: "Tests on ${{ matrix.python-version }}"
@@ -110,15 +110,6 @@ jobs:
           path: htmlcov
         if: ${{ failure() }}
 
-  build-package:
-    name: Build & verify package
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v3
-
-      - uses: hynek/build-and-inspect-python-package@v1
-
   install-dev:
     strategy:
       matrix:
@@ -158,7 +149,6 @@ jobs:
       - coverage
       - docs
       - install-dev
-      - build-package
       - lint
 
     runs-on: ubuntu-latest

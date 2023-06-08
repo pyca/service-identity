@@ -10,14 +10,6 @@ Service Identity Verification
    :target: https://github.com/pyca/service-identity/actions?workflow=CI
    :alt: CI Status
 
-.. image:: https://codecov.io/github/pyca/service-identity/branch/main/graph/badge.svg
-   :target: https://codecov.io/github/pyca/service-identity
-   :alt: Test Coverage
-
-.. image:: https://img.shields.io/badge/code%20style-black-000000.svg
-   :target: https://github.com/ambv/black
-   :alt: Code style: black
-
 .. image:: https://www.irccloud.com/invite-svg?channel=%23pyca&amp;hostname=irc.libera.chat&amp;port=6697&amp;ssl=1
    :target: https://www.irccloud.com/invite?channel=%23pyca&amp;hostname=irc.libera.chat&amp;port=6697&amp;ssl=1
    :alt: PyCA on IRC
@@ -32,7 +24,7 @@ Use this package if:
 *service-identity* aspires to give you all the tools you need for verifying whether a certificate is valid for the intended purposes.
 
 In the simplest case, this means *host name verification*.
-However, *service-identity* implements `RFC 6125`_ fully and plans to add other relevant RFCs too.
+However, *service-identity* implements `RFC 6125`_ fully.
 
 .. _Twisted: https://twistedmatrix.com/
 .. _pyOpenSSL: https://pypi.org/project/pyOpenSSL/
@@ -55,9 +47,9 @@ Credits
 
 *service-identity* is written and maintained by `Hynek Schlawack <https://hynek.me/>`_.
 
-The development is kindly supported by `Variomedia AG <https://www.variomedia.de/>`_.
+The development is kindly supported by my employer `Variomedia AG <https://www.variomedia.de/>`_, *service-identity*'s `Tidelift subscribers <https://tidelift.com/subscription/pkg/pypi-service-identity?utm_source=pypi-service-identity&utm_medium=referral&utm_campaign=readme>`_, and all my amazing `GitHub Sponsors <https://github.com/sponsors/hynek>`_.
 
-Other contributors can be found in `GitHub's overview <https://github.com/pyca/service-identity/graphs/contributors>`_.
+A full list of contributors can be found in GitHub's `overview <https://github.com/pyca/service-identity/graphs/contributors>`_.
 
 
 *service-identity* for Enterprise
