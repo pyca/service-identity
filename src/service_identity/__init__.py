@@ -12,18 +12,12 @@ from .exceptions import (
 )
 
 
-__version__ = "23.1.0.dev0"
-
 __title__ = "service-identity"
-__description__ = "Service identity verification for pyOpenSSL & cryptography."
-__url__ = "https://service-identity.readthedocs.io/"
-__uri__ = __url__
 
 __author__ = "Hynek Schlawack"
-__email__ = "hs@ox.cx"
 
 __license__ = "MIT"
-__copyright__ = "Copyright (c) 2014 Hynek Schlawack"
+__copyright__ = "Copyright (c) 2014 " + __author__
 
 
 __all__ = [
@@ -33,3 +27,41 @@ __all__ = [
     "cryptography",
     "pyopenssl",
 ]
+
+
+def __getattr__(name: str) -> str:
+    dunder_to_metadata = {
+        "__version__": "version",
+        "__description__": "summary",
+        "__uri__": "",
+        "__url__": "",
+        "__email__": "",
+    }
+    if name not in dunder_to_metadata.keys():
+        raise AttributeError(f"module {__name__} has no attribute {name}")
+
+    import sys
+    import warnings
+
+    if sys.version_info < (3, 8):
+        from importlib_metadata import metadata
+    else:
+        from importlib.metadata import metadata
+
+    warnings.warn(
+        f"Accessing service_identity.{name} is deprecated and will be "
+        "removed in a future release. Use importlib.metadata directly "
+        "to query packaging metadata.",
+        DeprecationWarning,
+        stacklevel=2,
+    )
+
+    meta = metadata("service-identity")
+
+    if name in ("__uri__", "__url__"):
+        return meta["Project-URL"].split(" ", 1)[-1]
+
+    if name == "__email__":
+        return meta["Author-email"].split("<", 1)[1].rstrip(">")
+
+    return meta[dunder_to_metadata[name]]

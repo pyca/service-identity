@@ -29,6 +29,7 @@ dependencies = [
     "pyasn1-modules",
     "pyasn1",
     "cryptography",
+    "importlib_metadata;python_version<'3.8'",
 ]
 dynamic = ["version", "readme"]
 
