@@ -21,7 +21,8 @@ We're testing against the following oldest version constraint:
    :literal:
 
 If you want to use the pyOpenSSL_ functionality, you have to install it yourself.
-We are checking against the following oldest version constraints (you have to add the *cryptography* pin yourself, if you want to use an old version of pyOpenSSL):
+We are checking against the following oldest version constraints
+(you have to add the *cryptography* pin yourself, if you want to use an old version of pyOpenSSL):
 
 .. include:: ../constraints/oldest-pyopenssl.txt
    :literal:
