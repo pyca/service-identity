@@ -14,10 +14,17 @@ repos:
       - id: isort
         additional_dependencies: [toml]
 
+  - repo: https://github.com/asottile/pyupgrade
+    rev: v3.4.0
+    hooks:
+      - id: pyupgrade
+        args: [--py37-plus]
+
   - repo: https://github.com/asottile/yesqa
     rev: v1.4.0
     hooks:
       - id: yesqa
+        additional_dependencies: [flake8-bugbear]
 
   - repo: https://github.com/pycqa/flake8
     rev: 6.0.0
