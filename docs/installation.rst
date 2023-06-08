@@ -6,7 +6,8 @@ Installation and Requirements
 Installation
 ============
 
-``$ python -Im pip install service-identity``
+.. code-block:: console
+   $ python -Im pip install service-identity
 
 
 Requirements
@@ -24,11 +25,20 @@ We are checking against the following oldest version constraints (you have to ad
 .. include:: ../constraints/oldest-pyopenssl.txt
    :literal:
 
-Optionally, idna_ ``>= 0.6`` can be used for `internationalized domain names`_ (IDN), i.e. non-ASCII domains.
+
+International Domain Names
+--------------------------
+
+Optionally, the ``idna`` extra dependency can be used for `internationalized domain names`_ (IDN), i.e. non-ASCII domains:
+
+.. code-block:: console
+
+    $ python -Im pip install service-identity[idna]
+
 Unfortunately it's required because Python's IDN support in the standard library is outdated_ even in the latest releases.
 
 .. _cryptography: https://cryptography.io/
 .. _pyOpenSSL: https://pypi.org/project/pyOpenSSL/
 .. _`internationalized domain names`: https://en.wikipedia.org/wiki/Internationalized_domain_name
 .. _idna: https://pypi.org/project/idna/
-.. _outdated: https://bugs.python.org/issue17305
+.. _outdated: https://github.com/python/cpython/issues/61507
