@@ -24,7 +24,7 @@ Use this package if:
 *service-identity* aspires to give you all the tools you need for verifying whether a certificate is valid for the intended purposes.
 
 In the simplest case, this means *host name verification*.
-However, *service-identity* implements `RFC 6125`_ fully and plans to add other relevant RFCs too.
+However, *service-identity* implements `RFC 6125`_ fully.
 
 .. _Twisted: https://twistedmatrix.com/
 .. _pyOpenSSL: https://pypi.org/project/pyOpenSSL/
