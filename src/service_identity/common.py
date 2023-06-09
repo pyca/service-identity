@@ -6,6 +6,8 @@ Common verification code.
 import ipaddress
 import re
 
+from typing import Union
+
 import attr
 
 from .exceptions import (
@@ -137,7 +139,8 @@ class DNSPattern:
     A DNS pattern as extracted from certificates.
     """
 
-    pattern = attr.ib()
+    #: The pattern.
+    pattern: bytes = attr.ib()
 
     _RE_LEGAL_CHARS = re.compile(rb"^[a-z0-9\-_.]+$")
 
@@ -164,7 +167,8 @@ class IPAddressPattern:
     An IP address pattern as extracted from certificates.
     """
 
-    pattern = attr.ib()
+    #: The pattern.
+    pattern: Union[ipaddress.IPv4Address, ipaddress.IPv6Address] = attr.ib()
 
     @classmethod
     def from_bytes(cls, bs):
@@ -180,13 +184,12 @@ class URIPattern:
     An URI pattern as extracted from certificates.
     """
 
-    protocol_pattern = attr.ib()
-    dns_pattern = attr.ib()
+    #: The pattern for the protocol part.
+    protocol_pattern: bytes = attr.ib()
+    #: The pattern for the DNS part.
+    dns_pattern: DNSPattern = attr.ib()
 
-    def __init__(self, pattern):
-        """
-        :type pattern: `bytes`
-        """
+    def __init__(self, pattern: bytes):
         if not isinstance(pattern, bytes):
             raise TypeError("The URI pattern must be a bytes string.")
 
@@ -204,13 +207,12 @@ class SRVPattern:
     An SRV pattern as extracted from certificates.
     """
 
-    name_pattern = attr.ib()
-    dns_pattern = attr.ib()
+    #: The pattern for the name part.
+    name_pattern: bytes = attr.ib()
+    #: The pattern for the DNS part.
+    dns_pattern: DNSPattern = attr.ib()
 
-    def __init__(self, pattern):
-        """
-        :type pattern: `bytes`
-        """
+    def __init__(self, pattern: bytes):
         if not isinstance(pattern, bytes):
             raise TypeError("The SRV pattern must be a bytes string.")
 
@@ -226,6 +228,14 @@ class SRVPattern:
         name, hostname = pattern.split(b".", 1)
         self.name_pattern = name[1:]
         self.dns_pattern = DNSPattern(hostname)
+
+
+CertificatePattern = Union[
+    SRVPattern, URIPattern, DNSPattern, IPAddressPattern
+]
+"""
+All possible patterns that can be extracted from a certificate.
+"""
 
 
 @attr.s(init=False, slots=True)

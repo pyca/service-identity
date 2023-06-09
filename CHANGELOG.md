@@ -21,13 +21,16 @@ If breaking changes are needed do be done, they are:
   When using such an old pyOpenSSL version, you have to pin *cryptography* yourself to ensure compatibility between them.
   Please check out [`contraints/oldest-pyopenssl.txt`](https://github.com/pyca/service-identity/blob/main/constraints/oldest-pyopenssl.txt) to verify what we are testing against.
 
+
 ### Deprecations
 
 *none*
 
+
 ### Changes
 
-*none*
+- `service_identity.cryptography.extract_ids()` and `service_identity.pyopenssl.extract_ids()` are now public APIs.
+  You can use them to extract the patterns from a certificate without verifying anything.
 
 
 ## 21.1.0 (2021-05-09)

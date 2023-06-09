@@ -4,7 +4,7 @@ import pytest
 
 from OpenSSL.crypto import FILETYPE_PEM, load_certificate
 
-from service_identity._common import (
+from service_identity.common import (
     DNS_ID,
     DNSPattern,
     IPAddress_ID,

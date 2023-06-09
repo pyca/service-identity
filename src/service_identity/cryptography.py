@@ -17,9 +17,10 @@ from cryptography.x509.extensions import ExtensionNotFound
 from pyasn1.codec.der.decoder import decode
 from pyasn1.type.char import IA5String
 
-from ._common import (
+from .common import (
     DNS_ID,
     CertificateError,
+    CertificatePattern,
     DNSPattern,
     IPAddress_ID,
     IPAddressPattern,
@@ -92,17 +93,15 @@ def verify_certificate_ip_address(
 ID_ON_DNS_SRV = ObjectIdentifier("1.3.6.1.5.5.7.8.7")  # id_on_dnsSRV
 
 
-def extract_ids(
-    cert: Certificate,
-) -> list[DNSPattern | URIPattern | IPAddressPattern | SRVPattern]:
+def extract_ids(cert: Certificate) -> list[CertificatePattern]:
     """
-    Extract all valid IDs from a certificate for service verification.
+    Extract all valid ID patterns from a certificate for service verification.
 
     :param cert: The certificate to be dissected.
 
     :return: List of IDs.
 
-    .. removed:: 23.1.0
+    .. versionchanged:: 23.1.0
        ``commonName`` is not used as a fallback anymore.
     """
     ids = []

@@ -3,7 +3,7 @@ Verify service identities.
 """
 
 
-from . import cryptography, pyopenssl
+from . import common, cryptography, pyopenssl
 from .exceptions import (
     CertificateError,
     SubjectAltNameWarning,
@@ -23,6 +23,7 @@ __all__ = [
     "CertificateError",
     "SubjectAltNameWarning",
     "VerificationError",
+    "common",
     "cryptography",
     "pyopenssl",
 ]

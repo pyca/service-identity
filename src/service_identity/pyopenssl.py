@@ -9,9 +9,10 @@ from pyasn1.type.char import IA5String
 from pyasn1.type.univ import ObjectIdentifier
 from pyasn1_modules.rfc2459 import GeneralNames
 
-from ._common import (
+from .common import (
     DNS_ID,
     CertificateError,
+    CertificatePattern,
     DNSPattern,
     IPAddress_ID,
     IPAddressPattern,
@@ -80,16 +81,16 @@ def verify_ip_address(connection: SSL.Connection, ip_address: str):
 ID_ON_DNS_SRV = ObjectIdentifier("1.3.6.1.5.5.7.8.7")  # id_on_dnsSRV
 
 
-def extract_ids(cert: SSL.X509):
+def extract_ids(cert: SSL.X509) -> list[CertificatePattern]:
     """
-    Extract all valid IDs from a certificate for service verification.
-
-    If *cert* doesn't contain any identifiers, the ``CN``s are used as DNS-IDs
-    as fallback.
+    Extract all valid ID patterns from a certificate for service verification.
 
     :param cert: The certificate to be dissected.
 
     :return: List of IDs.
+
+    .. versionchanged:: 23.1.0
+       ``commonName`` is not used as a fallback anymore.
     """
     ids = []
     for i in range(cert.get_extension_count()):

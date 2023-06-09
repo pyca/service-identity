@@ -5,7 +5,7 @@ import pytest
 from cryptography.hazmat.backends import default_backend
 from cryptography.x509 import load_pem_x509_certificate
 
-from service_identity._common import (
+from service_identity.common import (
     DNS_ID,
     DNSPattern,
     IPAddress_ID,

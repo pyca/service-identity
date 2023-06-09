@@ -3,9 +3,9 @@ import pickle
 
 import pytest
 
-import service_identity._common
+import service_identity.common
 
-from service_identity._common import (
+from service_identity.common import (
     DNS_ID,
     SRV_ID,
     URI_ID,
@@ -181,7 +181,7 @@ class TestDNS_ID:
         """
         Raise ImportError if idna is missing and a non-ASCII DNS-ID is passed.
         """
-        monkeypatch.setattr(service_identity._common, "idna", None)
+        monkeypatch.setattr(service_identity.common, "idna", None)
         with pytest.raises(ImportError):
             DNS_ID("f\xf8\xf8.com")
 
@@ -189,7 +189,7 @@ class TestDNS_ID:
         """
         7bit-ASCII DNS-IDs work no matter whether idna is present or not.
         """
-        monkeypatch.setattr(service_identity._common, "idna", None)
+        monkeypatch.setattr(service_identity.common, "idna", None)
         dns = DNS_ID("foo.com")
         assert b"foo.com" == dns.hostname
 
