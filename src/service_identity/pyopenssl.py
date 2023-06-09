@@ -28,7 +28,7 @@ def verify_hostname(connection, hostname):
     Verify whether the certificate of *connection* is valid for *hostname*.
 
     :param OpenSSL.SSL.Connection connection: A pyOpenSSL connection object.
-    :param unicode hostname: The hostname that *connection* should be connected
+    :param str hostname: The hostname that *connection* should be connected
         to.
 
     :raises service_identity.VerificationError: If *connection* does not
@@ -51,7 +51,7 @@ def verify_ip_address(connection, ip_address):
     Verify whether the certificate of *connection* is valid for *ip_address*.
 
     :param OpenSSL.SSL.Connection connection: A pyOpenSSL connection object.
-    :param unicode ip_address: The IP address that *connection* should be
+    :param str ip_address: The IP address that *connection* should be
         connected to.  Can be an IPv4 or IPv6 address.
 
     :raises service_identity.VerificationError: If *connection* does not
