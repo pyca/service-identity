@@ -8,7 +8,6 @@ import re
 
 import attr
 
-from ._compat import maketrans, text_type
 from .exceptions import (
     CertificateError,
     DNSMismatch,
@@ -107,7 +106,7 @@ def _is_ip_address(pattern):
     Check whether *pattern* could be/match an IP address.
 
     :param pattern: A pattern for a host name.
-    :type pattern: `bytes` or `unicode`
+    :type pattern: `bytes` or `str`
 
     :return: `True` if *pattern* could be an IP address, else `False`.
     :rtype: bool
@@ -235,7 +234,7 @@ class DNS_ID:
     A DNS service ID, aka hostname.
     """
 
-    hostname = attr.ib()
+    hostname: str = attr.ib()
 
     # characters that are legal in a normalized hostname
     _RE_LEGAL_CHARS = re.compile(rb"^[a-z0-9\-_.]+$")
@@ -243,11 +242,8 @@ class DNS_ID:
     error_on_mismatch = DNSMismatch
 
     def __init__(self, hostname):
-        """
-        :type hostname: `unicode`
-        """
-        if not isinstance(hostname, text_type):
-            raise TypeError("DNS-ID must be a unicode string.")
+        if not isinstance(hostname, str):
+            raise TypeError("DNS-ID must be a text string.")
 
         hostname = hostname.strip()
         if hostname == "" or _is_ip_address(hostname):
@@ -307,12 +303,9 @@ class URI_ID:
     pattern_class = URIPattern
     error_on_mismatch = URIMismatch
 
-    def __init__(self, uri):
-        """
-        :type uri: `unicode`
-        """
-        if not isinstance(uri, text_type):
-            raise TypeError("URI-ID must be a unicode string.")
+    def __init__(self, uri: str):
+        if not isinstance(uri, str):
+            raise TypeError("URI-ID must be a text string.")
 
         uri = uri.strip()
         if ":" not in uri or _is_ip_address(uri):
@@ -348,12 +341,9 @@ class SRV_ID:
     pattern_class = SRVPattern
     error_on_mismatch = SRVMismatch
 
-    def __init__(self, srv):
-        """
-        :type srv: `unicode`
-        """
-        if not isinstance(srv, text_type):
-            raise TypeError("SRV-ID must be a unicode string.")
+    def __init__(self, srv: str):
+        if not isinstance(srv, str):
+            raise TypeError("SRV-ID must be a text string.")
 
         srv = srv.strip()
         if "." not in srv or _is_ip_address(srv) or srv[0] != "_":
@@ -435,6 +425,6 @@ def _validate_pattern(cert_pattern):
 
 
 # Ensure no locale magic interferes.
-_TRANS_TO_LOWER = maketrans(
+_TRANS_TO_LOWER = bytes.maketrans(
     b"ABCDEFGHIJKLMNOPQRSTUVWXYZ", b"abcdefghijklmnopqrstuvwxyz"
 )

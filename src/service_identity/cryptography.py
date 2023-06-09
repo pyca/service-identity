@@ -2,8 +2,10 @@
 `cryptography.x509 <https://github.com/pyca/cryptography>`_-specific code.
 """
 
+from __future__ import annotations
 
 from cryptography.x509 import (
+    Certificate,
     DNSName,
     ExtensionOID,
     IPAddress,
@@ -30,7 +32,9 @@ from ._common import (
 __all__ = ["verify_certificate_hostname"]
 
 
-def verify_certificate_hostname(certificate, hostname):
+def verify_certificate_hostname(
+    certificate: Certificate, hostname: str
+) -> None:
     """
     Verify whether *certificate* is valid for *hostname*.
 
@@ -38,15 +42,13 @@ def verify_certificate_hostname(certificate, hostname):
        the caller must verify that the certificate chains to an appropriate
        trust root themselves.
 
-    :param cryptography.x509.Certificate certificate: A cryptography X509
-        certificate object.
-    :param unicode hostname: The hostname that *certificate* should be valid
-        for.
+    :param certificate: A *cryptography* X509 certificate object.
+    :param hostname: The hostname that *certificate* should be valid for.
 
     :raises service_identity.VerificationError: If *certificate* is not valid
         for *hostname*.
     :raises service_identity.CertificateError: If *certificate* contains
-        invalid/unexpected data.
+        invalid / unexpected data.
 
     :returns: ``None``
     """
@@ -57,7 +59,9 @@ def verify_certificate_hostname(certificate, hostname):
     )
 
 
-def verify_certificate_ip_address(certificate, ip_address):
+def verify_certificate_ip_address(
+    certificate: Certificate, ip_address: str
+) -> None:
     """
     Verify whether *certificate* is valid for *ip_address*.
 
@@ -65,15 +69,14 @@ def verify_certificate_ip_address(certificate, ip_address):
        the caller must verify that the certificate chains to an appropriate
        trust root themselves.
 
-    :param cryptography.x509.Certificate certificate: A cryptography X509
-        certificate object.
-    :param unicode ip_address: The IP address that *connection* should be valid
+    :param certificate: A *cryptography* X509 certificate object.
+    :param ip_address: The IP address that *connection* should be valid
         for.  Can be an IPv4 or IPv6 address.
 
     :raises service_identity.VerificationError: If *certificate* is not valid
         for *ip_address*.
     :raises service_identity.CertificateError: If *certificate* contains
-        invalid/unexpected data.
+        invalid / unexpected data.
 
     :returns: ``None``
 
@@ -89,11 +92,13 @@ def verify_certificate_ip_address(certificate, ip_address):
 ID_ON_DNS_SRV = ObjectIdentifier("1.3.6.1.5.5.7.8.7")  # id_on_dnsSRV
 
 
-def extract_ids(cert):
+def extract_ids(
+    cert: Certificate,
+) -> list[DNSPattern | URIPattern | IPAddressPattern | SRVPattern]:
     """
     Extract all valid IDs from a certificate for service verification.
 
-    :param cryptography.x509.Certificate cert: The certificate to be dissected.
+    :param cert: The certificate to be dissected.
 
     :return: List of IDs.
 

@@ -18,7 +18,7 @@ try:
     conn.do_handshake()
     verify_hostname(conn, hostname)
 
-    print("Hostname is valid!")
+    print(f"Certificate is valid for {hostname}!")
     # Do your super-secure stuff here.
 except SSL.Error as e:
     print(f"TLS Handshake failed: {e!r}.")

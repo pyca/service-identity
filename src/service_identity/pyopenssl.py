@@ -2,6 +2,7 @@
 `pyOpenSSL <https://github.com/pyca/pyopenssl>`_-specific code.
 """
 
+from __future__ import annotations
 
 from pyasn1.codec.der.decoder import decode
 from pyasn1.type.char import IA5String
@@ -20,16 +21,21 @@ from ._common import (
 )
 
 
+try:
+    from OpenSSL import SSL
+except ImportError:
+    pass  # we only use it for docstrings
+
+
 __all__ = ["verify_hostname"]
 
 
-def verify_hostname(connection, hostname):
+def verify_hostname(connection: SSL.Connection, hostname: str):
     """
     Verify whether the certificate of *connection* is valid for *hostname*.
 
-    :param OpenSSL.SSL.Connection connection: A pyOpenSSL connection object.
-    :param str hostname: The hostname that *connection* should be connected
-        to.
+    :param connection: A pyOpenSSL connection object.
+    :param hostname: The hostname that *connection* should be connected to.
 
     :raises service_identity.VerificationError: If *connection* does not
         provide a certificate that is valid for *hostname*.
@@ -46,13 +52,13 @@ def verify_hostname(connection, hostname):
     )
 
 
-def verify_ip_address(connection, ip_address):
+def verify_ip_address(connection: SSL.Connection, ip_address: str):
     """
     Verify whether the certificate of *connection* is valid for *ip_address*.
 
-    :param OpenSSL.SSL.Connection connection: A pyOpenSSL connection object.
-    :param str ip_address: The IP address that *connection* should be
-        connected to.  Can be an IPv4 or IPv6 address.
+    :param connection: A pyOpenSSL connection object.
+    :param ip_address: The IP address that *connection* should be connected to.
+        Can be an IPv4 or IPv6 address.
 
     :raises service_identity.VerificationError: If *connection* does not
         provide a certificate that is valid for *ip_address*.
@@ -74,14 +80,14 @@ def verify_ip_address(connection, ip_address):
 ID_ON_DNS_SRV = ObjectIdentifier("1.3.6.1.5.5.7.8.7")  # id_on_dnsSRV
 
 
-def extract_ids(cert):
+def extract_ids(cert: SSL.X509):
     """
     Extract all valid IDs from a certificate for service verification.
 
     If *cert* doesn't contain any identifiers, the ``CN``s are used as DNS-IDs
     as fallback.
 
-    :param OpenSSL.SSL.X509 cert: The certificate to be dissected.
+    :param cert: The certificate to be dissected.
 
     :return: List of IDs.
     """
