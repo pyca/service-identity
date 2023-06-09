@@ -2,6 +2,7 @@
 Common verification code.
 """
 
+from __future__ import annotations
 
 import ipaddress
 import re
@@ -133,7 +134,7 @@ def _is_ip_address(pattern):
     return True
 
 
-@attr.s(init=False, slots=True)
+@attr.s(slots=True)
 class DNSPattern:
     """
     A DNS pattern as extracted from certificates.
@@ -144,10 +145,8 @@ class DNSPattern:
 
     _RE_LEGAL_CHARS = re.compile(rb"^[a-z0-9\-_.]+$")
 
-    def __init__(self, pattern):
-        """
-        :type pattern: `bytes`
-        """
+    @classmethod
+    def from_bytes(cls, pattern) -> DNSPattern:
         if not isinstance(pattern, bytes):
             raise TypeError("The DNS pattern must be a bytes string.")
 
@@ -156,9 +155,11 @@ class DNSPattern:
         if pattern == b"" or _is_ip_address(pattern) or b"\0" in pattern:
             raise CertificateError(f"Invalid DNS pattern {pattern!r}.")
 
-        self.pattern = pattern.translate(_TRANS_TO_LOWER)
-        if b"*" in self.pattern:
-            _validate_pattern(self.pattern)
+        pattern = pattern.translate(_TRANS_TO_LOWER)
+        if b"*" in pattern:
+            _validate_pattern(pattern)
+
+        return cls(pattern=pattern)
 
 
 @attr.s(slots=True)
@@ -168,17 +169,17 @@ class IPAddressPattern:
     """
 
     #: The pattern.
-    pattern: Union[ipaddress.IPv4Address, ipaddress.IPv6Address] = attr.ib()
+    pattern: ipaddress.IPv4Address | ipaddress.IPv6Address = attr.ib()
 
     @classmethod
-    def from_bytes(cls, bs):
+    def from_bytes(cls, bs: bytes) -> IPAddressPattern:
         try:
             return cls(pattern=ipaddress.ip_address(bs))
         except ValueError:
             raise CertificateError(f"Invalid IP address pattern {bs!r}.")
 
 
-@attr.s(init=False, slots=True)
+@attr.s(slots=True)
 class URIPattern:
     """
     An URI pattern as extracted from certificates.
@@ -189,7 +190,8 @@ class URIPattern:
     #: The pattern for the DNS part.
     dns_pattern: DNSPattern = attr.ib()
 
-    def __init__(self, pattern: bytes):
+    @classmethod
+    def from_bytes(cls, pattern: bytes) -> URIPattern:
         if not isinstance(pattern, bytes):
             raise TypeError("The URI pattern must be a bytes string.")
 
@@ -197,11 +199,16 @@ class URIPattern:
 
         if b":" not in pattern or b"*" in pattern or _is_ip_address(pattern):
             raise CertificateError(f"Invalid URI pattern {pattern!r}.")
-        self.protocol_pattern, hostname = pattern.split(b":")
-        self.dns_pattern = DNSPattern(hostname)
+
+        protocol_pattern, hostname = pattern.split(b":")
+
+        return cls(
+            protocol_pattern=protocol_pattern,
+            dns_pattern=DNSPattern.from_bytes(hostname),
+        )
 
 
-@attr.s(init=False, slots=True)
+@attr.s(slots=True)
 class SRVPattern:
     """
     An SRV pattern as extracted from certificates.
@@ -212,7 +219,8 @@ class SRVPattern:
     #: The pattern for the DNS part.
     dns_pattern: DNSPattern = attr.ib()
 
-    def __init__(self, pattern: bytes):
+    @classmethod
+    def from_bytes(cls, pattern: bytes) -> SRVPattern:
         if not isinstance(pattern, bytes):
             raise TypeError("The SRV pattern must be a bytes string.")
 
@@ -225,9 +233,11 @@ class SRVPattern:
             or _is_ip_address(pattern)
         ):
             raise CertificateError(f"Invalid SRV pattern {pattern!r}.")
+
         name, hostname = pattern.split(b".", 1)
-        self.name_pattern = name[1:]
-        self.dns_pattern = DNSPattern(hostname)
+        return cls(
+            name_pattern=name[1:], dns_pattern=DNSPattern.from_bytes(hostname)
+        )
 
 
 CertificatePattern = Union[

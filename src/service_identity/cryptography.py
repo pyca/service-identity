@@ -114,13 +114,13 @@ def extract_ids(cert: Certificate) -> list[CertificatePattern]:
     else:
         ids.extend(
             [
-                DNSPattern(name.encode("utf-8"))
+                DNSPattern.from_bytes(name.encode("utf-8"))
                 for name in ext.value.get_values_for_type(DNSName)
             ]
         )
         ids.extend(
             [
-                URIPattern(uri.encode("utf-8"))
+                URIPattern.from_bytes(uri.encode("utf-8"))
                 for uri in ext.value.get_values_for_type(
                     UniformResourceIdentifier
                 )
@@ -136,7 +136,7 @@ def extract_ids(cert: Certificate) -> list[CertificatePattern]:
             if other.type_id == ID_ON_DNS_SRV:
                 srv, _ = decode(other.value)
                 if isinstance(srv, IA5String):
-                    ids.append(SRVPattern(srv.asOctets()))
+                    ids.append(SRVPattern.from_bytes(srv.asOctets()))
                 else:  # pragma: nocover
                     raise CertificateError("Unexpected certificate content.")
 

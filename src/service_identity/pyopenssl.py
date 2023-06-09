@@ -100,7 +100,9 @@ def extract_ids(cert: SSL.X509) -> list[CertificatePattern]:
             for n in names:
                 name_string = n.getName()
                 if name_string == "dNSName":
-                    ids.append(DNSPattern(n.getComponent().asOctets()))
+                    ids.append(
+                        DNSPattern.from_bytes(n.getComponent().asOctets())
+                    )
                 elif name_string == "iPAddress":
                     ids.append(
                         IPAddressPattern.from_bytes(
@@ -108,14 +110,16 @@ def extract_ids(cert: SSL.X509) -> list[CertificatePattern]:
                         )
                     )
                 elif name_string == "uniformResourceIdentifier":
-                    ids.append(URIPattern(n.getComponent().asOctets()))
+                    ids.append(
+                        URIPattern.from_bytes(n.getComponent().asOctets())
+                    )
                 elif name_string == "otherName":
                     comp = n.getComponent()
                     oid = comp.getComponentByPosition(0)
                     if oid == ID_ON_DNS_SRV:
                         srv, _ = decode(comp.getComponentByPosition(1))
                         if isinstance(srv, IA5String):
-                            ids.append(SRVPattern(srv.asOctets()))
+                            ids.append(SRVPattern.from_bytes(srv.asOctets()))
                         else:  # pragma: nocover
                             raise CertificateError(
                                 "Unexpected certificate content."

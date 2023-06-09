@@ -54,7 +54,7 @@ class TestVerifyServiceIdentity:
         )
         assert [
             ServiceMatch(
-                cert_pattern=DNSPattern(b"twistedmatrix.com"),
+                cert_pattern=DNSPattern.from_bytes(b"twistedmatrix.com"),
                 service_id=DNS_ID("twistedmatrix.com"),
             )
         ] == rv
@@ -95,7 +95,7 @@ class TestVerifyServiceIdentity:
         i = DNS_ID("example.net")
         with pytest.raises(VerificationError) as e:
             verify_service_identity(
-                [SRVPattern(b"_mail.example.net")],
+                [SRVPattern.from_bytes(b"_mail.example.net")],
                 obligatory_ids=[SRV_ID("_mail.example.net"), i],
                 optional_ids=[],
             )
@@ -108,7 +108,10 @@ class TestVerifyServiceIdentity:
         i = DNS_ID("example.net")
         with pytest.raises(VerificationError) as e:
             verify_service_identity(
-                [SRVPattern(b"_mail.example.net"), DNSPattern(b"example.com")],
+                [
+                    SRVPattern.from_bytes(b"_mail.example.net"),
+                    DNSPattern.from_bytes(b"example.com"),
+                ],
                 obligatory_ids=[SRV_ID("_mail.example.net"), i],
                 optional_ids=[],
             )
@@ -119,7 +122,7 @@ class TestVerifyServiceIdentity:
         Optional IDs may miss as long as they don't conflict with an existing
         pattern.
         """
-        p = DNSPattern(b"mail.foo.com")
+        p = DNSPattern.from_bytes(b"mail.foo.com")
         i = DNS_ID("mail.foo.com")
         rv = verify_service_identity(
             [p], obligatory_ids=[i], optional_ids=[SRV_ID("_mail.foo.com")]
@@ -134,7 +137,10 @@ class TestVerifyServiceIdentity:
         i = SRV_ID("_xmpp.example.com")
         with pytest.raises(VerificationError) as e:
             verify_service_identity(
-                [DNSPattern(b"example.net"), SRVPattern(b"_mail.example.com")],
+                [
+                    DNSPattern.from_bytes(b"example.net"),
+                    SRVPattern.from_bytes(b"_mail.example.com"),
+                ],
                 obligatory_ids=[DNS_ID("example.net")],
                 optional_ids=[i],
             )
@@ -145,10 +151,10 @@ class TestVerifyServiceIdentity:
         If an optional ID is found, return the match within the returned
         list and don't raise an error.
         """
-        p = SRVPattern(b"_mail.example.net")
+        p = SRVPattern.from_bytes(b"_mail.example.net")
         i = SRV_ID("_mail.example.net")
         rv = verify_service_identity(
-            [DNSPattern(b"example.net"), p],
+            [DNSPattern.from_bytes(b"example.net"), p],
             obligatory_ids=[DNS_ID("example.net")],
             optional_ids=[i],
         )
@@ -237,13 +243,13 @@ class TestDNS_ID:
         """
         Simple integration test with _hostname_matches with a match.
         """
-        assert DNS_ID("foo.com").verify(DNSPattern(b"foo.com"))
+        assert DNS_ID("foo.com").verify(DNSPattern.from_bytes(b"foo.com"))
 
     def test_simple_mismatch(self):
         """
         Simple integration test with _hostname_matches with a mismatch.
         """
-        assert not DNS_ID("foo.com").verify(DNSPattern(b"bar.com"))
+        assert not DNS_ID("foo.com").verify(DNSPattern.from_bytes(b"bar.com"))
 
     def test_matches(self):
         """
@@ -315,19 +321,25 @@ class TestURI_ID:
         """
         If protocol doesn't match, verify returns False.
         """
-        assert not URI_ID("sip:foo.com").verify(URIPattern(b"xmpp:foo.com"))
+        assert not URI_ID("sip:foo.com").verify(
+            URIPattern.from_bytes(b"xmpp:foo.com")
+        )
 
     def test_dns_mismatch(self):
         """
         If the hostname doesn't match, verify returns False.
         """
-        assert not URI_ID("sip:bar.com").verify(URIPattern(b"sip:foo.com"))
+        assert not URI_ID("sip:bar.com").verify(
+            URIPattern.from_bytes(b"sip:foo.com")
+        )
 
     def test_match(self):
         """
         Accept legal matches.
         """
-        assert URI_ID("sip:foo.com").verify(URIPattern(b"sip:foo.com"))
+        assert URI_ID("sip:foo.com").verify(
+            URIPattern.from_bytes(b"sip:foo.com")
+        )
 
 
 class TestSRV_ID:
@@ -377,7 +389,9 @@ class TestSRV_ID:
         """
         Accept legal matches.
         """
-        assert SRV_ID("_mail.foo.com").verify(SRVPattern(b"_mail.foo.com"))
+        assert SRV_ID("_mail.foo.com").verify(
+            SRVPattern.from_bytes(b"_mail.foo.com")
+        )
 
     @pytest.mark.skipif(idna is None, reason="idna not installed")
     def test_match_idna(self):
@@ -385,7 +399,7 @@ class TestSRV_ID:
         IDNAs are handled properly.
         """
         assert SRV_ID("_mail.f\xf8\xf8.com").verify(
-            SRVPattern(b"_mail.xn--f-5gaa.com")
+            SRVPattern.from_bytes(b"_mail.xn--f-5gaa.com")
         )
 
     def test_mismatch_service_name(self):
@@ -393,7 +407,9 @@ class TestSRV_ID:
         If the service name doesn't match, verify returns False.
         """
         assert not (
-            SRV_ID("_mail.foo.com").verify(SRVPattern(b"_xmpp.foo.com"))
+            SRV_ID("_mail.foo.com").verify(
+                SRVPattern.from_bytes(b"_xmpp.foo.com")
+            )
         )
 
     def test_mismatch_dns(self):
@@ -401,7 +417,9 @@ class TestSRV_ID:
         If the dns_id doesn't match, verify returns False.
         """
         assert not (
-            SRV_ID("_mail.foo.com").verify(SRVPattern(b"_mail.bar.com"))
+            SRV_ID("_mail.foo.com").verify(
+                SRVPattern.from_bytes(b"_mail.bar.com")
+            )
         )
 
 
@@ -411,28 +429,28 @@ class TestDNSPattern:
         Raise TypeError if unicode is passed.
         """
         with pytest.raises(TypeError):
-            DNSPattern("foo.com")
+            DNSPattern.from_bytes("foo.com")
 
     def test_catches_empty(self):
         """
         Empty DNS-IDs raise a :class:`CertificateError`.
         """
         with pytest.raises(CertificateError):
-            DNSPattern(b" ")
+            DNSPattern.from_bytes(b" ")
 
     def test_catches_NULL_bytes(self):
         """
         Raise :class:`CertificateError` if a NULL byte is in the hostname.
         """
         with pytest.raises(CertificateError):
-            DNSPattern(b"www.google.com\0nasty.h4x0r.com")
+            DNSPattern.from_bytes(b"www.google.com\0nasty.h4x0r.com")
 
     def test_catches_ip_address(self):
         """
         IP addresses are invalid and raise a :class:`CertificateError`.
         """
         with pytest.raises(CertificateError):
-            DNSPattern(b"192.168.0.0")
+            DNSPattern.from_bytes(b"192.168.0.0")
 
     def test_invalid_wildcard(self):
         """
@@ -440,7 +458,7 @@ class TestDNSPattern:
         is used if an wildward is present.
         """
         with pytest.raises(CertificateError):
-            DNSPattern(b"*.foo.*")
+            DNSPattern.from_bytes(b"*.foo.*")
 
 
 class TestURIPattern:
@@ -449,21 +467,21 @@ class TestURIPattern:
         Raise TypeError if unicode is passed.
         """
         with pytest.raises(TypeError):
-            URIPattern("sip:foo.com")
+            URIPattern.from_bytes("sip:foo.com")
 
     def test_catches_missing_colon(self):
         """
         Raise CertificateError if URI doesn't contain a `:`.
         """
         with pytest.raises(CertificateError):
-            URIPattern(b"sip;foo.com")
+            URIPattern.from_bytes(b"sip;foo.com")
 
     def test_catches_wildcards(self):
         """
         Raise CertificateError if URI contains a *.
         """
         with pytest.raises(CertificateError):
-            URIPattern(b"sip:*.foo.com")
+            URIPattern.from_bytes(b"sip:*.foo.com")
 
 
 class TestSRVPattern:
@@ -472,21 +490,21 @@ class TestSRVPattern:
         Raise TypeError if unicode is passed.
         """
         with pytest.raises(TypeError):
-            SRVPattern("_mail.example.com")
+            SRVPattern.from_bytes("_mail.example.com")
 
     def test_catches_missing_underscore(self):
         """
         Raise CertificateError if SRV doesn't start with a `_`.
         """
         with pytest.raises(CertificateError):
-            SRVPattern(b"foo.com")
+            SRVPattern.from_bytes(b"foo.com")
 
     def test_catches_wildcards(self):
         """
         Raise CertificateError if SRV contains a *.
         """
         with pytest.raises(CertificateError):
-            SRVPattern(b"sip:*.foo.com")
+            SRVPattern.from_bytes(b"sip:*.foo.com")
 
 
 class TestValidateDNSWildcardPattern:

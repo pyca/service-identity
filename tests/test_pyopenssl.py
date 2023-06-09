@@ -99,8 +99,8 @@ class TestExtractIDs:
         """
         rv = extract_ids(CERT_DNS_ONLY)
         assert [
-            DNSPattern(b"www.twistedmatrix.com"),
-            DNSPattern(b"twistedmatrix.com"),
+            DNSPattern.from_bytes(b"www.twistedmatrix.com"),
+            DNSPattern.from_bytes(b"twistedmatrix.com"),
         ] == rv
 
     def test_cn_ids_are_ignored(self):
@@ -114,7 +114,7 @@ class TestExtractIDs:
         Returns the correct URIPattern from a certificate.
         """
         rv = extract_ids(CERT_OTHER_NAME)
-        assert [URIPattern(b"http://example.com/")] == [
+        assert [URIPattern.from_bytes(b"http://example.com/")] == [
             id for id in rv if isinstance(id, URIPattern)
         ]
 
@@ -125,10 +125,12 @@ class TestExtractIDs:
         rv = extract_ids(CERT_EVERYTHING)
 
         assert [
-            DNSPattern(pattern=b"service.identity.invalid"),
-            DNSPattern(pattern=b"*.wildcard.service.identity.invalid"),
-            DNSPattern(pattern=b"service.identity.invalid"),
-            DNSPattern(pattern=b"single.service.identity.invalid"),
+            DNSPattern.from_bytes(pattern=b"service.identity.invalid"),
+            DNSPattern.from_bytes(
+                pattern=b"*.wildcard.service.identity.invalid"
+            ),
+            DNSPattern.from_bytes(pattern=b"service.identity.invalid"),
+            DNSPattern.from_bytes(pattern=b"single.service.identity.invalid"),
             IPAddressPattern(pattern=ipaddress.IPv4Address("1.1.1.1")),
             IPAddressPattern(pattern=ipaddress.IPv6Address("::1")),
             IPAddressPattern(pattern=ipaddress.IPv4Address("2.2.2.2")),
