@@ -36,7 +36,7 @@ dynamic = ["version", "readme"]
 [project.optional-dependencies]
 idna = ["idna"]
 tests = ["coverage[toml]>=5.0.2", "pytest"]
-docs = ["sphinx", "furo"]
+docs = ["sphinx", "furo", "myst-parser", "sphinx-notfound-page"]
 dev = ["service-identity[tests,docs,idna]", "pyOpenSSL"]
 
 [project.urls]
@@ -52,23 +52,22 @@ source = "vcs"
 raw-options = { local_scheme = "no-local-version" }
 
 [tool.hatch.metadata.hooks.fancy-pypi-readme]
-content-type = "text/x-rst"
+content-type = "text/markdown"
 
 [[tool.hatch.metadata.hooks.fancy-pypi-readme.fragments]]
-path = "README.rst"
+path = "README.md"
 
 [[tool.hatch.metadata.hooks.fancy-pypi-readme.fragments]]
 text = """
 
 
-Release Information
-===================
+## Release Information
+
 """
 
 [[tool.hatch.metadata.hooks.fancy-pypi-readme.fragments]]
-path = "CHANGELOG.rst"
-start-after = ".. changelog follows\n"
-end-before = "\n----\n"
+path = "CHANGELOG.md"
+pattern = "\n(###.+?\n)## "
 
 [[tool.hatch.metadata.hooks.fancy-pypi-readme.fragments]]
 text = """
