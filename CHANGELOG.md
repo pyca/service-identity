@@ -29,8 +29,9 @@ If breaking changes are needed do be done, they are:
 
 ### Changes
 
-- `service_identity.cryptography.extract_ids()` and `service_identity.pyopenssl.extract_ids()` are now public APIs.
+- `service_identity.(cryptography|pyopenssl).extract_ids()` are now public APIs.
   You can use them to extract the patterns from a certificate without verifying anything.
+  [#55](https://github.com/pyca/service-identity/pull/55)
 
 
 ## 21.1.0 (2021-05-09)
