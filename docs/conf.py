@@ -1,5 +1,3 @@
-import datetime
-
 from importlib import metadata
 
 
@@ -20,9 +18,16 @@ extensions = [
     "sphinx.ext.doctest",
     "sphinx.ext.autodoc",
     "sphinx.ext.intersphinx",
-    "sphinx.ext.todo",
-    "sphinx.ext.coverage",
+    "myst_parser",
+    "notfound.extension",
 ]
+
+myst_enable_extensions = [
+    "colon_fence",
+    "smartquotes",
+    "deflist",
+]
+
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ["_templates"]
@@ -38,7 +43,7 @@ master_doc = "index"
 
 # General information about the project.
 project = "service-identity"
-year = datetime.date.today().year
+year = 2014
 copyright = "2014, Hynek Schlawack"
 
 # The version info for the project you're documenting, acts as replacement for
