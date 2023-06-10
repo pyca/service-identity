@@ -17,7 +17,7 @@ from service_identity.exceptions import (
     VerificationError,
 )
 from service_identity.pyopenssl import (
-    extract_ids,
+    extract_patterns,
     verify_hostname,
     verify_ip_address,
 )
@@ -97,7 +97,7 @@ class TestExtractIDs:
         """
         Returns the correct DNSPattern from a certificate.
         """
-        rv = extract_ids(CERT_DNS_ONLY)
+        rv = extract_patterns(CERT_DNS_ONLY)
         assert [
             DNSPattern.from_bytes(b"www.twistedmatrix.com"),
             DNSPattern.from_bytes(b"twistedmatrix.com"),
@@ -107,13 +107,13 @@ class TestExtractIDs:
         """
         commonName is not supported anymore and therefore ignored.
         """
-        assert [] == extract_ids(CERT_CN_ONLY)
+        assert [] == extract_patterns(CERT_CN_ONLY)
 
     def test_uri(self):
         """
         Returns the correct URIPattern from a certificate.
         """
-        rv = extract_ids(CERT_OTHER_NAME)
+        rv = extract_patterns(CERT_OTHER_NAME)
         assert [URIPattern.from_bytes(b"http://example.com/")] == [
             id for id in rv if isinstance(id, URIPattern)
         ]
@@ -122,7 +122,7 @@ class TestExtractIDs:
         """
         Returns IP patterns.
         """
-        rv = extract_ids(CERT_EVERYTHING)
+        rv = extract_patterns(CERT_EVERYTHING)
 
         assert [
             DNSPattern.from_bytes(pattern=b"service.identity.invalid"),

@@ -22,7 +22,7 @@ from service_identity.common import (
     _validate_pattern,
     verify_service_identity,
 )
-from service_identity.cryptography import extract_ids
+from service_identity.cryptography import extract_patterns
 from service_identity.exceptions import (
     CertificateError,
     DNSMismatch,
@@ -80,7 +80,7 @@ class TestVerifyServiceIdentity:
         id4 = IPAddress_ID(str(ip4))
         id6 = IPAddress_ID(str(ip6))
         rv = verify_service_identity(
-            extract_ids(CERT_EVERYTHING), [id4, id6], []
+            extract_patterns(CERT_EVERYTHING), [id4, id6], []
         )
 
         assert [

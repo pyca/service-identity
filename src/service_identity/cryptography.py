@@ -54,7 +54,7 @@ def verify_certificate_hostname(
     :returns: ``None``
     """
     verify_service_identity(
-        cert_patterns=extract_ids(certificate),
+        cert_patterns=extract_patterns(certificate),
         obligatory_ids=[DNS_ID(hostname)],
         optional_ids=[],
     )
@@ -84,7 +84,7 @@ def verify_certificate_ip_address(
     .. versionadded:: 18.1.0
     """
     verify_service_identity(
-        cert_patterns=extract_ids(certificate),
+        cert_patterns=extract_patterns(certificate),
         obligatory_ids=[IPAddress_ID(ip_address)],
         optional_ids=[],
     )
@@ -93,7 +93,7 @@ def verify_certificate_ip_address(
 ID_ON_DNS_SRV = ObjectIdentifier("1.3.6.1.5.5.7.8.7")  # id_on_dnsSRV
 
 
-def extract_ids(cert: Certificate) -> list[CertificatePattern]:
+def extract_patterns(cert: Certificate) -> list[CertificatePattern]:
     """
     Extract all valid ID patterns from a certificate for service verification.
 
@@ -141,3 +141,9 @@ def extract_ids(cert: Certificate) -> list[CertificatePattern]:
                     raise CertificateError("Unexpected certificate content.")
 
     return ids
+
+
+extract_ids = extract_patterns
+"""
+Deprecated and never public API.  Use :func:`extract_patterns` instead.
+"""

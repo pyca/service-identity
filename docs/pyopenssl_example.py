@@ -22,9 +22,11 @@ conn.connect((hostname, 443))
 try:
     conn.do_handshake()
 
-    print("IDs in certificate:\n")
+    print("Certificate is valid for the following patterns:\n")
     pprint.pprint(
-        service_identity.pyopenssl.extract_ids(conn.get_peer_certificate())
+        service_identity.pyopenssl.extract_patterns(
+            conn.get_peer_certificate()
+        )
     )
 
     try:

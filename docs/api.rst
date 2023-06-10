@@ -16,7 +16,7 @@ PyCA cryptography
 
 .. autofunction:: verify_certificate_hostname
 .. autofunction:: verify_certificate_ip_address
-.. autofunction:: extract_ids
+.. autofunction:: extract_patterns
 
 
 pyOpenSSL
@@ -32,14 +32,14 @@ pyOpenSSL
       :literal:
 
 .. autofunction:: verify_ip_address
-.. autofunction:: extract_ids
+.. autofunction:: extract_patterns
 
 
 Pattern Objects
 ===============
 
-The following are the objects return by the ``extract_ids`` functions.
-They each carry the attributes that are necessary to match a pattern of their type.
+The following are the objects return by the ``extract_patterns`` functions.
+They each carry the attributes that are necessary to match an ID of their type.
 
 .. currentmodule:: service_identity.common
 

@@ -13,7 +13,7 @@ from service_identity.common import (
     URIPattern,
 )
 from service_identity.cryptography import (
-    extract_ids,
+    extract_patterns,
     verify_certificate_hostname,
     verify_certificate_ip_address,
 )
@@ -79,7 +79,7 @@ class TestExtractIDs:
         """
         Returns the correct DNSPattern from a certificate.
         """
-        rv = extract_ids(X509_DNS_ONLY)
+        rv = extract_patterns(X509_DNS_ONLY)
         assert [
             DNSPattern.from_bytes(b"www.twistedmatrix.com"),
             DNSPattern.from_bytes(b"twistedmatrix.com"),
@@ -89,13 +89,13 @@ class TestExtractIDs:
         """
         commonName is not supported anymore and therefore ignored.
         """
-        assert [] == extract_ids(X509_CN_ONLY)
+        assert [] == extract_patterns(X509_CN_ONLY)
 
     def test_uri(self):
         """
         Returns the correct URIPattern from a certificate.
         """
-        rv = extract_ids(X509_OTHER_NAME)
+        rv = extract_patterns(X509_OTHER_NAME)
         assert [URIPattern.from_bytes(b"http://example.com/")] == [
             id for id in rv if isinstance(id, URIPattern)
         ]
@@ -104,7 +104,7 @@ class TestExtractIDs:
         """
         Returns IP patterns.
         """
-        rv = extract_ids(CERT_EVERYTHING)
+        rv = extract_patterns(CERT_EVERYTHING)
 
         assert [
             DNSPattern.from_bytes(pattern=b"service.identity.invalid"),

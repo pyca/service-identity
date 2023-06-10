@@ -47,7 +47,7 @@ def verify_hostname(connection: SSL.Connection, hostname: str):
     :returns: ``None``
     """
     verify_service_identity(
-        cert_patterns=extract_ids(connection.get_peer_certificate()),
+        cert_patterns=extract_patterns(connection.get_peer_certificate()),
         obligatory_ids=[DNS_ID(hostname)],
         optional_ids=[],
     )
@@ -72,7 +72,7 @@ def verify_ip_address(connection: SSL.Connection, ip_address: str):
     .. versionadded:: 18.1.0
     """
     verify_service_identity(
-        cert_patterns=extract_ids(connection.get_peer_certificate()),
+        cert_patterns=extract_patterns(connection.get_peer_certificate()),
         obligatory_ids=[IPAddress_ID(ip_address)],
         optional_ids=[],
     )
@@ -81,7 +81,7 @@ def verify_ip_address(connection: SSL.Connection, ip_address: str):
 ID_ON_DNS_SRV = ObjectIdentifier("1.3.6.1.5.5.7.8.7")  # id_on_dnsSRV
 
 
-def extract_ids(cert: SSL.X509) -> list[CertificatePattern]:
+def extract_patterns(cert: SSL.X509) -> list[CertificatePattern]:
     """
     Extract all valid ID patterns from a certificate for service verification.
 
