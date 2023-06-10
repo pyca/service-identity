@@ -1,1 +1,2 @@
+attrs==19.1.0
 cryptography<3
