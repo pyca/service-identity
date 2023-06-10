@@ -2,8 +2,6 @@ import ipaddress
 
 import pytest
 
-from OpenSSL.crypto import FILETYPE_PEM, load_certificate
-
 from service_identity.common import (
     DNS_ID,
     DNSPattern,
@@ -23,6 +21,10 @@ from service_identity.pyopenssl import (
 )
 
 from .util import PEM_CN_ONLY, PEM_DNS_ONLY, PEM_EVERYTHING, PEM_OTHER_NAME
+
+
+if pytest.importorskip("OpenSSL"):
+    from OpenSSL.crypto import FILETYPE_PEM, load_certificate
 
 
 CERT_DNS_ONLY = load_certificate(FILETYPE_PEM, PEM_DNS_ONLY)

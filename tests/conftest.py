@@ -26,8 +26,3 @@ cryptography: {cryptography}""".format(
         pyOpenSSL=pyopenssl_version,
         cryptography=cryptography.__version__,
     )
-
-
-collect_ignore = []
-if OpenSSL is None:
-    collect_ignore.extend(["tests/test_pyopenssl.py"])
