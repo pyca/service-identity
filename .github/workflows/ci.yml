@@ -12,6 +12,8 @@ permissions:
 
 env:
   FORCE_COLOR: "1"  # Make tools pretty.
+  PIP_DISABLE_PIP_VERSION_CHECK: "1"
+  PIP_NO_PYTHON_VERSION_WARNING: "1"
   # N.B. default Python version for setup-python comes from the .python-version
   # file at the root of the project.
 
