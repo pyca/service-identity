@@ -16,7 +16,7 @@ If breaking changes are needed do be done, they are:
 
 - All Python versions up to and including 3.6 have been dropped.
 - Support for `commonName` in certificates has been dropped.
-  It has been deprecated since 2017 now and isn't supported by any major browser.
+  It has been deprecated since 2017 and isn't supported by any major browser.
 - The oldest supported pyOpenSSL version (when using the `pyopenssl` backend) is now 17.0.0.
   When using such an old pyOpenSSL version, you have to pin *cryptography* yourself to ensure compatibility between them.
   Please check out [`contraints/oldest-pyopenssl.txt`](https://github.com/pyca/service-identity/blob/main/constraints/oldest-pyopenssl.txt) to verify what we are testing against.
