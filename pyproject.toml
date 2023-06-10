@@ -55,7 +55,11 @@ raw-options = { local_scheme = "no-local-version" }
 content-type = "text/markdown"
 
 [[tool.hatch.metadata.hooks.fancy-pypi-readme.fragments]]
+text = "# Service Identity Verification for pyOpenSSL & *cryptography*\n"
+
+[[tool.hatch.metadata.hooks.fancy-pypi-readme.fragments]]
 path = "README.md"
+start-after = "spiel-begin -->\n"
 
 [[tool.hatch.metadata.hooks.fancy-pypi-readme.fragments]]
 text = """
