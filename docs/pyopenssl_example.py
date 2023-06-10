@@ -11,7 +11,7 @@ import service_identity
 
 hostname = sys.argv[1]
 
-ctx = SSL.Context(SSL.SSLv23_METHOD)
+ctx = SSL.Context(SSL.TLSv1_2_METHOD)
 ctx.set_verify(SSL.VERIFY_PEER, lambda conn, cert, errno, depth, ok: ok)
 ctx.set_default_verify_paths()
 
