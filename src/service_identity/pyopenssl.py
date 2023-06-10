@@ -4,6 +4,8 @@
 
 from __future__ import annotations
 
+import warnings
+
 from pyasn1.codec.der.decoder import decode
 from pyasn1.type.char import IA5String
 from pyasn1.type.univ import ObjectIdentifier
@@ -130,3 +132,17 @@ def extract_patterns(cert: SSL.X509) -> list[CertificatePattern]:
                     pass
 
     return ids
+
+
+def extract_ids(cert: SSL.X509) -> list[CertificatePattern]:
+    """
+    Deprecated and never public API.  Use :func:`extract_patterns` instead.
+
+    .. deprecated:: 23.1.0
+    """
+    warnings.warn(
+        category=DeprecationWarning,
+        message="`extract_ids()` is deprecated, please use `extract_patterns()`.",
+        stacklevel=2,
+    )
+    return extract_patterns(cert)
