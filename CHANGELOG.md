@@ -10,7 +10,7 @@ If breaking changes are needed do be done, they are:
 
 <!-- changelog follows -->
 
-## XX.Y.Z (UNRELEASED)
+## [Unreleased](https://github.com/pyca/service-identity/compare/21.1.0...HEAD)
 
 ### Backwards-incompatible Changes
 
