@@ -12,6 +12,9 @@
 <a href="https://pepy.tech/project/service-identity">
     <img src="https://static.pepy.tech/badge/service-identity/month" alt="Downloads per month" />
 </a>
+<a href="https://bestpractices.coreinfrastructure.org/projects/7462">
+    <img src="https://bestpractices.coreinfrastructure.org/projects/7462/badge" />
+</a>
 <a href="https://www.irccloud.com/invite?channel=%23pyca&amp;hostname=irc.libera.chat&amp;port=6697&amp;ssl=1">
     <img src="https://www.irccloud.com/invite-svg?channel=%23pyca&amp;hostname=irc.libera.chat&amp;port=6697&amp;ssl=1" alt="PyCA on IRC" />
 </a>
