@@ -12,7 +12,7 @@ $ python -Im pip install service-identity
 *service-identity* depends on the [cryptography] package.
 In addition to the latest release, we're also testing against the following oldest version constraint:
 
-```{include} ../constraints/oldest-cryptography.txt
+```{include} ../tests/constraints/oldest-cryptography.txt
 :literal: true
 ```
 
@@ -20,7 +20,7 @@ If you want to use the [pyOpenSSL] functionality, you have to install it yoursel
 In addition to the latest release, we are also testing against the following oldest version constraints
 (you have to add the *cryptography* pin yourself, if you want to use an old version of pyOpenSSL):
 
-```{include} ../constraints/oldest-pyopenssl.txt
+```{include} ../tests/constraints/oldest-pyopenssl.txt
 :literal: true
 ```
 
