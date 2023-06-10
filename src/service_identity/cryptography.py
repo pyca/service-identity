@@ -4,6 +4,8 @@
 
 from __future__ import annotations
 
+import warnings
+
 from cryptography.x509 import (
     Certificate,
     DNSName,
@@ -143,7 +145,15 @@ def extract_patterns(cert: Certificate) -> list[CertificatePattern]:
     return ids
 
 
-extract_ids = extract_patterns
-"""
-Deprecated and never public API.  Use :func:`extract_patterns` instead.
-"""
+def extract_ids(cert: Certificate) -> list[CertificatePattern]:
+    """
+    Deprecated and never public API.  Use :func:`extract_patterns` instead.
+
+    .. deprecated:: 23.1.0
+    """
+    warnings.warn(
+        category=DeprecationWarning,
+        message="`extract_ids()` is deprecated, please use `extract_patterns()`.",
+        stacklevel=2,
+    )
+    return extract_patterns(cert)

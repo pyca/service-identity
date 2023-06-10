@@ -15,6 +15,7 @@ from service_identity.exceptions import (
     VerificationError,
 )
 from service_identity.pyopenssl import (
+    extract_ids,
     extract_patterns,
     verify_hostname,
     verify_ip_address,
@@ -94,7 +95,7 @@ class TestPublicAPI:
         ] == ei.value.errors
 
 
-class TestExtractIDs:
+class TestExtractPatterns:
     def test_dns(self):
         """
         Returns the correct DNSPattern from a certificate.
@@ -138,3 +139,18 @@ class TestExtractIDs:
             IPAddressPattern(pattern=ipaddress.IPv4Address("2.2.2.2")),
             IPAddressPattern(pattern=ipaddress.IPv6Address("2a00:1c38::53")),
         ] == rv
+
+    def test_extract_ids_deprecated(self):
+        """
+        `extract_ids` raises a DeprecationWarning with correct stacklevel.
+        """
+        with pytest.deprecated_call() as wr:
+            extract_ids(CERT_EVERYTHING)
+
+        w = wr.pop()
+
+        assert (
+            "`extract_ids()` is deprecated, please use `extract_patterns()`."
+            == w.message.args[0]
+        )
+        assert __file__ == w.filename
