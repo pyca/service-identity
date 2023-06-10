@@ -12,7 +12,6 @@ permissions:
 
 env:
   FORCE_COLOR: "1"  # Make tools pretty.
-  TOX_TESTENV_PASSENV: FORCE_COLOR
   # N.B. default Python version for setup-python comes from the .python-version
   # file at the root of the project.
 
