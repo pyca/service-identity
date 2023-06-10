@@ -4,6 +4,7 @@
 
 from __future__ import annotations
 
+import contextlib
 import warnings
 
 from pyasn1.codec.der.decoder import decode
@@ -24,11 +25,8 @@ from .common import (
 )
 
 
-try:
+with contextlib.suppress(ImportError):  # we only use it for docstrings
     from OpenSSL import SSL
-except ImportError:
-    pass  # we only use it for docstrings
-
 
 __all__ = ["verify_hostname"]
 

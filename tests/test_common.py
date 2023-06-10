@@ -166,13 +166,13 @@ class TestContainsInstance:
         """
         If the list contains an object of the type, return True.
         """
-        assert _contains_instance_of([object(), tuple(), object()], tuple)
+        assert _contains_instance_of([object(), (), object()], tuple)
 
     def test_negative(self):
         """
         If the list does not contain an object of the type, return False.
         """
-        assert not _contains_instance_of([object(), list(), {}], tuple)
+        assert not _contains_instance_of([object(), [], {}], tuple)
 
 
 class TestDNS_ID:

@@ -98,10 +98,7 @@ def _contains_instance_of(seq, cl):
 
     :rtype: bool
     """
-    for e in seq:
-        if isinstance(e, cl):
-            return True
-    return False
+    return any(isinstance(e, cl) for e in seq)
 
 
 def _is_ip_address(pattern):
@@ -176,7 +173,9 @@ class IPAddressPattern:
         try:
             return cls(pattern=ipaddress.ip_address(bs))
         except ValueError:
-            raise CertificateError(f"Invalid IP address pattern {bs!r}.")
+            raise CertificateError(
+                f"Invalid IP address pattern {bs!r}."
+            ) from None
 
 
 @attr.s(slots=True)
@@ -266,7 +265,7 @@ class DNS_ID:
             raise TypeError("DNS-ID must be a text string.")
 
         hostname = hostname.strip()
-        if hostname == "" or _is_ip_address(hostname):
+        if not hostname or _is_ip_address(hostname):
             raise ValueError("Invalid DNS-ID.")
 
         if any(ord(c) > 127 for c in hostname):
@@ -289,8 +288,8 @@ class DNS_ID:
         """
         if isinstance(pattern, self.pattern_class):
             return _hostname_matches(pattern.pattern, self.hostname)
-        else:
-            return False
+
+        return False
 
 
 @attr.s(slots=True)
@@ -345,8 +344,8 @@ class URI_ID:
                 pattern.protocol_pattern == self.protocol
                 and self.dns_id.verify(pattern.dns_pattern)
             )
-        else:
-            return False
+
+        return False
 
 
 @attr.s(init=False, slots=True)
@@ -382,8 +381,8 @@ class SRV_ID:
             return self.name == pattern.name_pattern and self.dns_id.verify(
                 pattern.dns_pattern
             )
-        else:
-            return False
+
+        return False
 
 
 def _hostname_matches(cert_pattern, actual_hostname):
@@ -404,8 +403,8 @@ def _hostname_matches(cert_pattern, actual_hostname):
             return False
 
         return cert_head == b"*" or cert_head == actual_head
-    else:
-        return cert_pattern == actual_hostname
+
+    return cert_pattern == actual_hostname
 
 
 def _validate_pattern(cert_pattern):
