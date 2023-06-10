@@ -10,7 +10,7 @@ If breaking changes are needed do be done, they are:
 
 <!-- changelog follows -->
 
-## XX.Y.Z (UNRELEASED)
+## [Unreleased](https://github.com/pyca/service-identity/compare/21.1.0...HEAD)
 
 ### Backwards-incompatible Changes
 
@@ -21,13 +21,17 @@ If breaking changes are needed do be done, they are:
   When using such an old pyOpenSSL version, you have to pin *cryptography* yourself to ensure compatibility between them.
   Please check out [`contraints/oldest-pyopenssl.txt`](https://github.com/pyca/service-identity/blob/main/constraints/oldest-pyopenssl.txt) to verify what we are testing against.
 
+
 ### Deprecations
 
 *none*
 
+
 ### Changes
 
-*none*
+- `service_identity.(cryptography|pyopenssl).extract_patterns()` are now public APIs (FKA `extract_ids()`).
+  You can use them to extract the patterns from a certificate without verifying anything.
+  [#55](https://github.com/pyca/service-identity/pull/55)
 
 
 ## 21.1.0 (2021-05-09)

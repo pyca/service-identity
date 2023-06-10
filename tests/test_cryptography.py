@@ -5,7 +5,7 @@ import pytest
 from cryptography.hazmat.backends import default_backend
 from cryptography.x509 import load_pem_x509_certificate
 
-from service_identity._common import (
+from service_identity.common import (
     DNS_ID,
     DNSPattern,
     IPAddress_ID,
@@ -13,7 +13,7 @@ from service_identity._common import (
     URIPattern,
 )
 from service_identity.cryptography import (
-    extract_ids,
+    extract_patterns,
     verify_certificate_hostname,
     verify_certificate_ip_address,
 )
@@ -79,24 +79,24 @@ class TestExtractIDs:
         """
         Returns the correct DNSPattern from a certificate.
         """
-        rv = extract_ids(X509_DNS_ONLY)
+        rv = extract_patterns(X509_DNS_ONLY)
         assert [
-            DNSPattern(b"www.twistedmatrix.com"),
-            DNSPattern(b"twistedmatrix.com"),
+            DNSPattern.from_bytes(b"www.twistedmatrix.com"),
+            DNSPattern.from_bytes(b"twistedmatrix.com"),
         ] == rv
 
     def test_cn_ids_are_ignored(self):
         """
         commonName is not supported anymore and therefore ignored.
         """
-        assert [] == extract_ids(X509_CN_ONLY)
+        assert [] == extract_patterns(X509_CN_ONLY)
 
     def test_uri(self):
         """
         Returns the correct URIPattern from a certificate.
         """
-        rv = extract_ids(X509_OTHER_NAME)
-        assert [URIPattern(b"http://example.com/")] == [
+        rv = extract_patterns(X509_OTHER_NAME)
+        assert [URIPattern.from_bytes(b"http://example.com/")] == [
             id for id in rv if isinstance(id, URIPattern)
         ]
 
@@ -104,13 +104,15 @@ class TestExtractIDs:
         """
         Returns IP patterns.
         """
-        rv = extract_ids(CERT_EVERYTHING)
+        rv = extract_patterns(CERT_EVERYTHING)
 
         assert [
-            DNSPattern(pattern=b"service.identity.invalid"),
-            DNSPattern(pattern=b"*.wildcard.service.identity.invalid"),
-            DNSPattern(pattern=b"service.identity.invalid"),
-            DNSPattern(pattern=b"single.service.identity.invalid"),
+            DNSPattern.from_bytes(pattern=b"service.identity.invalid"),
+            DNSPattern.from_bytes(
+                pattern=b"*.wildcard.service.identity.invalid"
+            ),
+            DNSPattern.from_bytes(pattern=b"service.identity.invalid"),
+            DNSPattern.from_bytes(pattern=b"single.service.identity.invalid"),
             IPAddressPattern(pattern=ipaddress.IPv4Address("1.1.1.1")),
             IPAddressPattern(pattern=ipaddress.IPv6Address("::1")),
             IPAddressPattern(pattern=ipaddress.IPv4Address("2.2.2.2")),

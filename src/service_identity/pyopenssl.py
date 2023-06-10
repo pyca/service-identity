@@ -9,9 +9,10 @@ from pyasn1.type.char import IA5String
 from pyasn1.type.univ import ObjectIdentifier
 from pyasn1_modules.rfc2459 import GeneralNames
 
-from ._common import (
+from .common import (
     DNS_ID,
     CertificateError,
+    CertificatePattern,
     DNSPattern,
     IPAddress_ID,
     IPAddressPattern,
@@ -46,7 +47,7 @@ def verify_hostname(connection: SSL.Connection, hostname: str):
     :returns: ``None``
     """
     verify_service_identity(
-        cert_patterns=extract_ids(connection.get_peer_certificate()),
+        cert_patterns=extract_patterns(connection.get_peer_certificate()),
         obligatory_ids=[DNS_ID(hostname)],
         optional_ids=[],
     )
@@ -71,7 +72,7 @@ def verify_ip_address(connection: SSL.Connection, ip_address: str):
     .. versionadded:: 18.1.0
     """
     verify_service_identity(
-        cert_patterns=extract_ids(connection.get_peer_certificate()),
+        cert_patterns=extract_patterns(connection.get_peer_certificate()),
         obligatory_ids=[IPAddress_ID(ip_address)],
         optional_ids=[],
     )
@@ -80,16 +81,16 @@ def verify_ip_address(connection: SSL.Connection, ip_address: str):
 ID_ON_DNS_SRV = ObjectIdentifier("1.3.6.1.5.5.7.8.7")  # id_on_dnsSRV
 
 
-def extract_ids(cert: SSL.X509):
+def extract_patterns(cert: SSL.X509) -> list[CertificatePattern]:
     """
-    Extract all valid IDs from a certificate for service verification.
-
-    If *cert* doesn't contain any identifiers, the ``CN``s are used as DNS-IDs
-    as fallback.
+    Extract all valid ID patterns from a certificate for service verification.
 
     :param cert: The certificate to be dissected.
 
     :return: List of IDs.
+
+    .. versionchanged:: 23.1.0
+       ``commonName`` is not used as a fallback anymore.
     """
     ids = []
     for i in range(cert.get_extension_count()):
@@ -99,7 +100,9 @@ def extract_ids(cert: SSL.X509):
             for n in names:
                 name_string = n.getName()
                 if name_string == "dNSName":
-                    ids.append(DNSPattern(n.getComponent().asOctets()))
+                    ids.append(
+                        DNSPattern.from_bytes(n.getComponent().asOctets())
+                    )
                 elif name_string == "iPAddress":
                     ids.append(
                         IPAddressPattern.from_bytes(
@@ -107,14 +110,16 @@ def extract_ids(cert: SSL.X509):
                         )
                     )
                 elif name_string == "uniformResourceIdentifier":
-                    ids.append(URIPattern(n.getComponent().asOctets()))
+                    ids.append(
+                        URIPattern.from_bytes(n.getComponent().asOctets())
+                    )
                 elif name_string == "otherName":
                     comp = n.getComponent()
                     oid = comp.getComponentByPosition(0)
                     if oid == ID_ON_DNS_SRV:
                         srv, _ = decode(comp.getComponentByPosition(1))
                         if isinstance(srv, IA5String):
-                            ids.append(SRVPattern(srv.asOctets()))
+                            ids.append(SRVPattern.from_bytes(srv.asOctets()))
                         else:  # pragma: nocover
                             raise CertificateError(
                                 "Unexpected certificate content."

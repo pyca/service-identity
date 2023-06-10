@@ -1,7 +1,7 @@
 from cryptography.hazmat.backends import default_backend
 from cryptography.x509 import load_pem_x509_certificate
 
-from service_identity.cryptography import extract_ids
+from service_identity.cryptography import extract_patterns
 
 
 # Test certificates
@@ -45,7 +45,7 @@ fJiBDvG/iDAJISgkrR1heuX/e+yWfx7RvqGlMLIE35d+0MhWy92Jzejbl8fJdr4C
 Kulh/pV07MWAUZxscUPtWmPo
 -----END CERTIFICATE-----"""
 
-DNS_IDS = extract_ids(
+DNS_IDS = extract_patterns(
     load_pem_x509_certificate(PEM_DNS_ONLY, default_backend())
 )
 

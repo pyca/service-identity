@@ -1,29 +1,41 @@
+import pprint
 import socket
+import sys
+
+import idna
 
 from OpenSSL import SSL
 
-from service_identity import VerificationError
-from service_identity.pyopenssl import verify_hostname
+import service_identity
 
+
+hostname = sys.argv[1]
 
 ctx = SSL.Context(SSL.SSLv23_METHOD)
 ctx.set_verify(SSL.VERIFY_PEER, lambda conn, cert, errno, depth, ok: ok)
 ctx.set_default_verify_paths()
 
-hostname = "hynek.me"
 conn = SSL.Connection(ctx, socket.socket(socket.AF_INET, socket.SOCK_STREAM))
+conn.set_tlsext_host_name(idna.encode(hostname))
 conn.connect((hostname, 443))
 
 try:
     conn.do_handshake()
-    verify_hostname(conn, hostname)
 
-    print(f"Certificate is valid for {hostname}!")
-    # Do your super-secure stuff here.
+    print("Server certificate is valid for the following patterns:\n")
+    pprint.pprint(
+        service_identity.pyopenssl.extract_patterns(
+            conn.get_peer_certificate()
+        )
+    )
+
+    try:
+        service_identity.pyopenssl.verify_hostname(conn, hostname)
+    except service_identity.VerificationError:
+        print(f"\nPresented certificate is NOT valid for {hostname}.")
+    finally:
+        conn.shutdown()
 except SSL.Error as e:
     print(f"TLS Handshake failed: {e!r}.")
-except VerificationError:
-    print(f"Presented certificate is not valid for {hostname}.")
 finally:
-    conn.shutdown()
     conn.close()

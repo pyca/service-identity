@@ -17,9 +17,10 @@ from cryptography.x509.extensions import ExtensionNotFound
 from pyasn1.codec.der.decoder import decode
 from pyasn1.type.char import IA5String
 
-from ._common import (
+from .common import (
     DNS_ID,
     CertificateError,
+    CertificatePattern,
     DNSPattern,
     IPAddress_ID,
     IPAddressPattern,
@@ -53,7 +54,7 @@ def verify_certificate_hostname(
     :returns: ``None``
     """
     verify_service_identity(
-        cert_patterns=extract_ids(certificate),
+        cert_patterns=extract_patterns(certificate),
         obligatory_ids=[DNS_ID(hostname)],
         optional_ids=[],
     )
@@ -83,7 +84,7 @@ def verify_certificate_ip_address(
     .. versionadded:: 18.1.0
     """
     verify_service_identity(
-        cert_patterns=extract_ids(certificate),
+        cert_patterns=extract_patterns(certificate),
         obligatory_ids=[IPAddress_ID(ip_address)],
         optional_ids=[],
     )
@@ -92,17 +93,15 @@ def verify_certificate_ip_address(
 ID_ON_DNS_SRV = ObjectIdentifier("1.3.6.1.5.5.7.8.7")  # id_on_dnsSRV
 
 
-def extract_ids(
-    cert: Certificate,
-) -> list[DNSPattern | URIPattern | IPAddressPattern | SRVPattern]:
+def extract_patterns(cert: Certificate) -> list[CertificatePattern]:
     """
-    Extract all valid IDs from a certificate for service verification.
+    Extract all valid ID patterns from a certificate for service verification.
 
     :param cert: The certificate to be dissected.
 
     :return: List of IDs.
 
-    .. removed:: 23.1.0
+    .. versionchanged:: 23.1.0
        ``commonName`` is not used as a fallback anymore.
     """
     ids = []
@@ -115,13 +114,13 @@ def extract_ids(
     else:
         ids.extend(
             [
-                DNSPattern(name.encode("utf-8"))
+                DNSPattern.from_bytes(name.encode("utf-8"))
                 for name in ext.value.get_values_for_type(DNSName)
             ]
         )
         ids.extend(
             [
-                URIPattern(uri.encode("utf-8"))
+                URIPattern.from_bytes(uri.encode("utf-8"))
                 for uri in ext.value.get_values_for_type(
                     UniformResourceIdentifier
                 )
@@ -137,8 +136,14 @@ def extract_ids(
             if other.type_id == ID_ON_DNS_SRV:
                 srv, _ = decode(other.value)
                 if isinstance(srv, IA5String):
-                    ids.append(SRVPattern(srv.asOctets()))
+                    ids.append(SRVPattern.from_bytes(srv.asOctets()))
                 else:  # pragma: nocover
                     raise CertificateError("Unexpected certificate content.")
 
     return ids
+
+
+extract_ids = extract_patterns
+"""
+Deprecated and never public API.  Use :func:`extract_patterns` instead.
+"""
