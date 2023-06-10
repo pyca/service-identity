@@ -25,7 +25,7 @@ If breaking changes are needed do be done, they are:
 ### Deprecations
 
 - If you've used `service_identity.(cryptography|pyopenssl).extract_ids()`, please switch to the new names `extract_patterns()`.
-  [#55](https://github.com/pyca/service-identity/pull/55)
+  [#56](https://github.com/pyca/service-identity/pull/56)
 
 
 ### Changes
