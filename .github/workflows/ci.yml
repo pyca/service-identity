@@ -55,7 +55,7 @@ jobs:
           allow-prereleases: true
           cache: pip
 
-      - name: Prepare tox
+      - name: Prepare tox & run tests
         run: |
           V=${{ matrix.python-version }}
 
@@ -66,9 +66,10 @@ jobs:
           fi
 
           python -Im pip install tox
+          python -Im tox run -f "$V"
 
-      - run: python -Im tox run -f "$V"
-      - run: python -Im tox run -e mypy
+      - name: Run Mypy
+        run: python -Im tox run -e mypy
 
       - name: Upload coverage data
         uses: actions/upload-artifact@v3
