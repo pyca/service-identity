@@ -36,7 +36,7 @@ dynamic = ["version", "readme"]
 [project.optional-dependencies]
 idna = ["idna"]
 tests = ["coverage[toml]>=5.0.2", "pytest"]
-docs = ["sphinx", "furo", "myst-parser", "sphinx-notfound-page"]
+docs = ["sphinx", "furo", "myst-parser", "sphinx-notfound-page", "pyOpenSSL"]
 mypy = ["mypy", "types-pyOpenSSL", "idna"]
 dev = ["service-identity[tests,mypy,docs,idna]", "pyOpenSSL"]
 
