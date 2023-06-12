@@ -5,6 +5,13 @@ Separated into an own package for nicer tracebacks, you should still import
 them from __init__.py.
 """
 
+from __future__ import annotations
+
+from typing import TYPE_CHECKING, Sequence
+
+
+if TYPE_CHECKING:
+    from .hazmat import ServiceID
 
 import attr
 
@@ -23,52 +30,45 @@ class SubjectAltNameWarning(DeprecationWarning):
     """
 
 
+@attr.s(slots=True)
+class Mismatch:
+    mismatched_id: ServiceID = attr.ib()
+
+
+class DNSMismatch(Mismatch):
+    """
+    No matching DNSPattern could be found.
+    """
+
+
+class SRVMismatch(Mismatch):
+    """
+    No matching SRVPattern could be found.
+    """
+
+
+class URIMismatch(Mismatch):
+    """
+    No matching URIPattern could be found.
+    """
+
+
+class IPAddressMismatch(Mismatch):
+    """
+    No matching IPAddressPattern could be found.
+    """
+
+
 @attr.s(auto_exc=True)
 class VerificationError(Exception):
     """
     Service identity verification failed.
     """
 
-    errors = attr.ib()
+    errors: Sequence[Mismatch] = attr.ib()
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.__repr__()
-
-
-@attr.s
-class DNSMismatch:
-    """
-    No matching DNSPattern could be found.
-    """
-
-    mismatched_id = attr.ib()
-
-
-@attr.s
-class SRVMismatch:
-    """
-    No matching SRVPattern could be found.
-    """
-
-    mismatched_id = attr.ib()
-
-
-@attr.s
-class URIMismatch:
-    """
-    No matching URIPattern could be found.
-    """
-
-    mismatched_id = attr.ib()
-
-
-@attr.s
-class IPAddressMismatch:
-    """
-    No matching IPAddressPattern could be found.
-    """
-
-    mismatched_id = attr.ib()
 
 
 class CertificateError(Exception):

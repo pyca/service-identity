@@ -12,7 +12,7 @@ import service_identity
 hostname = sys.argv[1]
 
 ctx = SSL.Context(SSL.TLSv1_2_METHOD)
-ctx.set_verify(SSL.VERIFY_PEER, lambda conn, cert, errno, depth, ok: ok)
+ctx.set_verify(SSL.VERIFY_PEER, lambda conn, cert, errno, depth, ok: bool(ok))
 ctx.set_default_verify_paths()
 
 conn = SSL.Connection(ctx, socket.socket(socket.AF_INET, socket.SOCK_STREAM))
@@ -22,12 +22,9 @@ conn.connect((hostname, 443))
 try:
     conn.do_handshake()
 
-    print("Server certificate is valid for the following patterns:\n")
-    pprint.pprint(
-        service_identity.pyopenssl.extract_patterns(
-            conn.get_peer_certificate()
-        )
-    )
+    if cert := conn.get_peer_certificate():
+        print("Server certificate is valid for the following patterns:\n")
+        pprint.pprint(service_identity.pyopenssl.extract_patterns(cert))
 
     try:
         service_identity.pyopenssl.verify_hostname(conn, hostname)

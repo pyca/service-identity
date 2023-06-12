@@ -59,7 +59,7 @@ def verify_certificate_hostname(
     """
     verify_service_identity(
         cert_patterns=extract_patterns(certificate),
-        obligatory_ids=[DNS_ID(hostname)],
+        obligatory_ids=[DNS_ID(hostname)],  # type: ignore[list-item]
         optional_ids=[],
     )
 
@@ -89,7 +89,7 @@ def verify_certificate_ip_address(
     """
     verify_service_identity(
         cert_patterns=extract_patterns(certificate),
-        obligatory_ids=[IPAddress_ID(ip_address)],
+        obligatory_ids=[IPAddress_ID(ip_address)],  # type: ignore[list-item]
         optional_ids=[],
     )
 
@@ -141,7 +141,7 @@ def extract_patterns(cert: Certificate) -> Sequence[CertificatePattern]:
                 srv, _ = decode(other.value)
                 if isinstance(srv, IA5String):
                     ids.append(SRVPattern.from_bytes(srv.asOctets()))
-                else:  # pragma: nocover
+                else:  # pragma: no cover
                     raise CertificateError("Unexpected certificate content.")
 
     return ids
