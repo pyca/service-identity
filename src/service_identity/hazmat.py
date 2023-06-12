@@ -238,7 +238,8 @@ CertificatePattern = Union[
     SRVPattern, URIPattern, DNSPattern, IPAddressPattern
 ]
 """
-All possible patterns that can be extracted from a certificate.
+A :class:`Union` of all possible patterns that can be extracted from a
+certificate.
 """
 
 

@@ -54,6 +54,10 @@ The following are the objects return by the ``extract_patterns`` functions.
 They each carry the attributes that are necessary to match an ID of their type.
 
 
+.. autoclass:: CertificatePattern
+
+   It includes all of those that follow now.
+
 .. autoclass:: DNSPattern
    :members:
 .. autoclass:: IPAddressPattern
