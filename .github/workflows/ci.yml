@@ -27,8 +27,8 @@ jobs:
         with:
           cache: pip
 
-      - run: python -Im pip install --upgrade tox
-      - run: python -Im tox run -e lint
+      - run: python -Im pip install tox
+      - run: python -Im tox run -e lint -- --show-diff-on-failure
 
   tests:
     name: "Tests on ${{ matrix.python-version }}"
@@ -53,7 +53,7 @@ jobs:
           allow-prereleases: true
           cache: pip
 
-      - run: python -Im pip install --upgrade tox
+      - run: python -Im pip install tox
 
       - name: Determine Python version for tox
         run: |
@@ -87,14 +87,14 @@ jobs:
         with:
           cache: pip
 
-      - run: python -Im pip install --upgrade coverage[toml]
-
       - uses: actions/download-artifact@v3
         with:
           name: coverage-data
 
       - name: Combine coverage & fail if it's <100%.
         run: |
+          python -Im pip install coverage[toml]
+
           python -Im coverage combine
           python -Im coverage html --skip-covered --skip-empty
 
@@ -114,19 +114,21 @@ jobs:
   install-dev:
     strategy:
       matrix:
-        os: ["ubuntu-latest", "windows-latest", "macos-latest"]
+        os: [ubuntu-latest, windows-latest, macos-latest]
 
-    name: "Verify dev env"
-    runs-on: "${{ matrix.os }}"
+    name: Verify dev env
+    runs-on: ${{ matrix.os }}
 
     steps:
-      - uses: "actions/checkout@v3"
-      - uses: "actions/setup-python@v4"
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          cache: pip
 
-      - name: "Install in dev mode"
-        run: "python -Im pip install -e .[dev]"
-      - name: "Import package"
-        run: "python -Ic 'import service_identity; print(service_identity.__version__)'"
+      - name: Install in dev mode
+        run: python -Im pip install -e .[dev]
+      - name: Import package
+        run: python -Ic 'import service_identity; print(service_identity.__version__)'
 
   docs:
     name: Build docs & run doctests
@@ -138,7 +140,7 @@ jobs:
           # Keep in sync with tox.ini/docs & .readthedocs.yaml
           python-version: "3.11"
           cache: pip
-      - run: python -Im pip install --upgrade wheel tox
+      - run: python -Im pip install tox
 
       - run: python -Im tox run -e docs
 
