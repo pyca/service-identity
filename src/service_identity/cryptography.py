@@ -6,6 +6,8 @@ from __future__ import annotations
 
 import warnings
 
+from typing import Sequence
+
 from cryptography.x509 import (
     Certificate,
     DNSName,
@@ -19,9 +21,9 @@ from cryptography.x509.extensions import ExtensionNotFound
 from pyasn1.codec.der.decoder import decode
 from pyasn1.type.char import IA5String
 
-from .common import (
+from .exceptions import CertificateError
+from .hazmat import (
     DNS_ID,
-    CertificateError,
     CertificatePattern,
     DNSPattern,
     IPAddress_ID,
@@ -95,7 +97,7 @@ def verify_certificate_ip_address(
 ID_ON_DNS_SRV = ObjectIdentifier("1.3.6.1.5.5.7.8.7")  # id_on_dnsSRV
 
 
-def extract_patterns(cert: Certificate) -> list[CertificatePattern]:
+def extract_patterns(cert: Certificate) -> Sequence[CertificatePattern]:
     """
     Extract all valid ID patterns from a certificate for service verification.
 
@@ -106,7 +108,7 @@ def extract_patterns(cert: Certificate) -> list[CertificatePattern]:
     .. versionchanged:: 23.1.0
        ``commonName`` is not used as a fallback anymore.
     """
-    ids = []
+    ids: list[CertificatePattern] = []
     try:
         ext = cert.extensions.get_extension_for_oid(
             ExtensionOID.SUBJECT_ALTERNATIVE_NAME
@@ -145,7 +147,7 @@ def extract_patterns(cert: Certificate) -> list[CertificatePattern]:
     return ids
 
 
-def extract_ids(cert: Certificate) -> list[CertificatePattern]:
+def extract_ids(cert: Certificate) -> Sequence[CertificatePattern]:
     """
     Deprecated and never public API.  Use :func:`extract_patterns` instead.
 

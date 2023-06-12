@@ -2,17 +2,17 @@ import ipaddress
 
 import pytest
 
-from service_identity.common import (
+from service_identity.exceptions import (
+    DNSMismatch,
+    IPAddressMismatch,
+    VerificationError,
+)
+from service_identity.hazmat import (
     DNS_ID,
     DNSPattern,
     IPAddress_ID,
     IPAddressPattern,
     URIPattern,
-)
-from service_identity.exceptions import (
-    DNSMismatch,
-    IPAddressMismatch,
-    VerificationError,
 )
 from service_identity.pyopenssl import (
     extract_ids,

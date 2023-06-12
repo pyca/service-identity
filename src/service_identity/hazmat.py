@@ -23,7 +23,7 @@ from .exceptions import (
 
 try:
     import idna
-except ImportError:  # pragma: nocover
+except ImportError:
     idna = None
 
 
@@ -253,7 +253,7 @@ class DNS_ID:
     A DNS service ID, aka hostname.
     """
 
-    hostname: str = attr.ib()
+    hostname: bytes = attr.ib()
 
     # characters that are legal in a normalized hostname
     _RE_LEGAL_CHARS = re.compile(rb"^[a-z0-9\-_.]+$")
@@ -282,7 +282,7 @@ class DNS_ID:
         if self._RE_LEGAL_CHARS.match(self.hostname) is None:
             raise ValueError("Invalid DNS-ID.")
 
-    def verify(self, pattern):
+    def verify(self, pattern: object) -> None:
         """
         https://tools.ietf.org/search/rfc6125#section-6.4
         """
@@ -298,7 +298,9 @@ class IPAddress_ID:
     An IP address service ID.
     """
 
-    ip = attr.ib(converter=ipaddress.ip_address)
+    ip: ipaddress.IPv4Address | ipaddress.IPv6Address = attr.ib(
+        converter=ipaddress.ip_address
+    )
 
     pattern_class = IPAddressPattern
     error_on_mismatch = IPAddressMismatch

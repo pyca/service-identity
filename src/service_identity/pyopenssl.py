@@ -7,12 +7,14 @@ from __future__ import annotations
 import contextlib
 import warnings
 
+from typing import Sequence
+
 from pyasn1.codec.der.decoder import decode
 from pyasn1.type.char import IA5String
 from pyasn1.type.univ import ObjectIdentifier
 from pyasn1_modules.rfc2459 import GeneralNames
 
-from .common import (
+from .hazmat import (
     DNS_ID,
     CertificateError,
     CertificatePattern,
@@ -81,7 +83,7 @@ def verify_ip_address(connection: SSL.Connection, ip_address: str):
 ID_ON_DNS_SRV = ObjectIdentifier("1.3.6.1.5.5.7.8.7")  # id_on_dnsSRV
 
 
-def extract_patterns(cert: SSL.X509) -> list[CertificatePattern]:
+def extract_patterns(cert: SSL.X509) -> Sequence[CertificatePattern]:
     """
     Extract all valid ID patterns from a certificate for service verification.
 
@@ -92,7 +94,7 @@ def extract_patterns(cert: SSL.X509) -> list[CertificatePattern]:
     .. versionchanged:: 23.1.0
        ``commonName`` is not used as a fallback anymore.
     """
-    ids = []
+    ids: list[CertificatePattern] = []
     for i in range(cert.get_extension_count()):
         ext = cert.get_extension(i)
         if ext.get_short_name() == b"subjectAltName":
@@ -132,7 +134,7 @@ def extract_patterns(cert: SSL.X509) -> list[CertificatePattern]:
     return ids
 
 
-def extract_ids(cert: SSL.X509) -> list[CertificatePattern]:
+def extract_ids(cert: SSL.X509) -> Sequence[CertificatePattern]:
     """
     Deprecated and never public API.  Use :func:`extract_patterns` instead.
 

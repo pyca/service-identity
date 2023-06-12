@@ -5,13 +5,6 @@ import pytest
 from cryptography.hazmat.backends import default_backend
 from cryptography.x509 import load_pem_x509_certificate
 
-from service_identity.common import (
-    DNS_ID,
-    DNSPattern,
-    IPAddress_ID,
-    IPAddressPattern,
-    URIPattern,
-)
 from service_identity.cryptography import (
     extract_ids,
     extract_patterns,
@@ -22,6 +15,13 @@ from service_identity.exceptions import (
     DNSMismatch,
     IPAddressMismatch,
     VerificationError,
+)
+from service_identity.hazmat import (
+    DNS_ID,
+    DNSPattern,
+    IPAddress_ID,
+    IPAddressPattern,
+    URIPattern,
 )
 
 from .util import PEM_CN_ONLY, PEM_DNS_ONLY, PEM_EVERYTHING, PEM_OTHER_NAME
