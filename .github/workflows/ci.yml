@@ -20,6 +20,7 @@ env:
 
 jobs:
   lint:
+    name: Run linters
     runs-on: "ubuntu-latest"
     steps:
       - uses: "actions/checkout@v3"
@@ -33,8 +34,8 @@ jobs:
           python -Im tox run -e lint -- --show-diff-on-failure
 
   tests:
-    name: "Tests on ${{ matrix.python-version }}"
-    runs-on: "ubuntu-latest"
+    name: Tests on ${{ matrix.python-version }}
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         python-version:
@@ -48,10 +49,10 @@ jobs:
           - "pypy-3.9"
 
     steps:
-      - uses: "actions/checkout@v3"
-      - uses: "actions/setup-python@v4"
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
         with:
-          python-version: "${{ matrix.python-version }}"
+          python-version: ${{ matrix.python-version }}
           allow-prereleases: true
           cache: pip
 
