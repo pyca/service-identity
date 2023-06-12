@@ -27,8 +27,10 @@ jobs:
         with:
           cache: pip
 
-      - run: python -Im pip install tox
-      - run: python -Im tox run -e lint -- --show-diff-on-failure
+      - name: Install & run tox
+        run: |
+          python -Im pip install tox
+          python -Im tox run -e lint -- --show-diff-on-failure
 
   tests:
     name: "Tests on ${{ matrix.python-version }}"
@@ -53,9 +55,7 @@ jobs:
           allow-prereleases: true
           cache: pip
 
-      - run: python -Im pip install tox
-
-      - name: Determine Python version for tox
+      - name: Install & run tox
         run: |
           V=${{ matrix.python-version }}
 
@@ -65,9 +65,8 @@ jobs:
             V=py$(echo $V | tr -d .)
           fi
 
-          echo TOX_PYTHON=$V >>$GITHUB_ENV
-
-      - run: python -Im tox run -f ${{ env.TOX_PYTHON }}
+          python -Im pip install tox
+          python -Im tox run -f "$V"
 
       - name: Upload coverage data
         uses: actions/upload-artifact@v3
@@ -125,10 +124,10 @@ jobs:
         with:
           cache: pip
 
-      - name: Install in dev mode
-        run: python -Im pip install -e .[dev]
-      - name: Import package
-        run: python -Ic 'import service_identity; print(service_identity.__version__)'
+      - name: Install in dev mode & import
+        run: |
+          python -Im pip install -e .[dev]
+          python -Ic 'import service_identity; print(service_identity.__version__)'
 
   docs:
     name: Build docs & run doctests
@@ -140,9 +139,11 @@ jobs:
           # Keep in sync with tox.ini/docs & .readthedocs.yaml
           python-version: "3.11"
           cache: pip
-      - run: python -Im pip install tox
 
-      - run: python -Im tox run -e docs
+      - name: Install & run tox
+        run: |
+          python -Im pip install tox
+          python -Im tox run -e docs
 
   # Ensure everything required is passing for branch protection.
   required-checks-pass:
