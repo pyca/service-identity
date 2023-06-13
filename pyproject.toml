@@ -6,14 +6,13 @@ build-backend = "hatchling.build"
 name = "service-identity"
 authors = [{ name = "Hynek Schlawack", email = "hs@ox.cx" }]
 license = "MIT"
-requires-python = ">=3.7"
+requires-python = ">=3.8"
 description = "Service identity verification for pyOpenSSL & cryptography."
 keywords = ["cryptography", "openssl", "pyopenssl"]
 classifiers = [
     "Development Status :: 5 - Production/Stable",
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
-    "Programming Language :: Python :: 3.7",
     "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
@@ -23,6 +22,7 @@ classifiers = [
     "Programming Language :: Python :: Implementation :: PyPy",
     "Topic :: Security :: Cryptography",
     "Topic :: Software Development :: Libraries :: Python Modules",
+    "Typing :: Typed",
 ]
 dependencies = [
     # Keep in-sync with tests/constraints/*.
@@ -30,15 +30,15 @@ dependencies = [
     "pyasn1-modules",
     "pyasn1",
     "cryptography",
-    "importlib_metadata;python_version<'3.8'",
 ]
 dynamic = ["version", "readme"]
 
 [project.optional-dependencies]
 idna = ["idna"]
 tests = ["coverage[toml]>=5.0.2", "pytest"]
-docs = ["sphinx", "furo", "myst-parser", "sphinx-notfound-page"]
-dev = ["service-identity[tests,docs,idna]", "pyOpenSSL"]
+docs = ["sphinx", "furo", "myst-parser", "sphinx-notfound-page", "pyOpenSSL"]
+mypy = ["mypy", "types-pyOpenSSL", "idna"]
+dev = ["service-identity[tests,mypy,docs,idna]", "pyOpenSSL"]
 
 [project.urls]
 Documentation = "https://service-identity.readthedocs.io/"
@@ -105,6 +105,22 @@ source = ["src", ".tox/py*/**/site-packages"]
 [tool.coverage.report]
 show_missing = true
 skip_covered = true
+exclude_lines = [
+    # a more strict default pragma
+    "\\# pragma: no cover\\b",
+
+    # allow defensive code
+    "^\\s*raise AssertionError\\b",
+    "^\\s*raise NotImplementedError\\b",
+    "^\\s*return NotImplemented\\b",
+    "^\\s*raise$",
+
+    # typing-related code
+    "^if (False|TYPE_CHECKING):",
+    ": \\.\\.\\.(\\s*#.*)?$",
+    "^ +\\.\\.\\.$",
+    "-> ['\"]?NoReturn['\"]?:",
+]
 
 
 [tool.black]
@@ -152,3 +168,23 @@ ignore = [
 [tool.ruff.isort]
 lines-between-types = 1
 lines-after-imports = 2
+
+
+[tool.mypy]
+strict = true
+
+show_error_codes = true
+enable_error_code = ["ignore-without-code"]
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = "tests.*"
+ignore_errors = true
+
+[[tool.mypy.overrides]]
+module = "tests.typing.*"
+ignore_errors = false
+
+[[tool.mypy.overrides]]
+module = "cryptography.*"
+follow_imports = "skip"

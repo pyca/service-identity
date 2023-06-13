@@ -14,7 +14,7 @@ If breaking changes are needed do be done, they are:
 
 ### Backwards-incompatible Changes
 
-- All Python versions up to and including 3.6 have been dropped.
+- All Python versions up to and including 3.7 have been dropped.
 - Support for `commonName` in certificates has been dropped.
   It has been deprecated since 2017 and isn't supported by any major browser.
 - The oldest supported pyOpenSSL version (when using the `pyopenssl` backend) is now 17.0.0.
@@ -33,6 +33,8 @@ If breaking changes are needed do be done, they are:
 - `service_identity.(cryptography|pyopenssl).extract_patterns()` are now public APIs (FKA `extract_ids()`).
   You can use them to extract the patterns from a certificate without verifying anything.
   [#55](https://github.com/pyca/service-identity/pull/55)
+- *service-identity* is now fully typed.
+  [#57](https://github.com/pyca/service-identity/pull/57)
 
 
 ## 21.1.0 (2021-05-09)

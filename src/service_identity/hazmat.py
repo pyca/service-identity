@@ -7,7 +7,7 @@ from __future__ import annotations
 import ipaddress
 import re
 
-from typing import Union
+from typing import Protocol, Sequence, Union, runtime_checkable
 
 import attr
 
@@ -15,6 +15,7 @@ from .exceptions import (
     CertificateError,
     DNSMismatch,
     IPAddressMismatch,
+    Mismatch,
     SRVMismatch,
     URIMismatch,
     VerificationError,
@@ -24,7 +25,7 @@ from .exceptions import (
 try:
     import idna
 except ImportError:
-    idna = None
+    idna = None  # type: ignore[assignment]
 
 
 @attr.s(slots=True)
@@ -33,11 +34,15 @@ class ServiceMatch:
     A match of a service id and a certificate pattern.
     """
 
-    service_id = attr.ib()
-    cert_pattern = attr.ib()
+    service_id: ServiceID = attr.ib()
+    cert_pattern: CertificatePattern = attr.ib()
 
 
-def verify_service_identity(cert_patterns, obligatory_ids, optional_ids):
+def verify_service_identity(
+    cert_patterns: Sequence[CertificatePattern],
+    obligatory_ids: Sequence[ServiceID],
+    optional_ids: Sequence[ServiceID],
+) -> list[ServiceMatch]:
     """
     Verify whether *cert_patterns* are valid for *obligatory_ids* and
     *optional_ids*.
@@ -71,17 +76,15 @@ def verify_service_identity(cert_patterns, obligatory_ids, optional_ids):
     return matches
 
 
-def _find_matches(cert_patterns, service_ids):
+def _find_matches(
+    cert_patterns: Sequence[CertificatePattern],
+    service_ids: Sequence[ServiceID],
+) -> list[ServiceMatch]:
     """
     Search for matching certificate patterns and service_ids.
 
-    :param cert_ids: List certificate IDs like DNSPattern.
-    :type cert_ids: `list`
-
     :param service_ids: List of service IDs like DNS_ID.
     :type service_ids: `list`
-
-    :rtype: `list` of `ServiceMatch`
     """
     matches = []
     for sid in service_ids:
@@ -91,25 +94,17 @@ def _find_matches(cert_patterns, service_ids):
     return matches
 
 
-def _contains_instance_of(seq, cl):
-    """
-    :type seq: iterable
-    :type cl: type
-
-    :rtype: bool
-    """
+def _contains_instance_of(seq: Sequence[object], cl: type) -> bool:
     return any(isinstance(e, cl) for e in seq)
 
 
-def _is_ip_address(pattern):
+def _is_ip_address(pattern: str | bytes) -> bool:
     """
     Check whether *pattern* could be/match an IP address.
 
     :param pattern: A pattern for a host name.
-    :type pattern: `bytes` or `str`
 
     :return: `True` if *pattern* could be an IP address, else `False`.
-    :rtype: bool
     """
     if isinstance(pattern, bytes):
         try:
@@ -143,7 +138,7 @@ class DNSPattern:
     _RE_LEGAL_CHARS = re.compile(rb"^[a-z0-9\-_.]+$")
 
     @classmethod
-    def from_bytes(cls, pattern) -> DNSPattern:
+    def from_bytes(cls, pattern: bytes) -> DNSPattern:
         if not isinstance(pattern, bytes):
             raise TypeError("The DNS pattern must be a bytes string.")
 
@@ -243,8 +238,23 @@ CertificatePattern = Union[
     SRVPattern, URIPattern, DNSPattern, IPAddressPattern
 ]
 """
-All possible patterns that can be extracted from a certificate.
+A :class:`Union` of all possible patterns that can be extracted from a
+certificate.
 """
+
+
+@runtime_checkable
+class ServiceID(Protocol):
+    @property
+    def pattern_class(self) -> type[CertificatePattern]:
+        ...
+
+    @property
+    def error_on_mismatch(self) -> type[Mismatch]:
+        ...
+
+    def verify(self, pattern: CertificatePattern) -> bool:
+        ...
 
 
 @attr.s(init=False, slots=True)
@@ -260,7 +270,7 @@ class DNS_ID:
     pattern_class = DNSPattern
     error_on_mismatch = DNSMismatch
 
-    def __init__(self, hostname):
+    def __init__(self, hostname: str):
         if not isinstance(hostname, str):
             raise TypeError("DNS-ID must be a text string.")
 
@@ -282,7 +292,7 @@ class DNS_ID:
         if self._RE_LEGAL_CHARS.match(self.hostname) is None:
             raise ValueError("Invalid DNS-ID.")
 
-    def verify(self, pattern: object) -> None:
+    def verify(self, pattern: CertificatePattern) -> bool:
         """
         https://tools.ietf.org/search/rfc6125#section-6.4
         """
@@ -305,11 +315,14 @@ class IPAddress_ID:
     pattern_class = IPAddressPattern
     error_on_mismatch = IPAddressMismatch
 
-    def verify(self, pattern):
+    def verify(self, pattern: CertificatePattern) -> bool:
         """
         https://tools.ietf.org/search/rfc2818#section-3.1
         """
-        return self.ip == pattern.pattern
+        if isinstance(pattern, self.pattern_class):
+            return self.ip == pattern.pattern
+
+        return False
 
 
 @attr.s(init=False, slots=True)
@@ -318,8 +331,8 @@ class URI_ID:
     An URI service ID.
     """
 
-    protocol = attr.ib()
-    dns_id = attr.ib()
+    protocol: bytes = attr.ib()
+    dns_id: DNS_ID = attr.ib()
 
     pattern_class = URIPattern
     error_on_mismatch = URIMismatch
@@ -337,7 +350,7 @@ class URI_ID:
         self.protocol = prot.encode("ascii").translate(_TRANS_TO_LOWER)
         self.dns_id = DNS_ID(hostname.strip("/"))
 
-    def verify(self, pattern):
+    def verify(self, pattern: CertificatePattern) -> bool:
         """
         https://tools.ietf.org/search/rfc6125#section-6.5.2
         """
@@ -356,8 +369,8 @@ class SRV_ID:
     An SRV service ID.
     """
 
-    name = attr.ib()
-    dns_id = attr.ib()
+    name: bytes = attr.ib()
+    dns_id: DNS_ID = attr.ib()
 
     pattern_class = SRVPattern
     error_on_mismatch = SRVMismatch
@@ -375,7 +388,7 @@ class SRV_ID:
         self.name = name[1:].encode("ascii").translate(_TRANS_TO_LOWER)
         self.dns_id = DNS_ID(hostname)
 
-    def verify(self, pattern):
+    def verify(self, pattern: CertificatePattern) -> bool:
         """
         https://tools.ietf.org/search/rfc6125#section-6.5.1
         """
@@ -387,13 +400,9 @@ class SRV_ID:
         return False
 
 
-def _hostname_matches(cert_pattern, actual_hostname):
+def _hostname_matches(cert_pattern: bytes, actual_hostname: bytes) -> bool:
     """
-    :type cert_pattern: `bytes`
-    :type actual_hostname: `bytes`
-
     :return: `True` if *cert_pattern* matches *actual_hostname*, else `False`.
-    :rtype: `bool`
     """
     if b"*" in cert_pattern:
         cert_head, cert_tail = cert_pattern.split(b".", 1)
@@ -409,14 +418,10 @@ def _hostname_matches(cert_pattern, actual_hostname):
     return cert_pattern == actual_hostname
 
 
-def _validate_pattern(cert_pattern):
+def _validate_pattern(cert_pattern: bytes) -> None:
     """
     Check whether the usage of wildcards within *cert_pattern* conforms with
     our expectations.
-
-    :type hostname: `bytes`
-
-    :return: None
     """
     cnt = cert_pattern.count(b"*")
     if cnt > 1:

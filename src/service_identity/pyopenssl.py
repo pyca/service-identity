@@ -14,9 +14,9 @@ from pyasn1.type.char import IA5String
 from pyasn1.type.univ import ObjectIdentifier
 from pyasn1_modules.rfc2459 import GeneralNames
 
+from .exceptions import CertificateError
 from .hazmat import (
     DNS_ID,
-    CertificateError,
     CertificatePattern,
     DNSPattern,
     IPAddress_ID,
@@ -27,13 +27,16 @@ from .hazmat import (
 )
 
 
-with contextlib.suppress(ImportError):  # we only use it for docstrings
-    from OpenSSL import SSL
+with contextlib.suppress(ImportError):
+    # We only use it for docstrings -- `if TYPE_CHECKING`` does not work.
+    from OpenSSL.crypto import X509
+    from OpenSSL.SSL import Connection
+
 
 __all__ = ["verify_hostname"]
 
 
-def verify_hostname(connection: SSL.Connection, hostname: str):
+def verify_hostname(connection: Connection, hostname: str) -> None:
     """
     Verify whether the certificate of *connection* is valid for *hostname*.
 
@@ -49,13 +52,15 @@ def verify_hostname(connection: SSL.Connection, hostname: str):
     :returns: ``None``
     """
     verify_service_identity(
-        cert_patterns=extract_patterns(connection.get_peer_certificate()),
+        cert_patterns=extract_patterns(
+            connection.get_peer_certificate()  # type:ignore[arg-type]
+        ),
         obligatory_ids=[DNS_ID(hostname)],
         optional_ids=[],
     )
 
 
-def verify_ip_address(connection: SSL.Connection, ip_address: str):
+def verify_ip_address(connection: Connection, ip_address: str) -> None:
     """
     Verify whether the certificate of *connection* is valid for *ip_address*.
 
@@ -74,7 +79,9 @@ def verify_ip_address(connection: SSL.Connection, ip_address: str):
     .. versionadded:: 18.1.0
     """
     verify_service_identity(
-        cert_patterns=extract_patterns(connection.get_peer_certificate()),
+        cert_patterns=extract_patterns(
+            connection.get_peer_certificate()  # type:ignore[arg-type]
+        ),
         obligatory_ids=[IPAddress_ID(ip_address)],
         optional_ids=[],
     )
@@ -83,7 +90,7 @@ def verify_ip_address(connection: SSL.Connection, ip_address: str):
 ID_ON_DNS_SRV = ObjectIdentifier("1.3.6.1.5.5.7.8.7")  # id_on_dnsSRV
 
 
-def extract_patterns(cert: SSL.X509) -> Sequence[CertificatePattern]:
+def extract_patterns(cert: X509) -> Sequence[CertificatePattern]:
     """
     Extract all valid ID patterns from a certificate for service verification.
 
@@ -122,19 +129,19 @@ def extract_patterns(cert: SSL.X509) -> Sequence[CertificatePattern]:
                         srv, _ = decode(comp.getComponentByPosition(1))
                         if isinstance(srv, IA5String):
                             ids.append(SRVPattern.from_bytes(srv.asOctets()))
-                        else:  # pragma: nocover
+                        else:  # pragma: no cover
                             raise CertificateError(
                                 "Unexpected certificate content."
                             )
-                    else:  # pragma: nocover
+                    else:  # pragma: no cover
                         pass
-                else:  # pragma: nocover
+                else:  # pragma: no cover
                     pass
 
     return ids
 
 
-def extract_ids(cert: SSL.X509) -> Sequence[CertificatePattern]:
+def extract_ids(cert: X509) -> Sequence[CertificatePattern]:
     """
     Deprecated and never public API.  Use :func:`extract_patterns` instead.
 

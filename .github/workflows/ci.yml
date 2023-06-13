@@ -39,7 +39,6 @@ jobs:
     strategy:
       matrix:
         python-version:
-          - "3.7"
           - "3.8"
           - "3.9"
           - "3.10"
@@ -56,7 +55,7 @@ jobs:
           allow-prereleases: true
           cache: pip
 
-      - name: Install & run tox
+      - name: Prepare tox & run tests
         run: |
           V=${{ matrix.python-version }}
 
@@ -68,6 +67,9 @@ jobs:
 
           python -Im pip install tox
           python -Im tox run -f "$V"
+
+      - name: Run Mypy on API
+        run: python -Im tox run -e mypy-api
 
       - name: Upload coverage data
         uses: actions/upload-artifact@v3
@@ -110,6 +112,21 @@ jobs:
           name: html-report
           path: htmlcov
         if: ${{ failure() }}
+
+  mypy-pkg:
+    name: Type-check package
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          cache: pip
+
+      - name: Install & run tox
+        run: |
+          python -Im pip install tox
+          python -Im tox run -e mypy-pkg
 
   install-dev:
     strategy:
@@ -155,6 +172,7 @@ jobs:
       - docs
       - install-dev
       - lint
+      - mypy-pkg
 
     runs-on: ubuntu-latest
 
