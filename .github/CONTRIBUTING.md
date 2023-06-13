@@ -35,13 +35,17 @@ You can (and should) run our test suite using [*tox*].
 However, you’ll probably want a more traditional environment as well.
 
 First, create a virtual environment so you don't break your system-wide Python installation.
-We recommend using the Python version from the `.python-version` file in project's root directory.
+We recommend using the Python version from the `.python-version-default` file in project's root directory.
 
 If you're using [*direnv*](https://direnv.net), you can automate the creation of a virtual environment with the correct Python version by adding the following `.envrc` to the project root after cloning the repository:
 
 ```bash
-layout python python$(cat .python-version)
+layout python python$(cat .python-version-default)
 ```
+
+ If you're using tools that understand `.python-version` files like [*pyenv*](https://github.com/pyenv/pyenv) does, you can make it a link to the `.python-version-default` file.
+
+---
 
 [Create a fork](https://github.com/pyca/service-identity/fork) of the *service-identity* repository and clone it:
 
