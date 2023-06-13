@@ -41,7 +41,7 @@ However, *service-identity* implements [RFC 6125](https://datatracker.ietf.org/d
 
 *service-identity* is written and maintained by [Hynek Schlawack](https://hynek.me/).
 
-The development is kindly supported by my employer [Variomedia AG](https://www.variomedia.de/), *service-identity*'s [Tidelift subscribers](https://tidelift.com/subscription/pkg/pypi-service-identity?utm_source=pypi-service-identity&utm_medium=referral&utm_campaign=readme), and all my amazing [GitHub Sponsors](https://github.com/sponsors/hynek).
+The development is kindly supported by my employer [Variomedia AG](https://www.variomedia.de/), *service-identity*'s [Tidelift subscribers][Tidelift], and all my amazing [GitHub Sponsors](https://github.com/sponsors/hynek).
 
 
 ### *service-identity* for Enterprise
@@ -50,4 +50,6 @@ Available as part of the Tidelift Subscription.
 
 The maintainers of *service-identity* and thousands of other packages are working with Tidelift to deliver commercial support and maintenance for the open-source packages you use to build your applications.
 Save time, reduce risk, and improve code health, while paying the maintainers of the exact packages you use.
-[Learn more.](https://tidelift.com/subscription/pkg/service-identity?utm_source=undefined&utm_medium=referral&utm_campaign=enterprise&utm_term=repo)
+[Learn more.][Tidelift]
+
+[Tidelift]: https://tidelift.com/subscription/pkg/pypi-service-identity?utm_source=pypi-service-identity&utm_medium=readme
