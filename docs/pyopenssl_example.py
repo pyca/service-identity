@@ -1,6 +1,6 @@
+import argparse
 import pprint
 import socket
-import sys
 
 import idna
 
@@ -9,7 +9,13 @@ from OpenSSL import SSL
 import service_identity
 
 
-hostname = sys.argv[1]
+parser = argparse.ArgumentParser(
+    description="Connect to HOST, inspect its certificate "
+    "and verify if it's valid for its hostname."
+)
+parser.add_argument("HOST")
+args = parser.parse_args()
+hostname = args.HOST
 
 ctx = SSL.Context(SSL.TLSv1_2_METHOD)
 ctx.set_verify(SSL.VERIFY_PEER, lambda conn, cert, errno, depth, ok: bool(ok))
