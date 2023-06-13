@@ -43,7 +43,6 @@ However, *service-identity* implements [RFC 6125](https://datatracker.ietf.org/d
 
 The development is kindly supported by my employer [Variomedia AG](https://www.variomedia.de/), *service-identity*'s [Tidelift subscribers](https://tidelift.com/subscription/pkg/pypi-service-identity?utm_source=pypi-service-identity&utm_medium=referral&utm_campaign=readme), and all my amazing [GitHub Sponsors](https://github.com/sponsors/hynek).
 
-A full list of contributors can be found in GitHub's [overview](https://github.com/pyca/service-identity/graphs/contributors).
 
 ### *service-identity* for Enterprise
 
