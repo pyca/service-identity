@@ -14,8 +14,6 @@ env:
   FORCE_COLOR: "1"  # Make tools pretty.
   PIP_DISABLE_PIP_VERSION_CHECK: "1"
   PIP_NO_PYTHON_VERSION_WARNING: "1"
-  # N.B. default Python version for setup-python comes from the .python-version
-  # file at the root of the project.
 
 
 jobs:
@@ -26,6 +24,7 @@ jobs:
       - uses: "actions/checkout@v3"
       - uses: "actions/setup-python@v4"
         with:
+          python-version-file: .python-version-default
           cache: pip
 
       - name: Install & run tox
@@ -87,6 +86,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v4
         with:
+          python-version-file: .python-version-default
           cache: pip
 
       - uses: actions/download-artifact@v3
@@ -121,6 +121,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v4
         with:
+          python-version-file: .python-version-default
           cache: pip
 
       - name: Install & run tox
@@ -140,6 +141,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v4
         with:
+          python-version-file: .python-version-default
           cache: pip
 
       - name: Install in dev mode & import

@@ -1,6 +1,6 @@
 ---
 default_language_version:
-  # keep in-sync with .python-version
+  # keep in-sync with .python-version-default
   python: python3.11
 
 repos:
