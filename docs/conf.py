@@ -32,6 +32,12 @@ myst_enable_extensions = [
 autodoc_typehints = "description"
 autodoc_typehints_description_target = "documented"
 
+# GitHub has rate limits
+linkcheck_ignore = [
+    r"https://github.com/.*/(issues|pull|compare)/\d+",
+    r"https://twitter.com/.*",
+]
+
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ["_templates"]
 
