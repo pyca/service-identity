@@ -37,7 +37,7 @@ If breaking changes are needed do be done, they are:
   [#57](https://github.com/pyca/service-identity/pull/57)
 
 
-## 21.1.0 (2021-05-09)
+## [21.1.0](https://github.com/pyca/service-identity/compare/18.1.0...21.1.0) - 2021-05-09
 
 ### Backwards-incompatible Changes
 
@@ -57,7 +57,7 @@ If breaking changes are needed do be done, they are:
   This raises the requirement of `attrs` to 19.1.0.
 
 
-## 18.1.0 (2018-12-05)
+## [18.1.0](https://github.com/pyca/service-identity/compare/17.0.0...18.1.0) - 2018-12-05
 
 ### Changes
 
@@ -67,7 +67,7 @@ If breaking changes are needed do be done, they are:
   [#12](https://github.com/pyca/service-identity/pull/12)
 
 
-## 17.0.0 (2017-05-23)
+## [17.0.0](https://github.com/pyca/service-identity/compare/16.0.0...17.0.0) - 2017-05-23
 
 ### Deprecations
 
@@ -85,7 +85,7 @@ If breaking changes are needed do be done, they are:
   [#19](https://github.com/pyca/service-identity/pull/19)
 
 
-## 16.0.0 (2016-02-18)
+## [16.0.0](https://github.com/pyca/service-identity/compare/14.0.0...16.0.0) - 2016-02-18
 
 ### Backwards-incompatible Changes
 
@@ -110,7 +110,7 @@ If breaking changes are needed do be done, they are:
 - Port from `characteristic` to its spiritual successor [attrs](https://www.attrs.org/).
 
 
-## 14.0.0 (2014-08-22)
+## [14.0.0](https://github.com/pyca/service-identity/compare/1.0.0...14.0.0) - 2014-08-22
 
 ### Changes
 
@@ -119,7 +119,7 @@ If breaking changes are needed do be done, they are:
 - Package docs with sdist.
 
 
-## 1.0.0 (2014-06-15)
+## [1.0.0](https://github.com/pyca/service-identity/compare/0.2.0...1.0.0) - 2014-06-15
 
 ### Backwards-incompatible Changes
 
@@ -137,7 +137,7 @@ If breaking changes are needed do be done, they are:
   Unfortunately since `idna` doesn’t offer version introspection, `service-identity` can’t warn about it.
 
 
-## 0.2.0 (2014-04-06)
+## [0.2.0](https://github.com/pyca/service-identity/compare/0.1.0...0.2.0) - 2014-04-06
 
 ### Backwards-incompatible Changes
 
@@ -152,6 +152,6 @@ If breaking changes are needed do be done, they are:
 - More strict checks for URI_IDs.
 
 
-## 0.1.0 (2014-03-03)
+## [0.1.0](https://github.com/pyca/service-identity/tree/0.1.0) - 2014-03-03
 
 Initial release.
