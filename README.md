@@ -34,7 +34,7 @@ However, *service-identity* implements [RFC 6125](https://datatracker.ietf.org/d
 
 ## Project Information
 
-*service-identity* is released under the MIT license, its documentation lives at [Read the Docs](https://service-identity.readthedocs.io/), the code on [GitHub](https://github.com/pyca/service-identity), and the latest release on [PyPI](https://pypi.org/project/service-identity/).
+*service-identity* is released under the [MIT](https://github.com/pyca/service-identity/blob/main/LICENSE) license, its documentation lives at [Read the Docs](https://service-identity.readthedocs.io/), the code on [GitHub](https://github.com/pyca/service-identity), and the latest release on [PyPI](https://pypi.org/project/service-identity/).
 
 
 ### Credits
