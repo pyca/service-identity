@@ -27,9 +27,11 @@ from .hazmat import (
 )
 
 
-with contextlib.suppress(ImportError):  # we only use it for docstrings
+with contextlib.suppress(ImportError):
+    # We only use it for docstrings -- `if TYPE_CHECKING`` does not work.
     from OpenSSL.crypto import X509
     from OpenSSL.SSL import Connection
+
 
 __all__ = ["verify_hostname"]
 
