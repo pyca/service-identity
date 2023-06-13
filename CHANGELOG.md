@@ -1,18 +1,20 @@
 # Changelog
 
-Versions follow [CalVer](https://calver.org) with a strict backwards-compatibility policy:
+All notable changes to this project will be documented in this file.
 
-If breaking changes are needed do be done, they are:
+The format is based on [*Keep a Changelog*](https://keepachangelog.com/en/1.0.0/) and this project adheres to [*Calendar Versioning*](https://calver.org/).
 
-1. …announced in the {doc}`changelog`.
-2. …the old behavior raises a {exc}`DeprecationWarning` for a year.
-3. …are done with another announcement in the {doc}`changelog`.
+The **first number** of the version is the year.
+The **second number** is incremented with each release, starting at 1 for each year.
+The **third number** is for emergencies when we need to start branches for older releases.
+
+You can find out backwards-compatibility policy [here](https://github.com/pyca/service-identity/blob/main/.github/SECURITY.md).
 
 <!-- changelog follows -->
 
 ## [Unreleased](https://github.com/pyca/service-identity/compare/21.1.0...HEAD)
 
-### Backwards-incompatible Changes
+### Removed
 
 - All Python versions up to and including 3.7 have been dropped.
 - Support for `commonName` in certificates has been dropped.
@@ -22,13 +24,13 @@ If breaking changes are needed do be done, they are:
   Please check out [`contraints/oldest-pyopenssl.txt`](https://github.com/pyca/service-identity/blob/main/tests/constraints/oldest-pyopenssl.txt) to verify what we are testing against.
 
 
-### Deprecations
+### Deprecated
 
 - If you've used `service_identity.(cryptography|pyopenssl).extract_ids()`, please switch to the new names `extract_patterns()`.
   [#56](https://github.com/pyca/service-identity/pull/56)
 
 
-### Changes
+### Added
 
 - `service_identity.(cryptography|pyopenssl).extract_patterns()` are now public APIs (FKA `extract_ids()`).
   You can use them to extract the patterns from a certificate without verifying anything.
@@ -39,7 +41,7 @@ If breaking changes are needed do be done, they are:
 
 ## [21.1.0](https://github.com/pyca/service-identity/compare/18.1.0...21.1.0) - 2021-05-09
 
-### Backwards-incompatible Changes
+### Removed
 
 - Python 3.4 is not supported anymore.
   It has been unsupported by the Python core team for a while now, its PyPI downloads are negligible, and our CI provider removed it as a supported option.
@@ -47,11 +49,8 @@ If breaking changes are needed do be done, they are:
   It's very unlikely that `service-identity` will break under 3.4 anytime soon, which is why we do *not* block its installation on Python 3.4.
   But we don't test it anymore and will block it once someone reports breakage.
 
-### Deprecations
 
-*none*
-
-### Changes
+### Fixed
 
 - `service_identity.exceptions.VerificationError` can now be pickled and is overall more well-behaved as an exception.
   This raises the requirement of `attrs` to 19.1.0.
@@ -59,7 +58,7 @@ If breaking changes are needed do be done, they are:
 
 ## [18.1.0](https://github.com/pyca/service-identity/compare/17.0.0...18.1.0) - 2018-12-05
 
-### Changes
+### Added
 
 - pyOpenSSL is optional now if you use `service_identity.cryptography.*` only.
 - Added support for `iPAddress` `subjectAltName`s.
@@ -69,17 +68,21 @@ If breaking changes are needed do be done, they are:
 
 ## [17.0.0](https://github.com/pyca/service-identity/compare/16.0.0...17.0.0) - 2017-05-23
 
-### Deprecations
+### Deprecated
 
 - Since Chrome 58 and Firefox 48 both don't accept certificates that contain only a Common Name, its usage is hereby deprecated in `service-identity` too.
   We have been raising a warning since 16.0.0 and the support will be removed in mid-2018 for good.
 
-### Changes
+### Added
 
 - When `service_identity.SubjectAltNameWarning` is raised, the Common Name of the certificate is now included in the warning message.
   [#17](https://github.com/pyca/service-identity/pull/17)
 - Added `cryptography.x509` backend for verifying certificates.
   [#18](https://github.com/pyca/service-identity/pull/18)
+
+
+### Changed
+
 - Wildcards (`*`) are now only allowed if they are the leftmost label in a certificate.
   This is common practice by all major browsers.
   [#19](https://github.com/pyca/service-identity/pull/19)
@@ -87,7 +90,7 @@ If breaking changes are needed do be done, they are:
 
 ## [16.0.0](https://github.com/pyca/service-identity/compare/14.0.0...16.0.0) - 2016-02-18
 
-### Backwards-incompatible Changes
+### Removed
 
 - Python 3.3 and 2.6 aren't supported anymore.
   They may work by chance but any effort to keep them working has ceased.
@@ -101,55 +104,69 @@ If breaking changes are needed do be done, they are:
   They don't even build on recent OpenSSL versions.
   Please note that its support may break without further notice.
 
-### Changes
+
+### Added
 
 - Officially support Python 3.5.
+- A `__str__` method to `VerificationError`.
+
+
+### Changed
+
 - `service_identity.SubjectAltNameWarning` is now raised if the server certificate lacks a proper `SubjectAltName`.
   [#9](https://github.com/pyca/service-identity/issues/9)
-- Add a `__str__` method to `VerificationError`.
 - Port from `characteristic` to its spiritual successor [attrs](https://www.attrs.org/).
 
 
 ## [14.0.0](https://github.com/pyca/service-identity/compare/1.0.0...14.0.0) - 2014-08-22
 
-### Changes
+### Changed
 
 - Switch to year-based version numbers.
 - Port to `characteristic` 14.0 (get rid of deprecation warnings).
-- Package docs with sdist.
+- Package docs with source distributions.
 
 
 ## [1.0.0](https://github.com/pyca/service-identity/compare/0.2.0...1.0.0) - 2014-06-15
 
-### Backwards-incompatible Changes
+### Removed
 
 - Drop support for Python 3.2.
   There is no justification to add complexity and unnecessary function calls for a Python version that [nobody uses](https://alexgaynor.net/2014/jan/03/pypi-download-statistics/).
 
-### Changes
+### Changed
 
 - Move into the [Python Cryptography Authority’s GitHub account](https://github.com/pyca/).
 - Move exceptions into `service_identity.exceptions` so tracebacks don’t contain private module names.
 - Promoting to stable since Twisted 14.0 is optionally depending on `service-identity` now.
 - Use [characteristic](https://characteristic.readthedocs.io/) instead of a home-grown solution.
+
+
+### Fixed
+
 - `idna` 0.6 did some backward-incompatible fixes that broke Python 3 support.
-  This has been fixed now therefore `service-identity` only works with `idna` 0.6 and later.
-  Unfortunately since `idna` doesn’t offer version introspection, `service-identity` can’t warn about it.
+  This has been fixed now therefore *service-identity* only works with `idna` 0.6 and later.
+  Unfortunately since `idna` doesn’t offer version introspection, *service-identity* can’t warn about it.
 
 
 ## [0.2.0](https://github.com/pyca/service-identity/compare/0.1.0...0.2.0) - 2014-04-06
 
-### Backwards-incompatible Changes
+### Added
+
+- Official support for Python 3.4.
+
+
+### Changed
 
 - Refactor into a multi-module package.
   Most notably, `verify_hostname` and `extract_ids` live in the `service_identity.pyopenssl` module now.
 - `verify_hostname` now takes an `OpenSSL.SSL.Connection` for the first argument.
+- More strict checks for URI_IDs.
 
-### Changes
+
+### Fixed
 
 - Less false positives in IP address detection.
-- Officially support Python 3.4 too.
-- More strict checks for URI_IDs.
 
 
 ## [0.1.0](https://github.com/pyca/service-identity/tree/0.1.0) - 2014-03-03
