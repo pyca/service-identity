@@ -53,7 +53,7 @@ def verify_hostname(connection: Connection, hostname: str) -> None:
         cert_patterns=extract_patterns(
             connection.get_peer_certificate()  # type:ignore[arg-type]
         ),
-        obligatory_ids=[DNS_ID(hostname)],  # type: ignore[list-item]
+        obligatory_ids=[DNS_ID(hostname)],
         optional_ids=[],
     )
 
@@ -80,7 +80,7 @@ def verify_ip_address(connection: Connection, ip_address: str) -> None:
         cert_patterns=extract_patterns(
             connection.get_peer_certificate()  # type:ignore[arg-type]
         ),
-        obligatory_ids=[IPAddress_ID(ip_address)],  # type: ignore[list-item]
+        obligatory_ids=[IPAddress_ID(ip_address)],
         optional_ids=[],
     )
 

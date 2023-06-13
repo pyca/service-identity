@@ -245,8 +245,13 @@ certificate.
 
 @runtime_checkable
 class ServiceID(Protocol):
-    pattern_class: type[CertificatePattern]
-    error_on_mismatch: type[Mismatch]
+    @property
+    def pattern_class(self) -> type[CertificatePattern]:
+        ...
+
+    @property
+    def error_on_mismatch(self) -> type[Mismatch]:
+        ...
 
     def verify(self, pattern: CertificatePattern) -> bool:
         ...

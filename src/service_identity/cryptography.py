@@ -59,7 +59,7 @@ def verify_certificate_hostname(
     """
     verify_service_identity(
         cert_patterns=extract_patterns(certificate),
-        obligatory_ids=[DNS_ID(hostname)],  # type: ignore[list-item]
+        obligatory_ids=[DNS_ID(hostname)],
         optional_ids=[],
     )
 
@@ -89,7 +89,7 @@ def verify_certificate_ip_address(
     """
     verify_service_identity(
         cert_patterns=extract_patterns(certificate),
-        obligatory_ids=[IPAddress_ID(ip_address)],  # type: ignore[list-item]
+        obligatory_ids=[IPAddress_ID(ip_address)],
         optional_ids=[],
     )
 
