@@ -12,7 +12,7 @@ You can find out backwards-compatibility policy [here](https://github.com/pyca/s
 
 <!-- changelog follows -->
 
-## [Unreleased](https://github.com/pyca/service-identity/compare/21.1.0...HEAD)
+## [23.1.0](https://github.com/pyca/service-identity/compare/21.1.0...23.1.0) - 2023-06-14
 
 ### Removed
 
