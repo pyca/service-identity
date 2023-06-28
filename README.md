@@ -31,6 +31,8 @@ Use this package if:
 In the simplest case, this means *host name verification*.
 However, *service-identity* implements [RFC 6125](https://datatracker.ietf.org/doc/html/rfc6125.html) fully.
 
+Please also check out [*pem*](https://github.com/hynek/pem) that makes loading certificates from all kinds of PEM-encoded files a breeze!
+
 
 ## Project Information
 
