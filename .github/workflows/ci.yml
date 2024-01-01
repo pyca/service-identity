@@ -22,7 +22,7 @@ jobs:
     runs-on: "ubuntu-latest"
     steps:
       - uses: "actions/checkout@v4"
-      - uses: "actions/setup-python@v4"
+      - uses: "actions/setup-python@v5"
         with:
           python-version-file: .python-version-default
           cache: pip
@@ -48,7 +48,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v4
+      - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
           allow-prereleases: true
@@ -84,7 +84,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v4
+      - uses: actions/setup-python@v5
         with:
           python-version-file: .python-version-default
           cache: pip
@@ -119,7 +119,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v4
+      - uses: actions/setup-python@v5
         with:
           python-version-file: .python-version-default
           cache: pip
@@ -139,7 +139,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v4
+      - uses: actions/setup-python@v5
         with:
           python-version-file: .python-version-default
           cache: pip
@@ -154,7 +154,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v4
+      - uses: actions/setup-python@v5
         with:
           # Keep in sync with tox.ini/docs & .readthedocs.yaml
           python-version: "3.11"
