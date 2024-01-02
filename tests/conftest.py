@@ -18,11 +18,7 @@ def pytest_report_header(config):
         openssl_version = "n/a"
         pyopenssl_version = "missing"
 
-    return """\
-OpenSSL: {openssl}
-pyOpenSSL: {pyOpenSSL}
-cryptography: {cryptography}""".format(
-        openssl=openssl_version,
-        pyOpenSSL=pyopenssl_version,
-        cryptography=cryptography.__version__,
-    )
+    return f"""\
+OpenSSL: {openssl_version}
+pyOpenSSL: {pyopenssl_version}
+cryptography: {cryptography.__version__}"""

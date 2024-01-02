@@ -24,7 +24,7 @@ You can find out backwards-compatibility policy [here](https://github.com/pyca/s
   It has been deprecated since 2017 and isn't supported by any major browser.
 - The oldest supported pyOpenSSL version (when using the `pyopenssl` backend) is now 17.0.0.
   When using such an old pyOpenSSL version, you have to pin *cryptography* yourself to ensure compatibility between them.
-  Please check out [`contraints/oldest-pyopenssl.txt`](https://github.com/pyca/service-identity/blob/main/tests/constraints/oldest-pyopenssl.txt) to verify what we are testing against.
+  Please check out [`constraints/oldest-pyopenssl.txt`](https://github.com/pyca/service-identity/blob/main/tests/constraints/oldest-pyopenssl.txt) to verify what we are testing against.
 
 
 ### Deprecated

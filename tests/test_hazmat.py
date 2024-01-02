@@ -693,7 +693,7 @@ class TestVerificationError:
             assert repr(e) == str(e)
             assert str(e) != ""
 
-    @pytest.mark.parametrize("proto", range(0, pickle.HIGHEST_PROTOCOL + 1))
+    @pytest.mark.parametrize("proto", range(pickle.HIGHEST_PROTOCOL + 1))
     @pytest.mark.parametrize(
         "exc",
         [

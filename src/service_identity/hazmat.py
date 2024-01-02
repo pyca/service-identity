@@ -426,15 +426,13 @@ def _validate_pattern(cert_pattern: bytes) -> None:
     cnt = cert_pattern.count(b"*")
     if cnt > 1:
         raise CertificateError(
-            "Certificate's DNS-ID {!r} contains too many wildcards.".format(
-                cert_pattern
-            )
+            f"Certificate's DNS-ID {cert_pattern!r} contains too many wildcards."
         )
     parts = cert_pattern.split(b".")
     if len(parts) < 3:
         raise CertificateError(
-            "Certificate's DNS-ID {!r} has too few host components for "
-            "wildcard usage.".format(cert_pattern)
+            f"Certificate's DNS-ID {cert_pattern!r} has too few host components for "
+            "wildcard usage."
         )
     # We assume there will always be only one wildcard allowed.
     if b"*" not in parts[0]:
@@ -444,9 +442,7 @@ def _validate_pattern(cert_pattern: bytes) -> None:
         )
     if any(not len(p) for p in parts):
         raise CertificateError(
-            "Certificate's DNS-ID {!r} contains empty parts.".format(
-                cert_pattern
-            )
+            f"Certificate's DNS-ID {cert_pattern!r} contains empty parts."
         )
 
 
