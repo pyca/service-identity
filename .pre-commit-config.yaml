@@ -1,7 +1,4 @@
 ---
-ci:
-  autoupdate_schedule: monthly
-
 repos:
   - repo: https://github.com/psf/black
     rev: 23.12.1
@@ -9,7 +6,7 @@ repos:
       - id: black
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.1.9
+    rev: v0.1.11
     hooks:
       - id: ruff
         args: [--fix, --exit-non-zero-on-fix]
@@ -19,6 +16,12 @@ repos:
     hooks:
       - id: codespell
         args: [-L, fo]
+
+  - repo: https://github.com/econchick/interrogate
+    rev: 1.5.0
+    hooks:
+      - id: interrogate
+        args: [tests, -v]
 
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.5.0

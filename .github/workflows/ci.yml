@@ -3,7 +3,7 @@ name: CI
 
 on:
   push:
-    branches: ["main"]
+    branches: [main]
   pull_request:
   workflow_dispatch:
 
@@ -17,10 +17,10 @@ permissions: {}
 jobs:
   lint:
     name: Run linters
-    runs-on: "ubuntu-latest"
+    runs-on: ubuntu-latest
     steps:
-      - uses: "actions/checkout@v4"
-      - uses: "actions/setup-python@v5"
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
         with:
           python-version-file: .python-version-default
           cache: pip
@@ -92,7 +92,7 @@ jobs:
           pattern: coverage-data-*
           merge-multiple: true
 
-      - name: Combine coverage & fail if it's <100%.
+      - name: Combine coverage & fail if it's <100%
         run: |
           python -Im pip install coverage[toml]
 
