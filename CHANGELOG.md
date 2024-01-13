@@ -18,6 +18,7 @@ You can find out backwards-compatibility policy [here](https://github.com/pyca/s
 ### Changed
 
 - If a certificate doesn't contain any `subjectAltName`s, we now raise `service_identity.exceptions.CertificateError` instead of `service_identity.exceptions.VerificationError` to make the problem easier to debug.
+  [#67](https://github.com/pyca/service-identity/pull/67)
 
 
 ## [23.1.0](https://github.com/pyca/service-identity/compare/21.1.0...23.1.0) - 2023-06-14
