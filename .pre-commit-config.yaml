@@ -19,9 +19,9 @@ repos:
 
   - repo: https://github.com/econchick/interrogate
     rev: 1.5.0
-    language_version: python3.11
     hooks:
       - id: interrogate
+        language_version: python3.11
         args: [tests, -v]
 
   - repo: https://github.com/pre-commit/pre-commit-hooks
