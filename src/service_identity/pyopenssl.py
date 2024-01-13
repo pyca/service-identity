@@ -94,9 +94,11 @@ def extract_patterns(cert: X509) -> Sequence[CertificatePattern]:
     """
     Extract all valid ID patterns from a certificate for service verification.
 
-    :param cert: The certificate to be dissected.
+    Args:
+        cert: The certificate to be dissected.
 
-    :return: List of IDs.
+    Returns:
+        List of IDs.
 
     .. versionchanged:: 23.1.0
        ``commonName`` is not used as a fallback anymore.
