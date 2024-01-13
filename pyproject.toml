@@ -78,7 +78,7 @@ pattern = "\n(###.+?\n)## "
 text = """
 ----
 
-[→ Complete Changelog](https://service-identity.readthedocs.io/en/stable/changelog.html)
+[Complete Changelog →](https://service-identity.readthedocs.io/en/stable/changelog.html)
 """
 
 
