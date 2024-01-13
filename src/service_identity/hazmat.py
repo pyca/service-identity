@@ -83,8 +83,8 @@ def _find_matches(
     """
     Search for matching certificate patterns and service_ids.
 
-    :param service_ids: List of service IDs like DNS_ID.
-    :type service_ids: `list`
+    Args:
+        service_ids: List of service IDs like DNS_ID.
     """
     matches = []
     for sid in service_ids:
@@ -102,9 +102,11 @@ def _is_ip_address(pattern: str | bytes) -> bool:
     """
     Check whether *pattern* could be/match an IP address.
 
-    :param pattern: A pattern for a host name.
+    Args:
+        pattern: A pattern for a host name.
 
-    :return: `True` if *pattern* could be an IP address, else `False`.
+    Returns:
+        `True` if *pattern* could be an IP address, else `False`.
     """
     if isinstance(pattern, bytes):
         try:

@@ -109,16 +109,25 @@ But it's way more comfortable to run it locally and catch avoidable errors befor
 ## Code
 
 - Obey [PEP 8](https://www.python.org/dev/peps/pep-0008/) and [PEP 257](https://www.python.org/dev/peps/pep-0257/).
-  We use the `"""`-on-separate-lines style for docstrings:
+  We use the `"""`-on-separate-lines style for docstrings with [Napoleon](https://www.sphinx-doc.org/en/master/usage/extensions/napoleon.html)-style API documentation:
 
   ```python
-  def func(x: str) -> str:
+  def func(x: str, y: int) -> str:
       """
       Do something.
 
-      :param str x: A very important parameter.
+      Args:
+          x: A very important parameter.
 
-      :rtype: str
+          y:
+              Another important parameter but one that doesn't fit a line so
+              it already starts on the next one.
+
+      Raises:
+          Exception: When Something goes wrong.
+
+      Returns:
+          A very important return value.
       """
   ```
 - If you add or change public APIs, tag the docstring using `..  versionadded:: 16.0.0 WHAT` or `..  versionchanged:: 16.2.0 WHAT`.
