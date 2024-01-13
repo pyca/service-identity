@@ -37,19 +37,28 @@ __all__ = ["verify_hostname"]
 
 
 def verify_hostname(connection: Connection, hostname: str) -> None:
-    """
+    r"""
     Verify whether the certificate of *connection* is valid for *hostname*.
 
-    :param connection: A pyOpenSSL connection object.
-    :param hostname: The hostname that *connection* should be connected to.
+    Args:
+        connection: A pyOpenSSL connection object.
 
-    :raises service_identity.VerificationError: If *connection* does not
-        provide a certificate that is valid for *hostname*.
-    :raises service_identity.CertificateError: If the certificate chain of
-        *connection* contains a certificate that contains invalid/unexpected
-        data.
+        hostname: The hostname that *connection* should be connected to.
 
-    :returns: ``None``
+    Raises:
+        service_identity.VerificationError:
+            If *connection* does not provide a certificate that is valid for
+            *hostname*.
+
+        service_identity.CertificateError:
+            If certificate provided by *connection* contains invalid /
+            unexpected data. This includes the case where the certificate
+            contains no ``subjectAltName``\ s.
+
+    .. versionchanged:: 24.1.0
+        :exc:`~service_identity.CertificateError` is raised if the certificate
+        contains no ``subjectAltName``\ s instead of
+        :exc:`~service_identity.VerificationError`.
     """
     verify_service_identity(
         cert_patterns=extract_patterns(
@@ -61,22 +70,31 @@ def verify_hostname(connection: Connection, hostname: str) -> None:
 
 
 def verify_ip_address(connection: Connection, ip_address: str) -> None:
-    """
+    r"""
     Verify whether the certificate of *connection* is valid for *ip_address*.
 
-    :param connection: A pyOpenSSL connection object.
-    :param ip_address: The IP address that *connection* should be connected to.
-        Can be an IPv4 or IPv6 address.
+    Args:
+        connection: A pyOpenSSL connection object.
 
-    :raises service_identity.VerificationError: If *connection* does not
-        provide a certificate that is valid for *ip_address*.
-    :raises service_identity.CertificateError: If the certificate chain of
-        *connection* contains a certificate that contains invalid/unexpected
-        data.
+        ip_address:
+            The IP address that *connection* should be connected to. Can be an
+            IPv4 or IPv6 address.
 
-    :returns: ``None``
+    Raises:
+        service_identity.VerificationError:
+            If *connection* does not provide a certificate that is valid for
+            *ip_address*.
+
+        service_identity.CertificateError:
+            If the certificate chain of *connection* contains a certificate
+            that contains invalid/unexpected data.
 
     .. versionadded:: 18.1.0
+
+    .. versionchanged:: 24.1.0
+        :exc:`~service_identity.CertificateError` is raised if the certificate
+        contains no ``subjectAltName``\ s instead of
+        :exc:`~service_identity.VerificationError`.
     """
     verify_service_identity(
         cert_patterns=extract_patterns(

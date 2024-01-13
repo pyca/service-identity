@@ -45,6 +45,16 @@ class TestVerifyServiceIdentity:
     Simple integration tests for verify_service_identity.
     """
 
+    def test_no_cert_patterns(self):
+        """
+        Empty cert patterns raise a helpful CertificateError.
+        """
+        with pytest.raises(
+            CertificateError,
+            match="Certificate does not contain any `subjectAltName`s.",
+        ):
+            verify_service_identity([], [], [])
+
     def test_dns_id_success(self):
         """
         Return pairs of certificate ids and service ids on matches.
