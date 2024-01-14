@@ -21,7 +21,12 @@ from service_identity.pyopenssl import (
     verify_ip_address,
 )
 
-from .util import PEM_CN_ONLY, PEM_DNS_ONLY, PEM_EVERYTHING, PEM_OTHER_NAME
+from .certificates import (
+    PEM_CN_ONLY,
+    PEM_DNS_ONLY,
+    PEM_EVERYTHING,
+    PEM_OTHER_NAME,
+)
 
 
 if pytest.importorskip("OpenSSL"):

@@ -40,22 +40,31 @@ __all__ = ["verify_certificate_hostname"]
 def verify_certificate_hostname(
     certificate: Certificate, hostname: str
 ) -> None:
-    """
+    r"""
     Verify whether *certificate* is valid for *hostname*.
 
-    .. note:: Nothing is verified about the *authority* of the certificate;
-       the caller must verify that the certificate chains to an appropriate
-       trust root themselves.
+    .. note::
+        Nothing is verified about the *authority* of the certificate;
+        the caller must verify that the certificate chains to an appropriate
+        trust root themselves.
 
-    :param certificate: A *cryptography* X509 certificate object.
-    :param hostname: The hostname that *certificate* should be valid for.
+    Args:
+        certificate: A *cryptography* X509 certificate object.
 
-    :raises service_identity.VerificationError: If *certificate* is not valid
-        for *hostname*.
-    :raises service_identity.CertificateError: If *certificate* contains
-        invalid / unexpected data.
+        hostname: The hostname that *certificate* should be valid for.
 
-    :returns: ``None``
+    Raises:
+        service_identity.VerificationError:
+            If *certificate* is not valid for *hostname*.
+
+        service_identity.CertificateError:
+            If *certificate* contains invalid / unexpected data. This includes
+            the case where the certificate contains no `subjectAltName`\ s.
+
+    .. versionchanged:: 24.1.0
+        :exc:`~service_identity.CertificateError` is raised if the certificate
+        contains no ``subjectAltName``\ s instead of
+        :exc:`~service_identity.VerificationError`.
     """
     verify_service_identity(
         cert_patterns=extract_patterns(certificate),
@@ -67,25 +76,35 @@ def verify_certificate_hostname(
 def verify_certificate_ip_address(
     certificate: Certificate, ip_address: str
 ) -> None:
-    """
+    r"""
     Verify whether *certificate* is valid for *ip_address*.
 
-    .. note:: Nothing is verified about the *authority* of the certificate;
-       the caller must verify that the certificate chains to an appropriate
-       trust root themselves.
+    .. note::
+        Nothing is verified about the *authority* of the certificate;
+        the caller must verify that the certificate chains to an appropriate
+        trust root themselves.
 
-    :param certificate: A *cryptography* X509 certificate object.
-    :param ip_address: The IP address that *connection* should be valid
-        for.  Can be an IPv4 or IPv6 address.
+    Args:
+        certificate: A *cryptography* X509 certificate object.
 
-    :raises service_identity.VerificationError: If *certificate* is not valid
-        for *ip_address*.
-    :raises service_identity.CertificateError: If *certificate* contains
-        invalid / unexpected data.
+        ip_address:
+            The IP address that *connection* should be valid for.  Can be an
+            IPv4 or IPv6 address.
 
-    :returns: ``None``
+    Raises:
+        service_identity.VerificationError:
+            If *certificate* is not valid for *ip_address*.
+
+        service_identity.CertificateError:
+            If *certificate* contains invalid / unexpected data. This includes
+            the case where the certificate contains no ``subjectAltName``\ s.
 
     .. versionadded:: 18.1.0
+
+    .. versionchanged:: 24.1.0
+        :exc:`~service_identity.CertificateError` is raised if the certificate
+        contains no ``subjectAltName``\ s instead of
+        :exc:`~service_identity.VerificationError`.
     """
     verify_service_identity(
         cert_patterns=extract_patterns(certificate),

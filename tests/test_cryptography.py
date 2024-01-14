@@ -12,6 +12,7 @@ from service_identity.cryptography import (
     verify_certificate_ip_address,
 )
 from service_identity.exceptions import (
+    CertificateError,
     DNSMismatch,
     IPAddressMismatch,
     VerificationError,
@@ -24,7 +25,12 @@ from service_identity.hazmat import (
     URIPattern,
 )
 
-from .util import PEM_CN_ONLY, PEM_DNS_ONLY, PEM_EVERYTHING, PEM_OTHER_NAME
+from .certificates import (
+    PEM_CN_ONLY,
+    PEM_DNS_ONLY,
+    PEM_EVERYTHING,
+    PEM_OTHER_NAME,
+)
 
 
 backend = default_backend()
@@ -35,6 +41,29 @@ CERT_EVERYTHING = load_pem_x509_certificate(PEM_EVERYTHING, backend)
 
 
 class TestPublicAPI:
+    def test_no_cert_patterns_hostname(self):
+        """
+        A certificate without subjectAltNames raises a helpful
+        CertificateError.
+        """
+        with pytest.raises(
+            CertificateError,
+            match="Certificate does not contain any `subjectAltName`s.",
+        ):
+            verify_certificate_hostname(X509_CN_ONLY, "example.com")
+
+    @pytest.mark.parametrize("ip", ["203.0.113.0", "2001:db8::"])
+    def test_no_cert_patterns_ip_address(self, ip):
+        """
+        A certificate without subjectAltNames raises a helpful
+        CertificateError.
+        """
+        with pytest.raises(
+            CertificateError,
+            match="Certificate does not contain any `subjectAltName`s.",
+        ):
+            verify_certificate_ip_address(X509_CN_ONLY, ip)
+
     def test_certificate_verify_hostname_ok(self):
         """
         verify_certificate_hostname succeeds if the hostnames match.
