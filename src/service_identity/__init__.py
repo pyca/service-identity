@@ -55,7 +55,7 @@ def __getattr__(name: str) -> str:
     meta = metadata("service-identity")
 
     if name in ("__uri__", "__url__"):
-        return meta["Project-URL"].split(" ", 1)[-1]
+        return meta["Project-URL"].split(" ", 1)[1]
 
     if name == "__email__":
         return meta["Author-email"].split("<", 1)[1].rstrip(">")
