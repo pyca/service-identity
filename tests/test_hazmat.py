@@ -53,7 +53,9 @@ class TestVerifyServiceIdentity:
             CertificateError,
             match="Certificate does not contain any `subjectAltName`s.",
         ):
-            verify_service_identity(cert_patterns=[], obligatory_ids=[], optional_ids=[])
+            verify_service_identity(
+                cert_patterns=[], obligatory_ids=[], optional_ids=[]
+            )
 
     def test_dns_id_success(self):
         """
