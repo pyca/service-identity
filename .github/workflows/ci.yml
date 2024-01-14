@@ -164,8 +164,8 @@ jobs:
           python -Im pip install tox
           python -Im tox run -e docs
 
-  # Ensure everything required is passing for branch protection.
   required-checks-pass:
+    name: Ensure everything required is passing for branch protection
     if: always()
 
     needs:
