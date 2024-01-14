@@ -30,8 +30,8 @@ from service_identity.hazmat import (
     verify_service_identity,
 )
 
+from .certificates import DNS_IDS
 from .test_cryptography import CERT_EVERYTHING
-from .util import DNS_IDS
 
 
 try:
