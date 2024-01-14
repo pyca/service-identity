@@ -43,7 +43,7 @@ dev = ["service-identity[tests,mypy,idna]", "pyOpenSSL"]
 [project.urls]
 Changelog = "https://service-identity.readthedocs.io/en/stable/changelog.html"
 Documentation = "https://service-identity.readthedocs.io/"
-GitHub = "https://github.com/hynek/structlog"
+GitHub = "https://github.com/pyca/service-identity"
 Funding = "https://github.com/sponsors/hynek"
 Tidelift = "https://tidelift.com/subscription/pkg/pypi-service-identity?utm_source=pypi-service-identity&utm_medium=pypi"
 Mastodon = "https://mastodon.social/@hynek"
