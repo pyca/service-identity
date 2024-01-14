@@ -65,7 +65,7 @@ $ git clone https://github.com/YOU/service-identity.git
 >   Yes, you can work on `main` in your fork and submit pull requests.
 >   But this will *inevitably* lead to you not being able to synchronize your fork with upstream and having to start over.
 
-Change into the newly created directory and after activating a virtual environment, install an editable version of *service-identity* along with its tests and docs requirements:
+Change into the newly created directory and after activating a virtual environment, install an editable version of *service-identity* along with its tests requirements:
 
 ```console
 $ cd service-identity
@@ -79,12 +79,20 @@ At this point,
 $ python -Im pytest
 ```
 
-should work and pass, as should:
+When working on the documentation, use:
 
 ```console
-$ cd docs
-$ make html
+$ tox run -e docs-watch
 ```
+
+... to watch your files and automatically rebuild when a file changes.
+And use:
+
+```console
+$ tox run -e docs
+```
+
+... to build it once and run our doctests.
 
 The built documentation can then be found in `docs/_build/html/`.
 
@@ -102,7 +110,6 @@ This is not strictly necessary, because our [*tox*] file contains an environment
 $ pre-commit run --all-files
 ```
 
-and our CI has integration with [pre-commit.ci](https://pre-commit.ci).
 But it's way more comfortable to run it locally and catch avoidable errors before pushing them to GitHub.
 
 
@@ -149,9 +156,6 @@ But it's way more comfortable to run it locally and catch avoidable errors befor
 
 - To run the test suite, all you need is a recent [*tox*].
   It will ensure the test suite runs with all dependencies against all Python versions just as it will in our [CI].
-  If you lack some Python versions, you can can always limit the environments like `tox -e py38,py39`, or make it a non-failure using `tox --skip-missing-interpreters`.
-
-  In that case you should look into [*asdf*](https://asdf-vm.com) or [*pyenv*](https://github.com/pyenv/pyenv), which make it very easy to install many different Python versions in parallel.
 - Write [good test docstrings](https://jml.io/pages/test-docstrings.html).
 - If you've changed or added public APIs, please update our type stubs (files ending in `.pyi`).
 
@@ -175,7 +179,7 @@ But it's way more comfortable to run it locally and catch avoidable errors befor
 
   ## Header of New Top Section
 
-  ###  Header of New Section
+  ### Header of New Section
 
   First line of new section.
   ```
