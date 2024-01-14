@@ -72,6 +72,9 @@ class VerificationError(Exception):
 
 
 class CertificateError(Exception):
-    """
+    r"""
     Certificate contains invalid or unexpected data.
+
+    This includes the case where s certificate contains no
+    ``subjectAltName``\ s.
     """
