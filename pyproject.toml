@@ -41,11 +41,13 @@ mypy = ["mypy", "types-pyOpenSSL", "idna"]
 dev = ["service-identity[tests,mypy,idna]", "pyOpenSSL"]
 
 [project.urls]
+Changelog = "https://service-identity.readthedocs.io/en/stable/changelog.html"
 Documentation = "https://service-identity.readthedocs.io/"
-"Bug Tracker" = "https://github.com/pyca/service-identity/issues"
-"Source Code" = "https://github.com/pyca/service-identity"
+GitHub = "https://github.com/hynek/structlog"
 Funding = "https://github.com/sponsors/hynek"
 Tidelift = "https://tidelift.com/subscription/pkg/pypi-service-identity?utm_source=pypi-service-identity&utm_medium=pypi"
+Mastodon = "https://mastodon.social/@hynek"
+Twitter = "https://twitter.com/hynek"
 
 
 [tool.hatch.version]
