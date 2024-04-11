@@ -20,9 +20,9 @@ import service_identity
 backend = default_backend()
 c_cert = load_pem_x509_certificate("foo.pem", backend)
 
-c_ids: Sequence[
-    service_identity.hazmat.CertificatePattern
-] = service_identity.cryptography.extract_patterns(c_cert)
+c_ids: Sequence[service_identity.hazmat.CertificatePattern] = (
+    service_identity.cryptography.extract_patterns(c_cert)
+)
 service_identity.cryptography.verify_certificate_hostname(
     c_cert, "example.com"
 )
@@ -36,8 +36,8 @@ conn = SSL.Connection(ctx, socket.socket(socket.AF_INET, socket.SOCK_STREAM))
 p_cert = conn.get_peer_certificate()
 assert p_cert
 
-p_ids: Sequence[
-    service_identity.hazmat.CertificatePattern
-] = service_identity.pyopenssl.extract_patterns(p_cert)
+p_ids: Sequence[service_identity.hazmat.CertificatePattern] = (
+    service_identity.pyopenssl.extract_patterns(p_cert)
+)
 service_identity.pyopenssl.verify_hostname(conn, "example.com")
 service_identity.pyopenssl.verify_ip_address(conn, "127.0.0.1")

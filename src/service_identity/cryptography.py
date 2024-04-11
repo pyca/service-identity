@@ -163,7 +163,8 @@ def extract_patterns(cert: Certificate) -> Sequence[CertificatePattern]:
                 if isinstance(srv, IA5String):
                     ids.append(SRVPattern.from_bytes(srv.asOctets()))
                 else:  # pragma: no cover
-                    raise CertificateError("Unexpected certificate content.")
+                    msg = "Unexpected certificate content."
+                    raise CertificateError(msg)
 
     return ids
 

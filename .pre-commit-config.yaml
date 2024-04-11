@@ -1,12 +1,12 @@
 ---
 repos:
   - repo: https://github.com/psf/black
-    rev: 23.12.1
+    rev: 24.3.0
     hooks:
       - id: black
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.1.13
+    rev: v0.3.6
     hooks:
       - id: ruff
         args: [--fix, --exit-non-zero-on-fix]
@@ -18,14 +18,13 @@ repos:
         args: [-L, fo]
 
   - repo: https://github.com/econchick/interrogate
-    rev: 1.5.0
+    rev: 1.7.0
     hooks:
       - id: interrogate
-        language_version: python3.11
-        args: [tests, -v]
+        args: [tests]
 
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.5.0
+    rev: v4.6.0
     hooks:
       - id: trailing-whitespace
       - id: end-of-file-fixer

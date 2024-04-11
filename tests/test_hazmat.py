@@ -699,11 +699,11 @@ class TestVerificationError:
         """
         The __str__ and __repr__ methods return something helpful.
         """
-        try:
+        with pytest.raises(VerificationError) as ei:
             raise VerificationError(errors=["foo"])
-        except VerificationError as e:
-            assert repr(e) == str(e)
-            assert str(e) != ""
+
+        assert repr(ei.value) == str(ei.value)
+        assert str(ei.value) != ""
 
     @pytest.mark.parametrize("proto", range(pickle.HIGHEST_PROTOCOL + 1))
     @pytest.mark.parametrize(
