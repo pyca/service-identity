@@ -132,12 +132,9 @@ fail-under = 100
 whitelist-regex = ["test_.*"]
 
 
-[tool.black]
-line-length = 79
-
-
 [tool.ruff]
 src = ["src", "tests"]
+line-length = 79
 
 [tool.ruff.lint]
 select = ["ALL"]
@@ -146,11 +143,12 @@ ignore = [
     "ANN",     # Mypy is better at this
     "ARG001",  # we don't control all args passed in
     "ARG005",  # we need stub lambdas
-    "COM",     # Black takes care of our commas
+    "COM",     # ruff format takes care of our commas
     "D",       # We prefer our own docstring style.
-    "E501",    # leave line-length enforcement to Black
+    "E501",    # leave line-length enforcement to ruff format
     "FIX",     # Yes, we want XXX as a marker.
     "INP001",  # sometimes we want Python files outside of packages
+    "ISC001",  # conflicts with ruff format
     "N801",    # some artistic freedom when naming things after RFCs
     "N802",    # ditto
     "PLR2004", # numbers are sometimes fine
@@ -183,6 +181,7 @@ lines-after-imports = 2
 
 [tool.mypy]
 strict = true
+pretty = true
 
 show_error_codes = true
 enable_error_code = ["ignore-without-code"]
