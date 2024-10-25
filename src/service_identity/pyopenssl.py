@@ -9,20 +9,11 @@ import warnings
 
 from typing import Sequence
 
-from pyasn1.codec.der.decoder import decode
-from pyasn1.type.char import IA5String
-from pyasn1.type.univ import ObjectIdentifier
-from pyasn1_modules.rfc2459 import GeneralNames
-
-from .exceptions import CertificateError
+from .cryptography import extract_patterns as _cryptography_extract_patterns
 from .hazmat import (
     DNS_ID,
     CertificatePattern,
-    DNSPattern,
     IPAddress_ID,
-    IPAddressPattern,
-    SRVPattern,
-    URIPattern,
     verify_service_identity,
 )
 
@@ -105,9 +96,6 @@ def verify_ip_address(connection: Connection, ip_address: str) -> None:
     )
 
 
-ID_ON_DNS_SRV = ObjectIdentifier("1.3.6.1.5.5.7.8.7")  # id_on_dnsSRV
-
-
 def extract_patterns(cert: X509) -> Sequence[CertificatePattern]:
     """
     Extract all valid ID patterns from a certificate for service verification.
@@ -121,43 +109,7 @@ def extract_patterns(cert: X509) -> Sequence[CertificatePattern]:
     .. versionchanged:: 23.1.0
        ``commonName`` is not used as a fallback anymore.
     """
-    ids: list[CertificatePattern] = []
-    for i in range(cert.get_extension_count()):
-        ext = cert.get_extension(i)
-        if ext.get_short_name() == b"subjectAltName":
-            names, _ = decode(ext.get_data(), asn1Spec=GeneralNames())
-            for n in names:
-                name_string = n.getName()
-                if name_string == "dNSName":
-                    ids.append(
-                        DNSPattern.from_bytes(n.getComponent().asOctets())
-                    )
-                elif name_string == "iPAddress":
-                    ids.append(
-                        IPAddressPattern.from_bytes(
-                            n.getComponent().asOctets()
-                        )
-                    )
-                elif name_string == "uniformResourceIdentifier":
-                    ids.append(
-                        URIPattern.from_bytes(n.getComponent().asOctets())
-                    )
-                elif name_string == "otherName":
-                    comp = n.getComponent()
-                    oid = comp.getComponentByPosition(0)
-                    if oid == ID_ON_DNS_SRV:
-                        srv, _ = decode(comp.getComponentByPosition(1))
-                        if isinstance(srv, IA5String):
-                            ids.append(SRVPattern.from_bytes(srv.asOctets()))
-                        else:  # pragma: no cover
-                            msg = "Unexpected certificate content."
-                            raise CertificateError(msg)
-                    else:  # pragma: no cover
-                        pass
-                else:  # pragma: no cover
-                    pass
-
-    return ids
+    return _cryptography_extract_patterns(cert.to_cryptography())
 
 
 def extract_ids(cert: X509) -> Sequence[CertificatePattern]:
