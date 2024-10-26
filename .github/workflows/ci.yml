@@ -76,7 +76,8 @@ jobs:
 
       - name: Run tests
         run: >
-          uvx --with tox-uv tox run
+          uvx --with tox-uv
+          tox run
           --installpkg dist/*.whl
           -f py$(echo ${{ matrix.python-version }} | tr -d .)
 
@@ -91,7 +92,9 @@ jobs:
       - name: Check public API with Mypy
         run: >
           uvx --with tox-uv
-          tox run -e mypy-api
+          tox run
+          --installpkg dist/*.whl
+          -e mypy-api
 
 
   coverage:
