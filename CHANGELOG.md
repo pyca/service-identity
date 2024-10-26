@@ -15,6 +15,12 @@ You can find out backwards-compatibility policy [here](https://github.com/pyca/s
 
 ## [Unreleased](https://github.com/pyca/service-identity/compare/24.1.0...HEAD)
 
+### Added
+
+- Python 3.13 is now officially supported.
+  [#74](https://github.com/pyca/service-identity/pull/74)
+
+
 ### Changed
 
 - pyOpenSSL's identity extraction has been reimplemented using *cryptography*'s primitives instead of deprecated pyOpenSSL APIs.
