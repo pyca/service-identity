@@ -15,6 +15,12 @@ You can find out backwards-compatibility policy [here](https://github.com/pyca/s
 
 ## [Unreleased](https://github.com/pyca/service-identity/compare/24.1.0...HEAD)
 
+### Changed
+
+- pyOpenSSL's identity extraction has been reimplemented using *cryptography*'s primitives instead of deprecated pyOpenSSL APIs.
+  As a result, the oldest supported pyOpenSSL version is now 17.1.0.
+  [#70](https://github.com/pyca/service-identity/pull/70)
+
 
 ## [24.1.0](https://github.com/pyca/service-identity/compare/23.1.0...24.1.0) - 2024-01-14
 
