@@ -88,12 +88,7 @@ text = """
 addopts = ["-ra", "--strict-markers", "--strict-config"]
 xfail_strict = true
 testpaths = "tests"
-filterwarnings = [
-    "once::Warning",
-    "ignore:::aiohttp[.*]",
-    "ignore:::importlib[.*]",
-    "ignore::DeprecationWarning:twisted.python.threadable",
-]
+filterwarnings = ["once::Warning"]
 
 
 [tool.coverage.run]
