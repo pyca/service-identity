@@ -89,6 +89,7 @@ addopts = ["-ra", "--strict-markers", "--strict-config"]
 xfail_strict = true
 testpaths = "tests"
 filterwarnings = ["once::Warning"]
+norecursedirs = ["tests/typing"]
 
 
 [tool.coverage.run]
