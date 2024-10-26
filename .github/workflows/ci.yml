@@ -22,13 +22,12 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.11"  # XXX: change once interrogate works on 3.12
-          cache: pip
+          python-version-file: .python-version-default
+      - uses: hynek/setup-cached-uv@v2
 
-      - name: Install & run tox
-        run: |
-          python -Im pip install tox
-          python -Im tox run -e lint -- --show-diff-on-failure
+      - run: >
+          uvx --with tox-uv
+          tox run -e lint -- --show-diff-on-failure
 
   tests:
     name: Tests on ${{ matrix.python-version }}
@@ -50,7 +49,7 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
           allow-prereleases: true
-          cache: pip
+      - uses: hynek/setup-cached-uv@v2
 
       - name: Prepare tox & run tests
         run: |
@@ -62,11 +61,13 @@ jobs:
             V=py$(echo $V | tr -d .)
           fi
 
-          python -Im pip install tox
-          python -Im tox run -f "$V"
+          uvx --with tox-uv \
+            tox run -f "$V"
 
       - name: Run Mypy on API
-        run: python -Im tox run -e mypy-api
+        run: >
+          uvx --with tox-uv
+          tox run -e mypy-api
 
       - name: Upload coverage data
         uses: actions/upload-artifact@v4
@@ -86,7 +87,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version-file: .python-version-default
-          cache: pip
+      - uses: hynek/setup-cached-uv@v2
 
       - uses: actions/download-artifact@v4
         with:
@@ -95,16 +96,16 @@ jobs:
 
       - name: Combine coverage & fail if it's <100%
         run: |
-          python -Im pip install coverage[toml]
+          uv tool install coverage[toml]
 
-          python -Im coverage combine
-          python -Im coverage html --skip-covered --skip-empty
+          coverage combine
+          coverage html --skip-covered --skip-empty
 
           # Report and write to summary.
-          python -Im coverage report --format=markdown >> $GITHUB_STEP_SUMMARY
+          coverage report --format=markdown >> $GITHUB_STEP_SUMMARY
 
           # Report again and fail if under 100%.
-          python -Im coverage report --fail-under=100
+          coverage report --fail-under=100
 
       - name: Upload HTML report if check failed.
         uses: actions/upload-artifact@v4
@@ -122,12 +123,11 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version-file: .python-version-default
-          cache: pip
+      - uses: hynek/setup-cached-uv@v2
 
-      - name: Install & run tox
-        run: |
-          python -Im pip install tox
-          python -Im tox run -e mypy-pkg
+      - run: >
+          uvx --with tox-uv
+          tox run -e mypy-pkg
 
   install-dev:
     strategy:
@@ -158,12 +158,11 @@ jobs:
         with:
           # Keep in sync with tox.ini/docs & .readthedocs.yaml
           python-version: "3.12"
-          cache: pip
+      - uses: hynek/setup-cached-uv@v2
 
-      - name: Install & run tox
-        run: |
-          python -Im pip install tox
-          python -Im tox run -e docs
+      - run: >
+          uvx --with tox-uv
+          tox run -e docs
 
   required-checks-pass:
     name: Ensure everything required is passing for branch protection
