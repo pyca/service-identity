@@ -4,6 +4,7 @@ name: CI
 on:
   push:
     branches: [main]
+    tags: ["*"]
   pull_request:
   workflow_dispatch:
 
@@ -13,6 +14,7 @@ env:
   PIP_NO_PYTHON_VERSION_WARNING: "1"
 
 permissions: {}
+
 
 jobs:
   lint:
@@ -29,45 +31,54 @@ jobs:
           uvx --with tox-uv
           tox run -e lint -- --show-diff-on-failure
 
-  tests:
-    name: Tests on ${{ matrix.python-version }}
+
+  build-package:
+    name: Build & verify package
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python-version:
-          - "3.8"
-          - "3.9"
-          - "3.10"
-          - "3.11"
-          - "3.12"
-          - "pypy-3.9"
-          - "pypy-3.10"
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: hynek/build-and-inspect-python-package@v2
+        id: baipp
+
+    outputs:
+      # Used to define the matrix for tests below. The value is based on
+      # packaging metadata (trove classifiers).
+      python-versions: ${{ steps.baipp.outputs.supported_python_classifiers_json_array }}
+
+
+  tests:
+    name: Tests on ${{ matrix.python-version }}
+    runs-on: ubuntu-latest
+    needs: build-package
+    strategy:
+      matrix:
+        # Created by the build-and-inspect-python-package action above.
+        python-version: ${{ fromJson(needs.build-package.outputs.python-versions) }}
+
+    steps:
+      - name: Download pre-built packages
+        uses: actions/download-artifact@v4
+        with:
+          name: Packages
+          path: dist
+      - run: |
+          tar xf dist/*.tar.gz --strip-components=1
+          rm -rf src
       - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
           allow-prereleases: true
       - uses: hynek/setup-cached-uv@v2
 
-      - name: Prepare tox & run tests
-        run: |
-          V=${{ matrix.python-version }}
-
-          if [[ "$V" = pypy-* ]]; then
-            V=pypy3
-          else
-            V=py$(echo $V | tr -d .)
-          fi
-
-          uvx --with tox-uv \
-            tox run -f "$V"
-
-      - name: Run Mypy on API
+      - name: Run tests
         run: >
-          uvx --with tox-uv
-          tox run -e mypy-api
+          uvx --with tox-uv tox run
+          --installpkg dist/*.whl
+          -f py$(echo ${{ matrix.python-version }} | tr -d .)-tests
 
       - name: Upload coverage data
         uses: actions/upload-artifact@v4
@@ -77,8 +88,14 @@ jobs:
           include-hidden-files: true
           if-no-files-found: ignore
 
+      - name: Check public API with Mypy
+        run: >
+          uvx --with tox-uv
+          tox run -e mypy-api
+
+
   coverage:
-    name: Combine & check coverage
+    name: Ensure 100% test coverage
     needs: tests
     runs-on: ubuntu-latest
 
@@ -114,12 +131,19 @@ jobs:
           path: htmlcov
         if: ${{ failure() }}
 
+
   mypy-pkg:
-    name: Type-check package
+    name: Mypy Codebase
     runs-on: ubuntu-latest
+    needs: build-package
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Download pre-built packages
+        uses: actions/download-artifact@v4
+        with:
+          name: Packages
+          path: dist
+      - run: tar xf dist/*.tar.gz --strip-components=1
       - uses: actions/setup-python@v5
         with:
           python-version-file: .python-version-default
@@ -128,6 +152,7 @@ jobs:
       - run: >
           uvx --with tox-uv
           tox run -e mypy-pkg
+
 
   install-dev:
     strategy:
@@ -148,12 +173,22 @@ jobs:
         run: |
           python -Im pip install -e .[dev]
           python -Ic 'import service_identity; print(service_identity.__version__)'
+          python -Ic 'import service_identity.pyopenssl'
+          python -Ic 'import service_identity.cryptography'
+
 
   docs:
     name: Build docs & run doctests
+    needs: build-package
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v4
+      - name: Download pre-built packages
+        uses: actions/download-artifact@v4
+        with:
+          name: Packages
+          path: dist
+      - run: tar xf dist/*.tar.gz --strip-components=1
       - uses: actions/setup-python@v5
         with:
           # Keep in sync with tox.ini/docs & .readthedocs.yaml
@@ -163,6 +198,7 @@ jobs:
       - run: >
           uvx --with tox-uv
           tox run -e docs
+
 
   required-checks-pass:
     name: Ensure everything required is passing for branch protection
