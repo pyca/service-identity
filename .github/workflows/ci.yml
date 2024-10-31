@@ -4,12 +4,11 @@ name: CI
 on:
   push:
     branches: [main]
-    tags: ["*"]
   pull_request:
   workflow_dispatch:
 
 env:
-  FORCE_COLOR: "1"  # Make tools pretty.
+  FORCE_COLOR: "1" # Make tools pretty.
   PIP_DISABLE_PIP_VERSION_CHECK: "1"
   PIP_NO_PYTHON_VERSION_WARNING: "1"
 
@@ -39,6 +38,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          persist-credentials: false
 
       - uses: hynek/build-and-inspect-python-package@v2
         id: baipp
@@ -53,10 +53,15 @@ jobs:
     name: Tests & Mypy API on ${{ matrix.python-version }}
     runs-on: ubuntu-latest
     needs: build-package
+
     strategy:
+      fail-fast: false
       matrix:
         # Created by the build-and-inspect-python-package action above.
         python-version: ${{ fromJson(needs.build-package.outputs.python-versions) }}
+
+    env:
+      PYTHON: ${{ matrix.python-version }}
 
     steps:
       - name: Download pre-built packages
@@ -75,10 +80,9 @@ jobs:
 
       - name: Run tests
         run: >
-          uvx --with tox-uv
-          tox run
+          uvx --with tox-uv tox run
           --installpkg dist/*.whl
-          -f py$(echo ${{ matrix.python-version }} | tr -d .)
+          -f py${PYTHON//./}
 
       - name: Upload coverage data
         uses: actions/upload-artifact@v4
@@ -90,32 +94,35 @@ jobs:
 
       - name: Check public API with Mypy
         run: >
-          uvx --with tox-uv
-          tox run
+          uvx --with tox-uv tox run
           --installpkg dist/*.whl
           -e mypy-api
 
 
   coverage:
     name: Ensure 100% test coverage
-    needs: tests
     runs-on: ubuntu-latest
+    needs: tests
+    if: always()
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
       - uses: actions/setup-python@v5
         with:
           python-version-file: .python-version-default
       - uses: hynek/setup-cached-uv@v2
 
-      - uses: actions/download-artifact@v4
+      - name: Download coverage data
+        uses: actions/download-artifact@v4
         with:
           pattern: coverage-data-*
           merge-multiple: true
 
-      - name: Combine coverage & fail if it's <100%
+      - name: Combine coverage and fail if it's <100%.
         run: |
-          uv tool install coverage[toml]
+          uv tool install coverage
 
           coverage combine
           coverage html --skip-covered --skip-empty
@@ -166,6 +173,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
       - uses: actions/setup-python@v5
         with:
           python-version-file: .python-version-default
@@ -208,10 +217,10 @@ jobs:
 
     needs:
       - coverage
-      - docs
-      - install-dev
       - lint
       - mypy-pkg
+      - docs
+      - install-dev
 
     runs-on: ubuntu-latest
 
