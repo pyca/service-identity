@@ -18,18 +18,17 @@ permissions: {}
 
 jobs:
   lint:
-    name: Run linters
+    name: Run pre-commit
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
       - uses: actions/setup-python@v5
         with:
           python-version-file: .python-version-default
-      - uses: hynek/setup-cached-uv@v2
 
-      - run: >
-          uvx --with tox-uv
-          tox run -e lint -- --show-diff-on-failure
+      - uses: tox-dev/action-pre-commit-uv@v1
 
 
   build-package:
