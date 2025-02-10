@@ -22,8 +22,8 @@ __all__ = [
     "CertificateError",
     "SubjectAltNameWarning",
     "VerificationError",
-    "hazmat",
     "cryptography",
+    "hazmat",
     "pyopenssl",
 ]
 
