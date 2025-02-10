@@ -96,7 +96,7 @@ norecursedirs = ["tests/typing"]
 [tool.coverage.run]
 parallel = true
 branch = true
-source = ["service_identity"]
+source = ["service_identity", "tests"]
 
 [tool.coverage.paths]
 source = ["src", ".tox/py*/**/site-packages"]
@@ -104,10 +104,7 @@ source = ["src", ".tox/py*/**/site-packages"]
 [tool.coverage.report]
 show_missing = true
 skip_covered = true
-exclude_lines = [
-    # a more strict default pragma
-    "\\# pragma: no cover\\b",
-
+exclude_also = [
     # allow defensive code
     "^\\s*raise AssertionError\\b",
     "^\\s*raise NotImplementedError\\b",
@@ -119,6 +116,9 @@ exclude_lines = [
     ": \\.\\.\\.(\\s*#.*)?$",
     "^ +\\.\\.\\.$",
     "-> ['\"]?NoReturn['\"]?:",
+
+    # Tests
+    '^if pytest\.importorskip\(',
 ]
 
 
