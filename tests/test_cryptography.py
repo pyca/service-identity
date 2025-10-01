@@ -48,7 +48,7 @@ class TestPublicAPI:
         """
         with pytest.raises(
             CertificateError,
-            match="Certificate does not contain any `subjectAltName`s.",
+            match="Certificate does not contain any `subjectAltName`s",
         ):
             verify_certificate_hostname(X509_CN_ONLY, "example.com")
 
@@ -60,7 +60,7 @@ class TestPublicAPI:
         """
         with pytest.raises(
             CertificateError,
-            match="Certificate does not contain any `subjectAltName`s.",
+            match="Certificate does not contain any `subjectAltName`s",
         ):
             verify_certificate_ip_address(X509_CN_ONLY, ip)
 

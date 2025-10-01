@@ -33,6 +33,6 @@ def __getattr__(name: str) -> str:
         msg = f"module {__name__} has no attribute {name}"
         raise AttributeError(msg)
 
-    from importlib.metadata import version
+    from importlib.metadata import version  # noqa: PLC0415
 
     return version("service-identity")
