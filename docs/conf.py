@@ -59,6 +59,9 @@ if "dev" in release:
 # directories to ignore when looking for source files.
 exclude_patterns = ["_build"]
 
+nitpick_ignore = [
+    ("py:class", "cryptography.hazmat.bindings._rust.x509.Certificate"),
+]
 
 # -- Options for HTML output ----------------------------------------------
 
