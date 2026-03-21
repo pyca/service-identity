@@ -1,10 +1,10 @@
 # How To Contribute
 
-Thank you for considering contributing to *service-identity*!
-It's people like *you* who make it such a great tool for everyone.
-
-This document intends to make contribution more accessible by codifying tribal knowledge and expectations.
-Don't be afraid to open half-finished PRs, and ask questions if something is unclear!
+> [!IMPORTANT]
+> - This document is mainly to help you to get started by codifying tribal knowledge and expectations and make it more accessible to everyone.
+>   But don't be afraid to open half-finished PRs and ask questions if something is unclear!
+>
+> - If you use LLM / "AI" tools for your contributions, please read and follow our [_Generative AI / LLM Policy_][llm].
 
 Please note that this project is released with a Contributor [Code of Conduct](https://github.com/pyca/service-identity/blob/main/.github/CODE_OF_CONDUCT.md).
 By participating in this project you agree to abide by its terms.
@@ -13,19 +13,38 @@ Please report any harm to [Hynek Schlawack] in any way you find appropriate.
 
 ## Workflow
 
+Thank you for considering contributing to *service-identity*!
+It's people like *you* who make it such a great tool for everyone.
+
+- **Only contribute code that you fully understand.**
+  See also our [AI policy][llm].
+
 - No contribution is too small!
   Please submit as many fixes for typos and grammar bloopers as you can!
+
+- Before starting big contributions, **talk to us first**.
+  Don't waste energy / tokens on something that we do not want.
+  Rejecting a huge PR is unpleasant for everybody.
+
 - Try to limit each pull request to *one* change only.
+
 - Since we squash on merge, it's up to you how you handle updates to the `main` branch.
   Whether you prefer to rebase on `main` or merge `main` into your branch, do whatever is more comfortable for you.
+
+  Just remember to [not use your own `main` branch for the pull request](https://hynek.me/articles/pull-requests-branch/).
+
 - *Always* add tests and docs for your code.
   This is a hard rule; patches with missing tests or documentation won't be merged.
+
 - Make sure your changes pass our [CI].
   You won't get any feedback until it's green unless you ask for it.
+
   For the CI to pass, the coverage must be 100%.
   If you have problems to test something, open anyway and ask for advice.
   In some situations, we may agree to add an `# pragma: no cover`.
+
 - Once you've addressed review feedback, make sure to bump the pull request with a short note, so we know you're done.
+
 - Don’t break backwards-compatibility.
 
 
@@ -234,3 +253,4 @@ or:
 [semantic newlines]: https://rhodesmill.org/brandon/2012/one-sentence-per-line/
 [*reStructuredText*]: https://www.sphinx-doc.org/en/stable/usage/restructuredtext/basics.html
 [Markdown]: https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax
+[llm]: AI_POLICY.md
