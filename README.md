@@ -5,6 +5,7 @@
 <a href="https://pypi.org/project/service-identity/"><img src="https://img.shields.io/pypi/v/service-identity" alt="PyPI release" /></a>
 <a href="https://pepy.tech/project/service-identity"><img src="https://static.pepy.tech/badge/service-identity/month" alt="Downloads per month" /></a>
 <a href="https://bestpractices.coreinfrastructure.org/projects/7462"><img src="https://bestpractices.coreinfrastructure.org/projects/7462/badge" /></a>
+<a href="https://github.com/pyca/service-identity/blob/main/.github/AI_POLICY.md"><img src="https://img.shields.io/badge/no-slop-purple" alt="No AI slop inside."></a>
 <a href="https://www.irccloud.com/invite?channel=%23pyca&amp;hostname=irc.libera.chat&amp;port=6697&amp;ssl=1"><img src="https://www.irccloud.com/invite-svg?channel=%23pyca&amp;hostname=irc.libera.chat&amp;port=6697&amp;ssl=1" alt="PyCA on IRC" /></a>
 
 <!-- spiel-begin -->
