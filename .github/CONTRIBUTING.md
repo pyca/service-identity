@@ -88,8 +88,8 @@ Change into the newly created directory and after activating a virtual environme
 
 ```console
 $ cd service-identity
-$ python -Im pip install --upgrade pip wheel  # PLEASE don't skip this step
-$ python -Im pip install -e '.[dev]'
+$ python -Im pip install --upgrade pip  # PLEASE don't skip this step
+$ python -Im pip install --group dev -e .
 ```
 
 At this point,
