@@ -56,7 +56,7 @@ If you don't, our test suite will fail because we use Git tags for packaging.
 
 Finally, **clone** it using one of the alternatives that you can copy-paste by pressing the big green button labeled `<> Code`.
 
-You can (and should) run our test suite using [*tox*] (and keep in mind that `tox run-parallel` is about 5x faster than `tox run`).
+You can (and should) run our test suite using [*tox*] (and keep in mind that `tox run-parallel` is much faster than `tox run`).
 However, you'll probably want a more traditional environment as well.
 
 We recommend using the Python version from the `.python-version-default` file in the project's root directory, because that's the one that is used in the CI by default, too.
