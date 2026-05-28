@@ -8,6 +8,7 @@ import warnings
 
 from typing import Sequence
 
+from cryptography.hazmat import asn1
 from cryptography.x509 import (
     Certificate,
     DNSName,
@@ -18,8 +19,6 @@ from cryptography.x509 import (
     UniformResourceIdentifier,
 )
 from cryptography.x509.extensions import ExtensionNotFound
-from pyasn1.codec.der.decoder import decode
-from pyasn1.type.char import IA5String
 
 from .exceptions import CertificateError
 from .hazmat import (
@@ -159,12 +158,13 @@ def extract_patterns(cert: Certificate) -> Sequence[CertificatePattern]:
         )
         for other in ext.value.get_values_for_type(OtherName):
             if other.type_id == ID_ON_DNS_SRV:
-                srv, _ = decode(other.value)
-                if isinstance(srv, IA5String):
-                    ids.append(SRVPattern.from_bytes(srv.asOctets()))
-                else:  # pragma: no cover
+                try:
+                    srv = asn1.decode_der(asn1.IA5String, other.value)
+                except ValueError as e:
                     msg = "Unexpected certificate content."
-                    raise CertificateError(msg)
+                    raise CertificateError(msg) from e
+
+                ids.append(SRVPattern.from_bytes(srv.as_str().encode("ascii")))
 
     return ids
 

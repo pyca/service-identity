@@ -22,6 +22,12 @@ You can find out backwards-compatibility policy [here](https://github.com/pyca/s
   [#93](https://github.com/pyca/service-identity/pull/93)
 
 
+### Changed
+
+- *service-identity* now uses *cryptography*'s Rust-based ASN.1 decoder and doesn't depend on *pyasn1* and *pyasn1-modules* anymore.
+  As a result, the oldest supported pyOpenSSL backend combination is now *pyOpenSSL* 26.1.0 with *cryptography* 47.0.0.
+
+
 ### Fixed
 
 - Verifying a single-label hostname (e.g. `localhost`) against a wildcard certificate pattern now raises `VerificationError` cleanly instead of crashing with an opaque `ValueError`.

@@ -32,9 +32,7 @@ classifiers = [
 dependencies = [
     # Keep in-sync with tests/constraints/*.
     "attrs>=19.1.0",
-    "pyasn1-modules",
-    "pyasn1",
-    "cryptography",
+    "cryptography>=47",
 ]
 
 [project.urls]

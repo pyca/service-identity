@@ -3,9 +3,15 @@ import ipaddress
 import pytest
 
 from cryptography.hazmat.backends import default_backend
-from cryptography.x509 import load_pem_x509_certificate
+from cryptography.x509 import (
+    ExtensionOID,
+    OtherName,
+    SubjectAlternativeName,
+    load_pem_x509_certificate,
+)
 
 from service_identity.cryptography import (
+    ID_ON_DNS_SRV,
     extract_ids,
     extract_patterns,
     verify_certificate_hostname,
@@ -22,6 +28,7 @@ from service_identity.hazmat import (
     DNSPattern,
     IPAddress_ID,
     IPAddressPattern,
+    SRVPattern,
     URIPattern,
 )
 
@@ -129,6 +136,48 @@ class TestExtractPatterns:
         assert [URIPattern.from_bytes(b"http://example.com/")] == [
             id for id in rv if isinstance(id, URIPattern)
         ]
+
+    def test_srv(self):
+        """
+        Returns the correct SRVPattern from a certificate.
+        """
+        rv = extract_patterns(X509_OTHER_NAME)
+        assert [SRVPattern.from_bytes(b"_xmpp-client.example.net")] == [
+            id for id in rv if isinstance(id, SRVPattern)
+        ]
+
+    def test_malformed_srv_other_name(self):
+        """
+        Malformed DER in a SRV-ID otherName raises a CertificateError.
+        """
+
+        class Extension:
+            def __init__(self, value):
+                self.value = value
+
+        class Extensions:
+            def __init__(self, value):
+                self._value = value
+
+            def get_extension_for_oid(self, oid):
+                assert oid == ExtensionOID.SUBJECT_ALTERNATIVE_NAME
+
+                return Extension(self._value)
+
+        class Certificate:
+            def __init__(self, san):
+                self.extensions = Extensions(san)
+
+        cert = Certificate(
+            SubjectAlternativeName(
+                [OtherName(ID_ON_DNS_SRV, b"\x16\x03abc\x00")]
+            )
+        )
+
+        with pytest.raises(
+            CertificateError, match=r"Unexpected certificate content\."
+        ):
+            extract_patterns(cert)
 
     def test_ip(self):
         """
