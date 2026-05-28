@@ -186,6 +186,11 @@ lines-between-types = 1
 lines-after-imports = 2
 
 
+[[tool.ty.overrides]]
+include = ["tests"]
+rules.all = "ignore"
+
+
 [tool.mypy]
 strict = true
 pretty = true
