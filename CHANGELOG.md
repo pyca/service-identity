@@ -17,7 +17,7 @@ You can find out backwards-compatibility policy [here](https://github.com/pyca/s
 
 ### Added
 
-- Python 3.14 is now officially supported.
+- Python 3.14 and 3.15 are now officially supported.
   [#85](https://github.com/pyca/service-identity/pull/85)
 
 
