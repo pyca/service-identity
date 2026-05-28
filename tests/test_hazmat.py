@@ -81,6 +81,22 @@ class TestVerifyServiceIdentity:
             verify_service_identity(
                 DNS_IDS, obligatory_ids=[i], optional_ids=[]
             )
+
+        assert [DNSMismatch(mismatched_id=i)] == e.value.errors
+
+    def test_single_label_hostname_mismatch(self):
+        """
+        A single-label hostname that does not match a wildcard cert pattern
+        raises VerificationError, not a raw ValueError from the matcher.
+        """
+        i = DNS_ID("localhost")
+        with pytest.raises(VerificationError) as e:
+            verify_service_identity(
+                [DNSPattern.from_bytes(b"*.example.com")],
+                obligatory_ids=[i],
+                optional_ids=[],
+            )
+
         assert [DNSMismatch(mismatched_id=i)] == e.value.errors
 
     def test_ip_address_success(self):

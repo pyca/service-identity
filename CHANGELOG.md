@@ -21,6 +21,11 @@ You can find out backwards-compatibility policy [here](https://github.com/pyca/s
   [#85](https://github.com/pyca/service-identity/pull/85)
 
 
+### Fixed
+
+- Verifying a single-label hostname (e.g. `localhost`) against a wildcard certificate pattern now raises `VerificationError` cleanly instead of crashing with an opaque `ValueError`.
+
+
 ## [24.2.0](https://github.com/pyca/service-identity/compare/24.1.0...24.2.0) - 2024-10-26
 
 ### Added
