@@ -1,2 +1,2 @@
 attrs==19.1.0
-cryptography<3
+cryptography==47.0.0
