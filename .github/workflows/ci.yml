@@ -181,7 +181,7 @@ jobs:
 
       - name: Install in dev mode & import
         run: |
-          python -Im pip install -e .[dev]
+          python -Im pip install --group dev -e .
           python -Ic 'import service_identity; print(service_identity.__version__)'
           python -Ic 'import service_identity.pyopenssl'
           python -Ic 'import service_identity.cryptography'

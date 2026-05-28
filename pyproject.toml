@@ -4,6 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "service-identity"
+dynamic = ["version", "readme"]
 authors = [{ name = "Hynek Schlawack", email = "hs@ox.cx" }]
 license = "MIT"
 license-files = ["LICENSE"]
@@ -34,14 +35,6 @@ dependencies = [
     "pyasn1",
     "cryptography",
 ]
-dynamic = ["version", "readme"]
-
-[project.optional-dependencies]
-idna = ["idna"]
-tests = ["coverage[toml]>=5.0.2", "pytest"]
-docs = ["sphinx", "furo", "myst-parser", "sphinx-notfound-page", "pyOpenSSL"]
-mypy = ["mypy", "types-pyOpenSSL", "idna"]
-dev = ["service-identity[tests,mypy,idna]", "pyOpenSSL"]
 
 [project.urls]
 Documentation = "https://service-identity.readthedocs.io/"
@@ -51,6 +44,20 @@ Funding = "https://github.com/sponsors/hynek"
 Tidelift = "https://tidelift.com/subscription/pkg/pypi-service-identity?utm_source=pypi-service-identity&utm_medium=pypi"
 Mastodon = "https://mastodon.social/@hynek"
 Twitter = "https://twitter.com/hynek"
+
+[project.optional-dependencies]
+idna = ["idna"]
+
+
+[dependency-groups]
+tests = ["coverage[toml]>=5.0.2", "pytest"]
+docs = ["sphinx", "furo", "myst-parser", "sphinx-notfound-page", "pyOpenSSL"]
+mypy = ["mypy", "types-pyOpenSSL", "idna"]
+dev = [
+    { include-group = "tests" },
+    { include-group = "mypy" },
+    "pyOpenSSL",
+]
 
 
 [tool.hatch.version]
