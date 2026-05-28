@@ -50,49 +50,45 @@ It's people like *you* who make it such a great tool for everyone.
 
 ## Local Development Environment
 
-You can (and should) run our test suite using [*tox*].
-However, you’ll probably want a more traditional environment as well.
+First, **fork** the repository on GitHub.
+Make sure to **uncheck** the `Copy the main branch only` radio button on the `Create a new fork` page.
+If you don't, our test suite will fail because we use Git tags for packaging.
 
-First, create a virtual environment so you don't break your system-wide Python installation.
-We recommend using the Python version from the `.python-version-default` file in project's root directory.
+Finally, **clone** it using one of the alternatives that you can copy-paste by pressing the big green button labeled `<> Code`.
 
-If you're using [*direnv*](https://direnv.net), you can automate the creation of a virtual environment with the correct Python version by adding the following `.envrc` to the project root after cloning the repository:
+You can (and should) run our test suite using [*tox*] (and keep in mind that `tox run-parallel` is about 5x faster than `tox run`).
+However, you'll probably want a more traditional environment as well.
+
+We recommend using the Python version from the `.python-version-default` file in the project's root directory, because that's the one that is used in the CI by default, too.
+
+If you're using [*direnv*](https://direnv.net), you can automate the creation of the project virtual environment with the correct Python version by adding the following `.envrc` to the project root:
 
 ```bash
 layout python python$(cat .python-version-default)
 ```
 
- If you're using tools that understand `.python-version` files like [*pyenv*](https://github.com/pyenv/pyenv) does, you can make it a link to the `.python-version-default` file.
+or, if you like [*uv*](https://github.com/astral-sh/uv):
 
----
-
-[Create a fork](https://github.com/pyca/service-identity/fork) of the *service-identity* repository and clone it:
-
-```console
-$ git clone git@github.com:YOU/service-identity.git
+```bash
+test -d .venv || (uv venv --python $(cat .python-version-default) && uv pip install -e . --group dev)
+. .venv/bin/activate
 ```
 
-Or if you prefer to use Git via HTTPS:
-
-```console
-$ git clone https://github.com/YOU/service-identity.git
-```
-
-> **Warning**
+> [!WARNING]
 > - **Before** you start working on a new pull request, use the "*Sync fork*" button in GitHub's web UI to ensure your fork is up to date.
 > - **Always create a new branch off `main` for each new pull request.**
 >   Yes, you can work on `main` in your fork and submit pull requests.
 >   But this will *inevitably* lead to you not being able to synchronize your fork with upstream and having to start over.
+>
+>   See also: [Why you shouldn't use your `main` branch for pull requests](https://hynek.me/articles/pull-requests-branch/).
 
-Change into the newly created directory and after activating a virtual environment, install an editable version of *service-identity* along with its tests requirements:
+Change into the newly created directory and after activating a virtual environment, install an editable version of *service-identity* along with its tests requirements (requires Pip 25.1 or *uv* 0.4.27 or later that added support for [dependency groups](https://peps.python.org/pep-0735/)):
 
 ```console
-$ cd service-identity
-$ python -Im pip install --upgrade pip  # PLEASE don't skip this step
-$ python -Im pip install --group dev -e .
+$ pip install -e . --group dev  # or `uv pip install -e . --group dev`
 ```
 
-At this point,
+Now you can run the test suite:
 
 ```console
 $ python -Im pytest
@@ -104,18 +100,21 @@ When working on the documentation, use:
 $ tox run -e docs-watch
 ```
 
-... to watch your files and automatically rebuild when a file changes.
-And use:
+This will build the documentation, watch for changes, and rebuild it whenever you save a file.
+
+To just build the documentation and exit immediately use:
 
 ```console
-$ tox run -e docs
+$ tox run -e docs-build
 ```
 
-... to build it once and run our doctests.
+You will find the built documentation in `docs/_build/html`.
 
-The built documentation can then be found in `docs/_build/html/`.
+To run doctests:
 
----
+```console
+$ tox run -e docs-doctests
+```
 
 To avoid committing code that violates our style guide, we strongly advise you to install [*pre-commit*] and its hooks:
 
