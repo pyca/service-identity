@@ -26,6 +26,7 @@ You can find out backwards-compatibility policy [here](https://github.com/pyca/s
 
 - *service-identity* now uses *cryptography*'s Rust-based ASN.1 decoder and doesn't depend on *pyasn1* and *pyasn1-modules* anymore.
   As a result, the oldest supported pyOpenSSL backend combination is now *pyOpenSSL* 26.1.0 with *cryptography* 47.0.0.
+  [#95](https://github.com/pyca/service-identity/pull/95)
 
 
 ### Fixed
