@@ -13,6 +13,9 @@ You can find out backwards-compatibility policy [here](https://github.com/pyca/s
 <!-- changelog follows -->
 
 
+## [Unreleased](https://github.com/pyca/service-identity/compare/26.1.0...HEAD)
+
+
 ## [26.1.0](https://github.com/pyca/service-identity/compare/24.2.0...26.1.0) - 2026-05-30
 
 ### Added
