@@ -27,7 +27,7 @@ jobs:
         with:
           python-version-file: .python-version-default
 
-      - uses: tox-dev/action-pre-commit-uv@246b66536e366bb885f52d61983bf32f7c95e8b1 # 1.0.3
+      - uses: tox-dev/action-pre-commit-uv@41a04ab74d5ec7ca33c8db8a59b6e3291d576033 # v1.0.4
 
 
   build-package:
