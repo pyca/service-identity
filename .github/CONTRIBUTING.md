@@ -252,4 +252,4 @@ or:
 [semantic newlines]: https://rhodesmill.org/brandon/2012/one-sentence-per-line/
 [*reStructuredText*]: https://www.sphinx-doc.org/en/stable/usage/restructuredtext/basics.html
 [Markdown]: https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax
-[llm]: AI_POLICY.md
+[llm]: https://github.com/pyca/service-identity/blob/main/.github/AI_POLICY.md
