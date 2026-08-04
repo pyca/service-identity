@@ -7,7 +7,8 @@ from __future__ import annotations
 import ipaddress
 import re
 
-from typing import Protocol, Sequence, Union, runtime_checkable
+from collections.abc import Sequence
+from typing import Protocol, runtime_checkable
 
 import attr
 
@@ -253,9 +254,7 @@ class SRVPattern:
         )
 
 
-CertificatePattern = Union[
-    SRVPattern, URIPattern, DNSPattern, IPAddressPattern
-]
+CertificatePattern = SRVPattern | URIPattern | DNSPattern | IPAddressPattern
 """
 A :class:`Union` of all possible patterns that can be extracted from a
 certificate.
