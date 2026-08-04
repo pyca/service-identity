@@ -8,7 +8,7 @@ from __future__ import annotations
 
 import socket
 
-from typing import Sequence
+from collections.abc import Sequence
 
 from cryptography.hazmat.backends import default_backend
 from cryptography.x509 import load_pem_x509_certificate

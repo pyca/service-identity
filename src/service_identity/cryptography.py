@@ -6,7 +6,7 @@ from __future__ import annotations
 
 import warnings
 
-from typing import Sequence
+from collections.abc import Sequence
 
 from cryptography.hazmat import asn1
 from cryptography.x509 import (

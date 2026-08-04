@@ -15,6 +15,10 @@ You can find out backwards-compatibility policy [here](https://github.com/pyca/s
 
 ## [Unreleased](https://github.com/pyca/service-identity/compare/26.1.0...HEAD)
 
+### Removed
+
+- Support for Python 3.8 and 3.9.
+
 
 ## [26.1.0](https://github.com/pyca/service-identity/compare/24.2.0...26.1.0) - 2026-05-30
 

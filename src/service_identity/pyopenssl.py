@@ -7,7 +7,7 @@ from __future__ import annotations
 import contextlib
 import warnings
 
-from typing import Sequence
+from collections.abc import Sequence
 
 from .cryptography import extract_patterns as _cryptography_extract_patterns
 from .hazmat import (
