@@ -10,6 +10,11 @@ on:
       - published
   workflow_dispatch:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+permissions: {}
 
 jobs:
   # Always build & lint package.
@@ -17,8 +22,8 @@ jobs:
     name: Build & verify package
     runs-on: ubuntu-latest
     permissions:
-      attestations: write
-      id-token: write
+      attestations: write  # necessary for GitHub attestations
+      id-token: write  # necessary for GitHub attestations
 
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -39,7 +44,7 @@ jobs:
     needs: build-package
 
     permissions:
-      id-token: write
+      id-token: write  # necessary for trusted publishing
 
     steps:
       - name: Download packages built by build-and-inspect-python-package
@@ -51,6 +56,11 @@ jobs:
       - name: Upload package to Test PyPI
         uses: pypa/gh-action-pypi-publish@dc37677b2e1c63e2034f94d8a5b11f265b73ba33 # v1.14.2
         with:
+          # Do not perform attestation for things for TestPyPI. This is
+          # because there's nothing that would prevent a malicious PyPI from
+          # serving a signed TestPyPI asset in place of a release intended for
+          # PyPI.
+          attestations: false
           repository-url: https://test.pypi.org/legacy/
 
   # Upload to real PyPI on GitHub Releases.
@@ -62,7 +72,7 @@ jobs:
     needs: build-package
 
     permissions:
-      id-token: write
+      id-token: write  # necessary for trusted publishing
 
     steps:
       - name: Download packages built by build-and-inspect-python-package
@@ -73,3 +83,5 @@ jobs:
 
       - name: Upload package to PyPI
         uses: pypa/gh-action-pypi-publish@dc37677b2e1c63e2034f94d8a5b11f265b73ba33 # v1.14.2
+        with:
+          attestations: true
